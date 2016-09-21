@@ -1130,3 +1130,6 @@ fieldset {
     @include transform(scale(1) rotate(-390deg));
   }
 }
+
+@import 'tabs';
+@import 'stats';
