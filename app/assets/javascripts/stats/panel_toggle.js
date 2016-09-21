@@ -2,7 +2,7 @@ window.StatsPanelToggle = (function($) {
   // private
 
   function switchActive(e) {
-    var current = $(e.currentTarget).children('.ee-stat-option.active').first();
+    var current = $(e.currentTarget).children('.cf-stat-option.active').first();
     var next = current.next()
     if (next.length === 0) { next = current.siblings().first(); }
 
@@ -13,7 +13,7 @@ window.StatsPanelToggle = (function($) {
   // public
   return {
     bind: function() {
-      $('.ee-stat-panel.-toggle').on('click', switchActive);
+      $('.cf-stat-panel.-toggle').on('click', switchActive);
     }
   };
 })($);
