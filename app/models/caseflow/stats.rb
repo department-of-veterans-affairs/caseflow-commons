@@ -6,6 +6,7 @@ module Caseflow
   class Stats
     attr_accessor :interval, :time, :values
 
+    TIMEZONE = "Eastern Time (US & Canada)".freeze
     INTERVALS = [:hourly, :daily, :weekly, :monthly].freeze
     CALCULATIONS = {}.freeze
 
@@ -48,9 +49,13 @@ module Caseflow
     def calculate_and_save_values!
       return true if complete?
       calculated_values = calculate_values
-      calculated_values[:complete] = Time.zone.now >= range_finish
+      calculated_values[:complete] = Stats.now >= range_finish
       Rails.cache.write(cache_id, calculated_values)
       calculated_values
+    end
+
+    def self.now
+      Time.find_zone!(TIMEZONE).now
     end
 
     def self.offset(interval:, time:, offset:)
@@ -74,7 +79,7 @@ module Caseflow
           weekly: 0...26,
           monthly: 0...24
         }[interval].each do |i|
-          self.offset(interval: interval, time: Time.zone.now, offset: i)
+          self.offset(interval: interval, time: Stats.now, offset: i)
                .calculate_and_save_values!
         end
       end
