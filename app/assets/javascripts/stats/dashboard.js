@@ -1,6 +1,6 @@
 window.Dashboard = (function(d3, moment) {
   // private
-  var data, interval, index, maxIndex, dateStrings, charts, values, times, dates, table, x, y, bars
+  var data, interval, index, maxIndex, dateStrings, charts, values, times, dates, tables, x, y, bars
 
   function init(opts) {
     data = opts.data
@@ -31,8 +31,9 @@ window.Dashboard = (function(d3, moment) {
       .call(setDataByKey)
     times = d3.selectAll('.data-time')
       .call(setDataByKey)
+    tables = d3.select('.data-table')
+      .call(setDataByKey)
     dates = d3.selectAll('.data-date')
-    table = d3.select('#top-users-table')
 
     x = d3.scaleBand()
       .domain(d3.range(0, data.length))
@@ -109,8 +110,8 @@ window.Dashboard = (function(d3, moment) {
     dates.text('for ' + dateStrings[index])
     bars.attr('opacity', function (d, i) { return i === index ? 0.67 : 0.33 })
 
-    rows = table.selectAll('tr')
-      .data(data[index].value.top_users)
+    rows = tables.selectAll('tr')
+      .data(function (d) { return d.values })
 
     var enterRows = rows.enter().append('tr')
     enterRows.append('td').attr('class', 'id')
