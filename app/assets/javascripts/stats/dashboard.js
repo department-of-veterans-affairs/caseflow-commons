@@ -111,7 +111,7 @@ window.Dashboard = (function(d3, moment) {
     bars.attr('opacity', function (d, i) { return i === index ? 0.67 : 0.33 })
 
     rows = tables.selectAll('tr')
-      .data(function (d) { return d.values })
+      .data(function (d) { return d.values[index] })
 
     var enterRows = rows.enter().append('tr')
     enterRows.append('td').attr('class', 'id')
