@@ -1,6 +1,6 @@
 window.Dashboard = (function(d3, moment) {
   // private
-  var data, interval, index, maxIndex, dateStrings, charts, values, times, dates, tables, x, y, bars
+  var data, interval, index, maxIndex, dateStrings, charts, values, rates, times, dates, tables, x, y, bars
 
   function init(opts) {
     data = opts.data
@@ -28,6 +28,8 @@ window.Dashboard = (function(d3, moment) {
       .call(setDataByKey)
       .append('svg')
     values = d3.selectAll('.data-value')
+      .call(setDataByKey)
+    rates = d3.selectAll('.data-rate')
       .call(setDataByKey)
     times = d3.selectAll('.data-time')
       .call(setDataByKey)
@@ -97,15 +99,16 @@ window.Dashboard = (function(d3, moment) {
 
     bars
       .attr('x', function (d, i) { return x(i) })
-      .attr('y', function (d) { return height - y.get(this)(d) })
+      .attr('y', function (d) { return height - y.get(this)(d || 0) })
       .attr('width', x.bandwidth())
-      .attr('height', function (d) { return y.get(this)(d) })
+      .attr('height', function (d) { return y.get(this)(d || 0) })
 
     update()
   }
 
   function update() {
     values.text(function (d) { return d.values[index] })
+    rates.html(function (d) { return rateFormat(d.values[index]) })
     times.html(function (d) { return timeFormat(d.values[index]) })
     dates.text('for ' + dateStrings[index])
     bars.attr('opacity', function (d, i) { return i === index ? 0.67 : 0.33 })
@@ -129,17 +132,31 @@ window.Dashboard = (function(d3, moment) {
 
   function setDataByKey(sel) {
     return sel.datum(function () {
-      var key = d3.select(this).attr('data-key')
+      var mapper,
+        key = d3.select(this).attr('data-key'),
+        keys = key.split('/'),
+        isRate = false
+
+      if (keys.length === 2) {
+        isRate = true
+        mapper = function (d) { return d.value[keys[0]] / d.value[keys[1]] || null }
+      } else {
+        mapper = function (d) { return d.value[key] }
+      }
+
       return {
         key: key,
-        values: data.map(function (d) {
-          return d.value[key]
-        })
+        isRate: isRate,
+        values: data.map(mapper)
       }
     })
   }
 
   var format = d3.format('.2f')
+  function rateFormat(n) {
+    return (n === null ? '??' : Math.round(n * 100)) +
+      ' <span class="cf-stat-unit">%</span>'
+  }
   function timeFormat(seconds) {
     return !seconds ? '?? <span class="cf-stat-unit">sec</span>' :
       seconds > 60 ? format(seconds / 60) + ' <span class="cf-stat-unit">min</span>' :
