@@ -9,10 +9,10 @@ window.Dashboard = (function(d3, moment) {
     index = 0
     maxIndex = data.length - 1
     dateStrings = data.map(function (d, i) {
-      var date = moment.unix(d.key).utc()
+      var date = moment.unix(d.key).tz('America/New_York')
       var str = ''
       switch (interval) {
-      case 'hourly': str += date.format('HH:mm') + '–' + date.add(59, 'm').format('HH:mm') + ' UTC'; break
+      case 'hourly': str += date.format('HH:mm') + '–' + date.add(59, 'm').format('HH:mm z'); break
       case 'daily': str += date.format('MMMM D'); break
       case 'weekly': str += 'the week of ' + date.format('MMMM D'); break
       case 'monthly': str += date.format(i < 12 ? 'MMMM' : 'MMMM YYYY'); break

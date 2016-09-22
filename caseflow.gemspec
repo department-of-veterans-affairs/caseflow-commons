@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jquery-rails"
   spec.add_runtime_dependency "d3-rails"
   spec.add_runtime_dependency "momentjs-rails"
+  spec.add_runtime_dependency "moment_timezone-rails"
 end
