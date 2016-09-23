@@ -139,7 +139,7 @@ window.Dashboard = (function(d3, moment) {
 
       if (keys.length === 2) {
         isRate = true
-        mapper = function (d) { return d.value[keys[0]] / d.value[keys[1]] || null }
+        mapper = function (d) { return d.value[keys[1]] === 0 ? null : d.value[keys[0]] / d.value[keys[1]] }
       } else {
         mapper = function (d) { return d.value[key] }
       }
