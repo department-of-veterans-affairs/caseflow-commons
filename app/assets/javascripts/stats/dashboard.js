@@ -124,9 +124,11 @@ window.Dashboard = (function(d3, moment) {
 
     rows = rows.merge(enterRows)
 
-    rows.selectAll('.id').text(function (d) { return d.id })
-    rows.selectAll('.count').text(function (d) {
-      return d.count + (d.count === 1 ? ' Download' : ' Downloads')
+    rows.each(function (d) {
+      var row = d3.select(this);
+
+      row.select('.id').text(d.id)
+      row.select('.count').text(d.count + (d.count === 1 ? ' Download' : ' Downloads'))
     })
   }
 
