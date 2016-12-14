@@ -27,10 +27,14 @@ module Caseflow
     def self.fetch_content(filename)
       init!
 
-      @client.get_object(
-        bucket: bucket_name,
-        key: filename
-      )
+      begin
+        @client.get_object(
+          bucket: bucket_name,
+          key: filename
+        ).body.read
+      rescue Aws::S3::Errors::NoSuchKey
+        nil
+      end
     end
 
     private 
