@@ -30,7 +30,9 @@ module Caseflow
       @client.get_object(
         bucket: bucket_name,
         key: filename
-      )
+      ).body.read
+    rescue Aws::S3::Errors::NoSuchKey
+      nil
     end
 
     private 
