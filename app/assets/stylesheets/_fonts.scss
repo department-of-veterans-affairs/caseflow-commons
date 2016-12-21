@@ -9,6 +9,15 @@
 }
 
 @font-face {
+  font-family: 'Source Sans Pro';
+  font-style: bold;
+  font-weight: 700;
+  src: local('SourceSansPro-Bold'),
+       asset-url('source-sans-pro-bold.woff2') format('woff2'),
+       asset-url('source-sans-pro-bold.woff') format('woff');
+}
+
+@font-face {
   font-family: 'Merriweather';
   font-style: normal;
   font-weight: 400;
