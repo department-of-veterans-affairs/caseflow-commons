@@ -1,7 +1,12 @@
-require 'active_model'
 require 'timecop'
+require 'active_model'
+require 'pry'
 
 describe Caseflow::Stats do
+  before do
+    Rails.stub(:cache) { FakeCache.instance }
+    Rails.cache.clear
+  end
 
   let(:time) { Timecop.freeze(Time.new(2017, 1, 01, 20, 59, 0)) }
 
@@ -30,7 +35,7 @@ describe Caseflow::Stats do
     end
   end
 
-  context "#percentile" do
+  context ".percentile" do
     class Thing
       include ActiveModel::Model
       attr_accessor :spiffyness
@@ -66,6 +71,42 @@ describe Caseflow::Stats do
       end
 
       it { is_expected.to eq(9501) }
+    end
+  end
+
+  context "#values" do
+    class WonderfulThing
+    end
+
+    class Stats < Caseflow::Stats
+      CALCULATIONS = {
+        wonderful_things_happened: lambda do |_range|
+          ObjectSpace.each_object(WonderfulThing).count
+        end
+      }.freeze
+    end
+
+    let(:stats) { Stats.new(time: Stats.now, interval: "daily") }
+    subject { stats.values }
+
+    context "when cached stat values exist" do
+      before do
+        Rails.cache.write("stats-2017-1-1", wonderful_things_happened: 55)
+      end
+
+      it "loads cached value" do
+        expect(subject[:wonderful_things_happened]).to eq(55)
+      end
+    end
+
+    context "when no cached stat values exist" do
+      before do
+        4.times { WonderfulThing.new }
+      end
+
+      it "calculates and caches values" do
+        expect(subject[:wonderful_things_happened]).to eq(4)
+      end
     end
   end
 end
