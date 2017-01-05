@@ -36,6 +36,7 @@ label {
 p {
   margin-top: rem(20px);
   margin-bottom: rem(20px);
+  color: $color-gray-dark;
 }
 
 .cf-doc-embed {
@@ -51,7 +52,6 @@ p {
 
   a {
     color: $color-white;
-    text-decoration: underline;
   }
 }
 
@@ -109,6 +109,7 @@ h6 {
     font-family: inherit;
     margin-top: 0;
   }
+  color: $color-gray-dark;
 }
 
 [hidden] {
@@ -686,6 +687,7 @@ form {
   table {
     min-width: rem(400px);
     width: 100%;
+    color: $color-gray-dark;
   }
 }
 
