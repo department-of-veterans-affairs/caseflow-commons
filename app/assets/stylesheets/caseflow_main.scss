@@ -680,6 +680,11 @@ form {
 }
 
 //--- Table styles ---*/
+
+table {
+  color: $color-gray-dark;
+}
+
 .cf-table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -687,7 +692,6 @@ form {
   table {
     min-width: rem(400px);
     width: 100%;
-    color: $color-gray-dark;
   }
 }
 
@@ -703,9 +707,6 @@ form {
     border-bottom: 2px solid $color-gray-lightest;
   }
 
-  table {
-    color: $color-gray-dark;
-  }
 }
 
 //------ Dropdowns --------*/
