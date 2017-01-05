@@ -702,6 +702,10 @@ form {
   tr {
     border-bottom: 2px solid $color-gray-lightest;
   }
+
+  table {
+    color: $color-gray-dark;
+  }
 }
 
 //------ Dropdowns --------*/
