@@ -3,7 +3,6 @@
 @import 'us_web_design_standards';
 @import 'fonts';
 
-$color-black: #000000;
 $caseflow-background: #f9f9f9;
 
 html,
@@ -287,7 +286,7 @@ dd {
 
 // don't trip the accessibility warning for white on white, even if title isn't visible
 svg title {
-  color: $color-black;
+  color: $color-gray-dark;
 }
 
 .cf-modal {
@@ -304,7 +303,7 @@ svg title {
 
   &::before {
     content: ' ';
-    background: rgba($color-black, .4);
+    background: rgba($color-gray-dark, .4);
     position: fixed;
     height: inherit;
     width: inherit;
@@ -987,7 +986,7 @@ fieldset {
   }
 
   img {
-    box-shadow: 0 0 20px -5px rgba($color-black, .5);
+    box-shadow: 0 0 20px -5px rgba($color-gray-dark, .5);
     clear: both;
     display: block;
     margin: 2rem;
