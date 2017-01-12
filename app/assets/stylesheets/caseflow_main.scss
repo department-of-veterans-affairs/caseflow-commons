@@ -412,7 +412,6 @@ svg title {
 
 .cf-logo {
   color: $color-gray-dark;
-  margin-right: rem(10px);
   font-size: 1.7rem;
   display: inline;
 }
@@ -430,6 +429,7 @@ svg title {
 .cf-application-title {
   font-size: 1.7rem;
   font-weight: normal;
+  margin-left: rem(10px);
   display: inline;
 }
 
