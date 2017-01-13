@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "aws-sdk"
 
 # Thin interface to all things Amazon S3
@@ -6,7 +7,7 @@ module Caseflow
     def self.store_file(filename, content_or_filepath, type = :content)
       init!
 
-      content = (type == :content) ? content_or_filepath : File.open(content_or_filepath, "rb")
+      content = type == :content ? content_or_filepath : File.open(content_or_filepath, "rb")
 
       @bucket.put_object(acl: "private",
                          key: filename,
@@ -23,7 +24,7 @@ module Caseflow
         key: filename
       )
     end
-    
+
     def self.fetch_content(filename)
       init!
 
@@ -34,8 +35,6 @@ module Caseflow
     rescue Aws::S3::Errors::NoSuchKey
       nil
     end
-
-    private 
 
     def self.init!
       return if @bucket

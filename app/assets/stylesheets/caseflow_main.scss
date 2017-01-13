@@ -108,6 +108,7 @@ h6 {
     font-family: inherit;
     margin-top: 0;
   }
+
   color: $color-gray-dark;
 }
 
@@ -148,6 +149,7 @@ dd {
 .cf-icon-missing {
   vertical-align: -.15ex;
   width: .8em;
+  height: 1em;
 
   path {
     fill: $color-secondary-dark;
@@ -155,7 +157,9 @@ dd {
 }
 
 .cf-icon-found {
+  vertical-align: -.45ex;
   width: 1em;
+  height: 1em;
 
   path {
     fill: $color-green;
@@ -708,73 +712,6 @@ table {
 
 }
 
-//------ Dropdowns --------*/
-.cf-dropdown {
-  $large-screen: em(640) !default;
-  display: inline-block;
-
-  a {
-    color: inherit;
-  }
-}
-
-.cf-dropdown-trigger {
-  cursor: pointer;
-  background-color: $color-white;
-
-  &::after {
-    // CG: This image doesn't appear to exist in any repo (9/20/16)
-    background: image-url('arrow-down.svg') 50% 100% no-repeat;
-    background-size: 100% 100%;
-    content: ' ';
-    display: inline-block;
-    height: 1rem;
-    margin-left: 1rem;
-    width: 1rem;
-  }
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-// Quick fix to property count lint
-%overlay {
-  background: $color-white;
-  z-index: 1;
-  position: absolute;
-}
-
-.cf-dropdown-menu {
-  @include unstyled-list();
-  @include transition (all 0.2s ease-in-out);
-  @extend %overlay;
-  border: 1px solid $color-gray-lighter;
-  box-shadow: 0 0 10px -3px $color-gray;
-  cursor: pointer;
-  display: none;
-  text-align: left;
-  top: 2em;
-  width: 18rem;
-  padding: rem(10px) rem(20px);
-
-  &.active {
-    display: block;
-  }
-
-  a {
-    display: block;
-  }
-
-  li {
-    padding: rem(10px) 0;
-
-    &:last-child {
-      border-top: 1px solid $color-gray-lighter;
-    }
-  }
-}
-
 // ===========================*
 // Form-related states
 // ============================*/
@@ -1076,26 +1013,6 @@ fieldset {
       display: block;
       padding: 1rem;
     }
-  }
-}
-
-.cf-icon-missing {
-  vertical-align: -.45ex;
-  width: .8em;
-  height: 1em;
-
-  path {
-    fill: $color-secondary-dark;
-  }
-}
-
-.cf-icon-found {
-  vertical-align: -.45ex;
-  width: 1em;
-  height: 1em;
-
-  path {
-    fill: $color-green;
   }
 }
 
