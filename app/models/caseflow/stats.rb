@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ##
 # Stats is an interface to quickly access statistics and
 # it is responsible for aggregating and caching statistics.
@@ -54,9 +55,11 @@ module Caseflow
       calculated_values
     end
 
+    # rubocop:disable Rails/TimeZone
     def self.now
       Time.find_zone!(TIMEZONE).now
     end
+    # rubocop:enable Rails/TimeZone
 
     def self.offset(interval:, time:, offset:)
       offset_time = time
@@ -68,7 +71,7 @@ module Caseflow
       when :hourly  then offset_time -= offset.hours
       end
 
-      self.new(interval: interval, time: offset_time)
+      new(interval: interval, time: offset_time)
     end
 
     def self.calculate_all!
@@ -79,8 +82,8 @@ module Caseflow
           weekly: 0...26,
           monthly: 0...24
         }[interval].each do |i|
-          self.offset(interval: interval, time: Stats.now, offset: i)
-               .calculate_and_save_values!
+          offset(interval: interval, time: Stats.now, offset: i)
+            .calculate_and_save_values!
         end
       end
     end

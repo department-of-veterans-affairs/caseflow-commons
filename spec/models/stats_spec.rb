@@ -1,6 +1,7 @@
-require 'timecop'
-require 'active_model'
-require 'pry'
+# frozen_string_literal: true
+require "timecop"
+require "active_model"
+require "pry"
 
 describe Caseflow::Stats do
   before do
@@ -8,10 +9,9 @@ describe Caseflow::Stats do
     Rails.cache.clear
   end
 
-  let(:time) { Timecop.freeze(Time.new(2017, 1, 01, 20, 59, 0)) }
+  let(:time) { Timecop.freeze(Time.utc(2017, 1, 0o1, 20, 59, 0)) }
 
   context "#range" do
-
     subject { Caseflow::Stats.new(time: time, interval: interval).range }
 
     context "calculates hourly range" do
