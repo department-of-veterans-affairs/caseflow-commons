@@ -852,6 +852,7 @@ fieldset {
   > *,
   .cf-form-textinput {
     margin-bottom: 0;
+    color: $color-gray-dark;
   }
 }
 
@@ -859,6 +860,7 @@ fieldset {
   @include clearfix;
   margin-top: rem(20px);
   margin-bottom: rem(20px);
+  color: $color-gray-dark;
 }
 
 .cf-form-textarea {
