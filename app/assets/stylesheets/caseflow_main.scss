@@ -4,6 +4,7 @@
 @import 'fonts';
 
 $caseflow-background: #f9f9f9;
+$caseflow-link: #0872b9;
 
 html,
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 a {
-  color: #0872B9;
+  color: $caseflow-link;
   text-decoration: none;
 }
 
@@ -24,8 +25,13 @@ a:visited {
   color: $color-primary; // Override USWDS
 }
 
-abbr[title]{
-  border-bottom: none;
+abbr {
+  border: 0;
+  text-decoration: none;
+
+  &[title] {
+    border-bottom: none;
+  }
 }
 
 .cf-success {
@@ -100,11 +106,6 @@ p {
 
 .cf-push-right {
   float: right;
-}
-
-abbr {
-  border: 0;
-  text-decoration: none;
 }
 
 h1,
