@@ -15,8 +15,17 @@ body {
   background: $caseflow-background;
 }
 
+a {
+  color: #0872B9;
+  text-decoration: none;
+}
+
 a:visited {
   color: $color-primary; // Override USWDS
+}
+
+abbr[title]{
+  border-bottom: none;
 }
 
 .cf-success {
@@ -260,13 +269,13 @@ dd {
   @include transition (all 0.2s ease-in-out);
   @extend %overlay;
   border: 1px solid $color-gray-lighter;
-  box-shadow: 0 0 10px -3px $color-gray;
+  box-shadow: 1px 1px 5px $color-gray;
   cursor: pointer;
   display: none;
   text-align: left;
   top: 2em;
   width: 18rem;
-  padding: rem(10px) rem(20px);
+  min-width: 215px;
 
   &.active {
     display: block;
@@ -274,10 +283,17 @@ dd {
 
   a {
     display: block;
+    color: $color-gray;
+    padding: 10px 20px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $color-gray;
+      color: $color-white;
+    }
   }
 
   li {
-    padding: rem(10px) 0;
 
     &:last-child {
       border-top: 1px solid $color-gray-lighter;
@@ -651,7 +667,7 @@ form {
   &:hover {
     background-color: inherit;
     color: $color-primary-darker;
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   &--confirm {
