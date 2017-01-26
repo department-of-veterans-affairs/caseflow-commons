@@ -277,6 +277,8 @@ dd {
   top: 2em;
   width: 18rem;
   min-width: 215px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 
   &.active {
     display: block;
@@ -285,7 +287,7 @@ dd {
   a {
     display: block;
     color: $color-gray;
-    padding: 10px 20px;
+    padding: 4px 20px;
     text-decoration: none;
 
     &:hover {
