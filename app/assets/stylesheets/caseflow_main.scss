@@ -3,8 +3,9 @@
 @import 'us_web_design_standards';
 @import 'fonts';
 
-$caseflow-background: #f9f9f9;
-$caseflow-link: #0872b9;
+$cf-background: #f9f9f9;
+$cf-link: #0872b9;
+$cf-drop-shadow: rgba(91,97,107,0.5);
 
 html,
 body {
@@ -13,11 +14,11 @@ body {
 
 body {
   padding-bottom: 70px;
-  background: $caseflow-background;
+  background: $cf-background;
 }
 
 a {
-  color: $caseflow-link;
+  color: $cf-link;
   text-decoration: none;
 }
 
@@ -265,7 +266,7 @@ dd {
   @include transition (all 0.2s ease-in-out);
   @extend %overlay;
   border: 1px solid $color-gray-lighter;
-  box-shadow: 1px 1px 5px $color-gray;
+  box-shadow: 1px 1px 5px 0px $cf-drop-shadow;
   cursor: pointer;
   display: none;
   text-align: left;
@@ -295,7 +296,7 @@ dd {
     width: 175px;
     height: 1px;
     background-color: $color-gray-lighter;
-    margin: 0 20px;
+    margin: 5px 20px;
   }
 
   li {
@@ -968,7 +969,7 @@ fieldset {
 // Date picker overrides
 //----------------------------*/
 .ui-datepicker {
-  background: $caseflow-background;
+  background: $cf-background;
   box-shadow: 0 0 30px rgba($color-base, .8);
 
   &-header {
@@ -1024,7 +1025,7 @@ fieldset {
     }
 
     td {
-      background: $caseflow-background;
+      background: $cf-background;
       border-color: $color-gray-light;
       padding: 0;
       text-align: right;
