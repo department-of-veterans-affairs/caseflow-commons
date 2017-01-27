@@ -5,7 +5,7 @@
 
 $cf-background: #f9f9f9;
 $cf-link: #0872b9;
-$cf-drop-shadow: rgba(91,97,107,0.5);
+$cf-drop-shadow: 1px 1px 5px 0px rgba(91,97,107,0.5);
 
 html,
 body {
@@ -266,7 +266,7 @@ dd {
   @include transition (all 0.2s ease-in-out);
   @extend %overlay;
   border: 1px solid $color-gray-lighter;
-  box-shadow: 1px 1px 5px 0px $cf-drop-shadow;
+  box-shadow: $cf-drop-shadow;
   cursor: pointer;
   display: none;
   text-align: left;
@@ -299,12 +299,6 @@ dd {
     margin: 5px 20px;
   }
 
-  li {
-
-    &:last-child {
-      border-top: 1px solid $color-gray-lighter;
-    }
-  }
 }
 
 //------ Modals --------*/
