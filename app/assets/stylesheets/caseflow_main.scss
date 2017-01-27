@@ -299,7 +299,8 @@ dd {
   .dropdown-border {
     width: 175px;
     height: 1px;
-    color: $color-gray-lighter;
+    background-color: $color-gray-lighter;
+    margin: 0px 20px;
   }
 
   li {
