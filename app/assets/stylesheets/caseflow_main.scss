@@ -20,7 +20,7 @@ body {
 
 a {
   color: $cf-link;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:visited {
@@ -426,15 +426,15 @@ svg title {
   }
 }
 
-.cf-header-link:hover {
-  h1 { color: $color-gray-light; }
-  text-decoration: none;
-}
-
 .cf-logo {
   color: $color-gray-dark;
   font-size: 1.7rem;
   display: inline;
+
+  &:hover {
+    color: $color-gray;
+  }
+
 }
 
 .cf-logo-image {
