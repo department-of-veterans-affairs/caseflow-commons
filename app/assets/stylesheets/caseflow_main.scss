@@ -339,11 +339,10 @@ svg title {
   border-radius: 3px;
   box-shadow: $cf-drop-shadow;
   color: $color-gray;
-  padding: 3.0rem;
+  padding: 3rem;
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1040px;
   width: 490px;
 }
 
@@ -385,14 +384,14 @@ svg title {
 }
 
 .cf-modal-normal-text {
-  margin: 0px;
+  margin: 0;
   width: 100%;
 }
 
 .cf-modal-divider {
-    border-bottom: 1px solid #d6d7d9;
-    width: 100%;
-    padding-bottom: 30px;
+  border-bottom: 1px solid $color-gray-lighter;
+  width: 100%;
+  padding-bottom: 30px;
 }
 
 .cf-modal-controls {
@@ -401,15 +400,11 @@ svg title {
   margin-top: rem(30px);
 }
 
-textarea {
-  &[id="Explanation"] {
-    width: 430px;
+div {
+  &[id="questionemail"] {
+    margin-top: 0;
+    margin-bottom: 0;
   }
-}
-
-#questionemail {
-    margin-top: 0px;
-    margin-bottom: 0px;
 }
 
 // ===========================*
@@ -637,6 +632,10 @@ select,
 // Overrides USWDS */
 textarea {
   max-width: 100% !important;
+
+  &[id="Explanation"] {
+    width: 430px;
+  }
 }
 
 // Overrides USWDS */
