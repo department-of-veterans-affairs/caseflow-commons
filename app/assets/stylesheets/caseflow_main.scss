@@ -793,6 +793,8 @@ table {
 
 .cf-required {
   color: $color-secondary;
+  float: right;
+  font-style: italic;
 }
 
 .cf-subtext {
