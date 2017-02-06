@@ -336,19 +336,19 @@ svg title {
   top: 50%;
   // Previous two lines vertically center this block
   background: $color-white;
-  box-shadow: 0 0 2rem -3px rgba($color-base, .8);
+  border-radius: 3px;
+  box-shadow: $cf-drop-shadow;
   color: $color-gray;
-  padding: 4.5rem;
+  padding: 3rem;
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1040px;
-  width: 70%;
+  width: 490px;
 }
 
 .cf-modal-title {
-  font-size: rem(50px);
-  text-align: center;
+  font-size: rem(35px);
+  text-align: left;
 }
 
 .cf-modal-close {
@@ -357,7 +357,6 @@ svg title {
   padding: .1rem;
   position: absolute;
   right: rem(20px);
-  top: rem(20px);
   width: 1.5rem;
 
   &:hover,
@@ -375,7 +374,7 @@ svg title {
 .cf-modal-text,
 .cf-modal-controls {
   margin: auto;
-  width: 70%;
+  width: 100%;
 }
 
 .cf-modal-text {
@@ -384,10 +383,32 @@ svg title {
   text-align: center;
 }
 
+.cf-modal-normal-text {
+  margin: 0;
+  width: 100%;
+}
+
+.cf-modal-divider {
+  border-bottom: 1px solid $color-gray-lighter;
+  width: 100%;
+  padding-bottom: 30px;
+}
+
 .cf-modal-controls {
   position: relative;
   bottom: 0;
-  margin-top: rem(60px);
+  margin-top: rem(30px);
+}
+
+.cf-modal-link {
+  padding: 0;
+}
+
+div {
+  &[id="questionemail"] {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 // ===========================*
@@ -615,6 +636,10 @@ select,
 // Overrides USWDS */
 textarea {
   max-width: 100% !important;
+
+  &[id="Explanation"] {
+    width: 430px;
+  }
 }
 
 // Overrides USWDS */
@@ -768,6 +793,8 @@ table {
 
 .cf-required {
   color: $color-secondary;
+  float: right;
+  font-style: italic;
 }
 
 .cf-subtext {
