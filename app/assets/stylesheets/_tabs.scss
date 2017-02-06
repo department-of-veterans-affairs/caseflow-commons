@@ -52,11 +52,11 @@
     color: $color-primary;
     border: 1px solid $color-primary;
     border-top-width: 2px;
-    box-shadow:0px 2px 0px 0px $color-primary inset;
+    box-shadow: 0 2px 0 0 $color-primary inset;
     border-bottom: 0;
     top: 1px;
 
-    & + button {
+    + button {
       border-left: 1px solid $color-primary;
     }
 
