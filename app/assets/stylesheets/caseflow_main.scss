@@ -987,6 +987,19 @@ fieldset {
   height: auto;
 }
 
+.cf-help-divider {
+  margin: 30px 0;
+  border: 1px solid $color-gray-light;
+}
+
+ul {
+  &[id=toc] {
+    li {
+      padding-bottom: 10px;
+    }
+  }
+}
+
 //---------------------------
 // Date picker overrides
 //----------------------------*/
