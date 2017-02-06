@@ -15,16 +15,16 @@
 .cf-tab {
   @extend .usa-button-unstyled;
 
+  position: relative;
   display: inline-block;
-  margin: 0 -3.5px 0 0;
+  box-sizing: box-border;
   padding: 15px 1.5em;
-  color: $color-gray;
-  background-color: $color-white;
   border: 1px solid $color-gray-light;
   border-bottom: 0;
-  border-left-width: 0;
-  font-weight: normal;
-  white-space: nowrap;
+  margin: 0 -.25em 0 0;
+  background-color: $color-white;
+  color: $color-gray;
+  line-height: normal;
 
   &::before { content: ''; }
   &::after { margin: 0; }
@@ -49,15 +49,16 @@
   }
 
   &.cf-active {
-    position: relative;
     color: $color-primary;
-    border-color: $color-primary;
-    border-top-width: 4px;
-    border-left-width: 1px;
-    padding-top: 13px;
-    right: 1px;
+    border: 1px solid $color-primary;
+    border-top-width: 2px;
+    box-shadow: 0 2px 0 0 $color-primary inset;
+    border-bottom: 0;
     top: 1px;
-    margin-right: -4.5px;
+
+    + button {
+      border-left: 1px solid $color-primary;
+    }
 
     svg path { fill: $color-primary; }
   }
