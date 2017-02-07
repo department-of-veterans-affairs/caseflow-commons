@@ -795,6 +795,7 @@ table {
   color: $color-secondary;
   float: right;
   font-style: italic;
+  margin-left: .25em;
 }
 
 .cf-subtext {
@@ -868,7 +869,13 @@ fieldset {
   .cf-form-radio-option {
     float: left;
     padding-right: rem(30px);
-    margin-bottom: 0;
+    margin-bottom: .5em;
+  }
+}
+
+.cf-form-showhide-radio {
+  .cf-required {
+    float: none;
   }
 }
 
