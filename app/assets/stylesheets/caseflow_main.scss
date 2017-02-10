@@ -1120,5 +1120,20 @@ ul {
   }
 }
 
+.cf-is-loading {
+  .cf-loading-indicator {
+    .using-logo {
+      color: transparent;
+      display: inline-block;
+      width: 40%;
+      height: 90%;
+      position: relative;
+      background: image-url('icons/cf-logo-pill.svg') center no-repeat;
+      background-size: 80% 80%;
+      @include animation(spin 2s linear infinite);
+    }
+  }
+}
+
 @import 'tabs';
 @import 'stats';
