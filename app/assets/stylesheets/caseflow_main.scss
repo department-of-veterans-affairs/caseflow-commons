@@ -1137,7 +1137,8 @@ ul {
 @import 'stats';
 
 .usa-search {
-  [type="submit"], .usa-search-submit {
+  [type="submit"],
+  .usa-search-submit {
     background-image: none !important;
   }
 }
