@@ -1,6 +1,8 @@
 @import 'bourbon';
 @import 'neat';
-@import 'us_web_design_standards';
+@import 'uswds_rails_overrides/core/defaults';
+@import 'uswds/all';
+@import 'uswds_rails_overrides/all';
 @import 'fonts';
 
 $cf-background: #f9f9f9;
@@ -1133,3 +1135,9 @@ ul {
 
 @import 'tabs';
 @import 'stats';
+
+.usa-search {
+  [type="submit"], .usa-search-submit {
+    background-image: none !important;
+  }
+}
