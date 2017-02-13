@@ -832,7 +832,7 @@ table {
       height: 90%;
       position: relative;
       background: image-url('icons/cf-logo-pill.svg') center no-repeat;
-      background-size: 80% 80%;
+      background-size: 65%;
       @include animation(spin 2s linear infinite);
     }
   }
