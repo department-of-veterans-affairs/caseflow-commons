@@ -472,6 +472,10 @@ div {
   font-size: 1.7rem;
   font-weight: normal;
   display: inline;
+
+  &[id="page-title"]{
+    margin-left: 0px;
+  }
 }
 
 .cf-app-screen {
