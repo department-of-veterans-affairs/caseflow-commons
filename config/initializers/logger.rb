@@ -5,7 +5,9 @@ end
 
 ip = Rails.env.production? ? IPSocket.getaddress(Socket.gethostname) : 'localhost'
 
-log_tags = [:host, ip, Time.now]
+log_tags = [:host, ip]
+
+log_tags << lambda { |req| Time.now }
 
 log_tags << lambda { |req|
   session = get_session(req)
