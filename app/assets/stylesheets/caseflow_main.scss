@@ -465,7 +465,7 @@ div {
 }
 
 .cf-logo-name {
-  color: $color-gray-dark;
+  color: $color-gray;
   font-weight: normal;
 }
 
@@ -480,6 +480,7 @@ div {
 }
 
 .cf-application-title {
+  color: $color-gray;
   font-size: 1.7rem;
   font-weight: normal;
   display: inline;
