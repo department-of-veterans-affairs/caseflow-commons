@@ -10,12 +10,17 @@ $cf-drop-shadow: 1px 1px 5px 0 $cf-drop-shadow-color;
 
 html,
 body {
-  min-height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  padding-bottom: 70px;
   background: $cf-background;
+}
+
+.content {
+  min-height: calc(100vh - 125px);
+  padding-bottom: 30px;
 }
 
 a {
@@ -308,6 +313,12 @@ dd {
 
 }
 
+@media screen and (max-width: 1264px) {
+  .cf-dropdown-menu {
+    right: .05rem;
+  }
+}
+
 //------ Modals --------*/
 
 
@@ -430,12 +441,13 @@ div {
 
   .usa-grid-full {
     position: relative;
+    padding: 0 2rem;
   }
 }
 
 .cf-nav-dropdown {
   position: absolute;
-  right: 0;
+  right: 2rem;
 }
 
 
@@ -557,17 +569,11 @@ div {
 }
 
 .cf-app-footer {
-  @include clearfix;
-  border-top: 1px solid $color-gray-lighter;
-  margin-top: rem(55px);
-  width: 100%;
-
-  > * {
-    padding-top: rem(55px);
-  }
-
-  p {
-    margin: 0;
+  > div {
+    box-sizing: border-box;
+    height: 125px;
+    padding-top: 50px !important;
+    border-top: 1px solid $color-gray-lighter;
   }
 }
 
