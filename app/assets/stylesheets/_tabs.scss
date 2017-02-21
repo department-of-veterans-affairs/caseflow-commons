@@ -12,6 +12,7 @@
   }
 }
 
+/*
 .cf-tab {
   @extend .usa-button-unstyled;
 
@@ -68,6 +69,82 @@
     margin-left: -0.4em;
     path { fill: $color-gray; }
   }
+}*/
+
+.cf-tab {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid $color-gray-light;
+  border-bottom: 0;
+  border-radius: 0;
+  margin: 0;
+  margin-right: -1px;
+  background: #fff;
+  padding: 0;
+  outline: 0;
+  color: $color-gray;
+  line-height: normal;
+
+  > span {
+    display: inline-block;
+    padding: 15px 1.5em;
+    position: relative;
+  }
+
+  svg {
+    margin-right: 0.25em;
+    margin-left: -0.4em;
+    path { fill: $color-gray; }
+  }
+
+  &:hover {
+    color: $color-gray-dark;
+    background-color: $color-white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &:disabled:hover {
+    color: $color-gray;
+  }
+
+  &:focus {
+    svg path {
+      fill: $color-primary;
+    }
+  }
+}
+
+button.cf-tab {
+  margin-right: -5px;
+
+  &::-moz-focus-inner {
+    padding: 0 !important;
+    border: 0 none !important;
+  }
+}
+
+.cf-active {
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  box-shadow:0px 2px 0px 0px $color-primary inset;
+  border-bottom: 0;
+
+  > span {
+    top: 1px;
+    background: #fff;
+    box-shadow:0px 2px 0px 0px $color-primary inset;
+
+    > span {
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  + .cf-tab {
+    border-left: 1px solid $color-primary;
+  }
 }
 
 .cf-tab-content {
@@ -77,4 +154,3 @@
   max-height: 600px;
   overflow-y: scroll;
 }
-
