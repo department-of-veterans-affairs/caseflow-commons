@@ -8,32 +8,52 @@
 
   li {
     display: inline-block;
-    margin-right: -1px;
+    margin: 0 -4px 0 0;
+  }
+
+  button {
+    display: inline-block;
+    margin: 0 -4px 0 0;
+
+    &::-moz-focus-inner {
+      padding: 0 !important;
+      border: 0 none !important;
+    }
+  }
+
+  div {
+    display: inline-block;
+    margin: 0 -1px 0 0;
   }
 }
 
 .cf-tab {
-  @extend .usa-button-unstyled;
-
-  position: relative;
-  display: inline-block;
-  box-sizing: box-border;
-  padding: 15px 1.5em;
+  box-sizing: border-box;
   border: 1px solid $color-gray-light;
   border-bottom: 0;
-  margin: 0 -.25em 0 0;
-  background-color: $color-white;
+  border-radius: 0;
+  background: $color-white;
+  padding: 0;
   color: $color-gray;
   line-height: normal;
 
-  &::before { content: ''; }
-  &::after { margin: 0; }
-  &:first-child { border-left-width: 1px; }
+  > span {
+    display: inline-block;
+    padding: 15px 1.5em;
+    position: relative;
+  }
+
+  svg {
+    margin-right: 0.25em;
+    margin-left: -0.4em;
+    path { fill: $color-gray; }
+  }
 
   &:hover {
     color: $color-gray-dark;
     background-color: $color-white;
     text-decoration: none;
+    cursor: pointer;
   }
 
   &:disabled:hover {
@@ -41,32 +61,31 @@
   }
 
   &:focus {
-    outline: -webkit-focus-ring-color auto 5px;
-
     svg path {
       fill: $color-primary;
     }
   }
+}
 
-  &.cf-active {
-    color: $color-primary;
-    border: 1px solid $color-primary;
-    border-top-width: 2px;
-    box-shadow: 0 2px 0 0 $color-primary inset;
-    border-bottom: 0;
+.cf-active {
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  box-shadow: 0 2px 0 0 $color-primary inset;
+  border-bottom: 0;
+
+  > span {
     top: 1px;
+    background: $color-white;
+    box-shadow: 0 2px 0 0 $color-primary inset;
 
-    + button {
-      border-left: 1px solid $color-primary;
+    > span {
+      position: relative;
+      top: -1px;
     }
-
-    svg path { fill: $color-primary; }
   }
 
-  svg {
-    margin-right: 0.25em;
-    margin-left: -0.4em;
-    path { fill: $color-gray; }
+  + .cf-tab {
+    border-left: 1px solid $color-primary;
   }
 }
 
@@ -77,4 +96,3 @@
   max-height: 600px;
   overflow-y: scroll;
 }
-
