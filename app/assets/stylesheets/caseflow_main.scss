@@ -772,6 +772,10 @@ table {
     border-bottom: 2px solid $color-gray-lightest;
   }
 
+  thead th {
+    background-color: $color-white;
+  }
+
 }
 
 // ===========================*
