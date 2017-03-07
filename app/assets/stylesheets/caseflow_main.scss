@@ -433,27 +433,23 @@ div {
 // ===========================*
 // Application progress bar  *
 // ============================*/
-.cf-progress-bar
-{
-  display:flex;
+.cf-progress-bar {
+  display: flex;
 }
 
-.cf-progress-bar-section
-{
-  flex:1;
+.cf-progress-bar-section {
+  flex: 1;
   padding: 4px;
 }
 
-.cf-progress-bar-activated
-{
-  color: #323a45;
-  border-bottom: 8px solid #323a45;
+.cf-progress-bar-activated {
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-dark;
 }
 
-.cf-progress-bar-not-activated
-{
-  color: #aeb0b5;
-  border-bottom: 8px solid #aeb0b5;
+.cf-progress-bar-not-activated {
+  color: $color-gray-light;
+  border-bottom: 8px solid $color-gray-light;
 }
 
 // ===========================*
