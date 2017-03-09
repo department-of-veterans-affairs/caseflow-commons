@@ -56,6 +56,14 @@
     cursor: pointer;
   }
 
+  &:disabled {
+    background-color: $color-gray-lighter;
+    color: $color-gray;
+    &:hover {
+      color: $color-gray;
+    }
+  }
+
   &:disabled:hover {
     color: $color-gray;
   }
@@ -86,6 +94,10 @@
 
   + .cf-tab {
     border-left: 1px solid $color-primary;
+  }
+
+  svg path {
+    fill: $color-primary;
   }
 }
 
