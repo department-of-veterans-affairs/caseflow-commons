@@ -445,13 +445,13 @@ div {
 }
 
 .cf-progress-bar-activated {
-  color: $color-primary;
-  border-bottom: 8px solid $color-primary;
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-dark;
 }
 
 .cf-progress-bar-not-activated {
   color: $color-gray-dark;
-  border-bottom: 8px solid $color-gray-dark;
+  border-bottom: 8px solid $color-gray-light;
 }
 
 // ===========================*
