@@ -434,22 +434,24 @@ div {
 // Application progress bar  *
 // ============================*/
 .cf-progress-bar {
-  display: flex;
+  width: 100%;
+  display: table;
+  table-layout: fixed;
 }
 
 .cf-progress-bar-section {
-  flex: 1;
+  display: table-cell;
   padding: 4px;
 }
 
 .cf-progress-bar-activated {
-  color: $color-gray-dark;
-  border-bottom: 8px solid $color-gray-dark;
+  color: $color-primary;
+  border-bottom: 8px solid $color-primary;
 }
 
 .cf-progress-bar-not-activated {
-  color: $color-gray-light;
-  border-bottom: 8px solid $color-gray-light;
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-dark;
 }
 
 // ===========================*
