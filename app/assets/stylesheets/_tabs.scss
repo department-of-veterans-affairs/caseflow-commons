@@ -36,6 +36,7 @@
   padding: 0;
   color: $color-gray;
   line-height: normal;
+  font-weight: 700;
 
   > span {
     display: inline-block;
@@ -56,11 +57,13 @@
     cursor: pointer;
   }
 
-  &:disabled {
+  &.disabled {
     background-color: $color-gray-lighter;
     color: $color-gray;
+    font-weight: 500;
     &:hover {
       color: $color-gray;
+      cursor: default;
     }
   }
 
