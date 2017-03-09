@@ -431,6 +431,30 @@ div {
 }
 
 // ===========================*
+// Application progress bar  *
+// ============================*/
+.cf-progress-bar {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+.cf-progress-bar-section {
+  display: table-cell;
+  padding: 4px;
+}
+
+.cf-progress-bar-activated {
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-dark;
+}
+
+.cf-progress-bar-not-activated {
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-light;
+}
+
+// ===========================*
 // Application navigation bar  *
 // ============================*/
 .cf-nav {
