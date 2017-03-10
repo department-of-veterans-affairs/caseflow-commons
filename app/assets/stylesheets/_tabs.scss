@@ -101,6 +101,14 @@
   svg path {
     fill: $color-primary;
   }
+
+  svg.cf-tab-check {
+    vertical-align: -3px;
+  }
+
+  svg.cf-tab-cross {
+    vertical-align: -4px;
+  }
 }
 
 .cf-tab-content {
@@ -109,12 +117,4 @@
   padding-top: 1px;
   max-height: 600px;
   overflow-y: scroll;
-}
-
-.cf-tab-check {
-  vertical-align: -3px;
-}
-
-.cf-tab-cross {
-  vertical-align: -4px;
 }
