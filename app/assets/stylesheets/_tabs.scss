@@ -111,10 +111,13 @@
   overflow-y: scroll;
 }
 
-svg.cf-tab-check {
-  vertical-align: -3px;
-}
+svg {
 
-svg.cf-tab-cross {
-  vertical-align: -4px;
+  &.cf-tab-check {
+    vertical-align: -3px;
+  }
+
+  &.cf-tab-cross {
+    vertical-align: -4px;
+  }
 }
