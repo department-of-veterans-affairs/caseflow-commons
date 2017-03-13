@@ -1189,3 +1189,22 @@ ul {
     background-image: none !important;
   }
 }
+
+.cf-form-checkbox,
+.cf-form-radio-option {
+  position: relative;
+
+  input {
+    left: -999em;
+  }
+
+  label {
+    padding-left: 3rem;
+
+    &::before {
+      position: absolute;
+      left: 3px;
+      top: 2px;
+    }
+  }
+}
