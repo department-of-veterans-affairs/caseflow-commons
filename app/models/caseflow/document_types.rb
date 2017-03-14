@@ -508,3 +508,4 @@ module Caseflow
     }.freeze
   end
 end
+# rubocop:enable Metrics/ModuleLength
