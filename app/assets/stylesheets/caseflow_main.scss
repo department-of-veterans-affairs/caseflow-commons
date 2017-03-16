@@ -1208,3 +1208,98 @@ ul {
     }
   }
 }
+
+button {
+
+  // preload default loading button SVG
+  > span {
+    span {
+      &::after {
+        content: ' ';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        background: url('/assets/icons/loading-pill.svg') center center no-repeat;
+      }
+    }
+  }
+
+  // preload app-specific loading button SVGs
+
+  &.cf-cert,
+  &.cf-dispatch,
+  &.cf-efolder,
+  &.cf-feedback {
+    .cf-loading-icon-front {
+      &::after {
+        content: ' ';
+        display: inline-block;
+        width: 0;
+        height: 0;
+      }
+    }
+  }
+
+  &.cf-cert {
+    .cf-loading-icon-front {
+      &::after {
+        background: url('/assets/icons/loading-pill-cf-cert.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-dispatch {
+    .cf-loading-icon-front {
+      &::after {
+        background: url('/assets/icons/loading-pill-cf-dispatch.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-efolder {
+    .cf-loading-icon-front {
+      &::after {
+        background: url('/assets/icons/loading-pill-cf-efolder.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-feedback {
+    .cf-loading-icon-front {
+      &::after {
+        background: url('/assets/icons/loading-pill-cf-feedback.svg') center center no-repeat;
+      }
+    }
+  }
+}
+
+.cf-loading {
+  display: inline-block;
+  position: relative;
+
+  > span {
+    display: inline-block;
+    position: relative;
+    padding-right: 23px;
+
+    span {
+      &::after {
+        // container for preloaded images was 0x0, but now...
+        width: 20px !important;
+        height: 20px !important;
+        box-sizing: border-box;
+        position: absolute;
+        right: 0;
+        top: -.1rem;
+        @include animation(spin 5s linear infinite);
+      }
+    }
+
+    > span {
+      &::after {
+        @include animation(backwardspin 5s linear infinite);
+        opacity: .5;
+      }
+    }
+  }
+}
