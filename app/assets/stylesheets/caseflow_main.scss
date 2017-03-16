@@ -1212,15 +1212,14 @@ ul {
 button {
 
   // preload default loading button SVG
-  > span {
-    span {
-      &::after {
-        content: ' ';
-        display: inline-block;
-        width: 0;
-        height: 0;
-        background: url('/assets/icons/loading-pill.svg') center center no-repeat;
-      }
+  .cf-loading-icon-back,
+  .cf-loading-icon-front {
+    &::after {
+      content: ' ';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      background: image-url('/assets/icons/loading-pill.svg') center center no-repeat;
     }
   }
 
@@ -1241,33 +1240,33 @@ button {
   }
 
   &.cf-cert {
-    .cf-loading-icon-front {
+    .cf-loading-icon-back {
       &::after {
-        background: url('/assets/icons/loading-pill-cf-cert.svg') center center no-repeat;
+        background: image-url('/assets/icons/loading-pill-cf-cert.svg') center center no-repeat;
       }
     }
   }
 
   &.cf-dispatch {
-    .cf-loading-icon-front {
+    .cf-loading-icon-back {
       &::after {
-        background: url('/assets/icons/loading-pill-cf-dispatch.svg') center center no-repeat;
+        background: image-url('/assets/icons/loading-pill-cf-dispatch.svg') center center no-repeat;
       }
     }
   }
 
   &.cf-efolder {
-    .cf-loading-icon-front {
+    .cf-loading-icon-back {
       &::after {
-        background: url('/assets/icons/loading-pill-cf-efolder.svg') center center no-repeat;
+        background: image-url('/assets/icons/loading-pill-cf-efolder.svg') center center no-repeat;
       }
     }
   }
 
   &.cf-feedback {
-    .cf-loading-icon-front {
+    .cf-loading-icon-back {
       &::after {
-        background: url('/assets/icons/loading-pill-cf-feedback.svg') center center no-repeat;
+        background: image-url('/assets/icons/loading-pill-cf-feedback.svg') center center no-repeat;
       }
     }
   }
@@ -1277,12 +1276,13 @@ button {
   display: inline-block;
   position: relative;
 
-  > span {
+  .cf-loading-icon-container {
     display: inline-block;
     position: relative;
     padding-right: 23px;
 
-    span {
+    .cf-loading-icon-back,
+    .cf-loading-icon-front {
       &::after {
         // container for preloaded images was 0x0, but now...
         width: 20px !important;
@@ -1295,7 +1295,7 @@ button {
       }
     }
 
-    > span {
+    .cf-loading-icon-front {
       &::after {
         @include animation(backwardspin 5s linear infinite);
         opacity: .5;
