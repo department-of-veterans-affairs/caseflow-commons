@@ -13,4 +13,6 @@ group :development, :test do
   gem "rubocop", "~> 0.36.0", require: false
   gem "scss_lint"
   gem "timecop"
+  gem "redis-rails"
+  gem "redis-namespace"
 end
