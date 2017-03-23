@@ -26,9 +26,11 @@ class LoggerWithTimestamp < ActiveSupport::Logger
   end
 end
 
-Rails.application.config.log_tags = log_tags
-logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(STDOUT))
-Rails.logger = logger
+unless Rails.env.test?
+  Rails.application.config.log_tags = log_tags
+  logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(STDOUT))
+  Rails.logger = logger
+end
 
 # log sidekiq to application logger (defaults to stdout)
 Sidekiq::Logging.logger = Rails.logger if defined?(Sidekiq::Logging)
