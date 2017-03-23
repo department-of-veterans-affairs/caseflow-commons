@@ -24,13 +24,27 @@ class LoggerWithTimestamp < ActiveSupport::Logger
       super(severity, message, progname, &block)
     }
   end
+
 end
 
-unless Rails.env.test?
-  Rails.application.config.log_tags = log_tags
-  logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(STDOUT))
-  Rails.logger = logger
+Rails.application.config.log_tags = log_tags
+output = Rails.env.test? ? File.join(Rails.root, "log", "test.log") : STDOUT
+logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
+
+# Rails has a lot of loggers
+Rails.logger = logger
+ActionController::Base.logger = logger
+ActiveSupport::Dependencies.logger = logger
+Rails.cache.logger = logger
+ActiveSupport.on_load(:active_record) do
+  ActiveRecord::Base.logger = logger
+end
+ActiveSupport.on_load(:action_controller) do
+  ActionController::Base.logger = logger
+end
+ActiveSupport.on_load(:action_mailer) do
+  ActionMailer::Base.logger = logger
 end
 
 # log sidekiq to application logger (defaults to stdout)
-Sidekiq::Logging.logger = Rails.logger if defined?(Sidekiq::Logging)
+Sidekiq::Logging.logger = logger if defined?(Sidekiq::Logging)
