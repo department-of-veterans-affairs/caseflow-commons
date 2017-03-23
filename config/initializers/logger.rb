@@ -33,7 +33,6 @@ logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
 
 # Rails has a lot of loggers
 Rails.logger = logger
-ActionController::Base.logger = logger
 ActiveSupport::Dependencies.logger = logger
 Rails.cache.logger = logger
 ActiveSupport.on_load(:active_record) do
