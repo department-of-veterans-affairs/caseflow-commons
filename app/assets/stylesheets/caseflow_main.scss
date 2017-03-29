@@ -1217,7 +1217,7 @@ button {
       display: inline-block;
       width: 0;
       height: 0;
-      background: image-url('/assets/icons/loading-pill.svg') center center no-repeat;
+      background: image-url('icons/loading-pill.svg') center center no-repeat;
     }
   }
 
@@ -1240,7 +1240,7 @@ button {
   &.cf-cert {
     .cf-loading-icon-back {
       &::after {
-        background: image-url('/assets/icons/loading-pill-cf-cert.svg') center center no-repeat;
+        background: image-url('icons/loading-pill-cf-cert.svg') center center no-repeat;
       }
     }
   }
@@ -1248,7 +1248,7 @@ button {
   &.cf-dispatch {
     .cf-loading-icon-back {
       &::after {
-        background: image-url('/assets/icons/loading-pill-cf-dispatch.svg') center center no-repeat;
+        background: image-url('icons/loading-pill-cf-dispatch.svg') center center no-repeat;
       }
     }
   }
@@ -1256,7 +1256,7 @@ button {
   &.cf-efolder {
     .cf-loading-icon-back {
       &::after {
-        background: image-url('/assets/icons/loading-pill-cf-efolder.svg') center center no-repeat;
+        background: image-url('icons/loading-pill-cf-efolder.svg') center center no-repeat;
       }
     }
   }
@@ -1264,7 +1264,7 @@ button {
   &.cf-feedback {
     .cf-loading-icon-back {
       &::after {
-        background: image-url('/assets/icons/loading-pill-cf-feedback.svg') center center no-repeat;
+        background: image-url('icons/loading-pill-cf-feedback.svg') center center no-repeat;
       }
     }
   }
