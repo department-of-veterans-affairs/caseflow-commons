@@ -105,10 +105,10 @@ module Caseflow
 
     def format_rate_stat(num, denom)
       rate_stat = if @dispatch_stats[0].values[denom] == 0 || !@dispatch_stats[0].values[num]
-               "??"
-             else
-               (@dispatch_stats[0].values[num] / @dispatch_stats[0].values[denom] * 100).round
-             end
+                    "??"
+                  else
+                    (@dispatch_stats[0].values[num] / @dispatch_stats[0].values[denom] * 100).round
+                  end
       (rate_stat + "<span class=\"cf-stat-unit\">%</span>").html_safe
     end
 
