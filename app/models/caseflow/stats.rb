@@ -102,14 +102,12 @@ module Caseflow
       return "#{format('%.2f', seconds)} <span class=\"cf-stat-unit\">sec</span>".html_safe if seconds < 60
       "#{format('%.2f', seconds / 60)} <span class=\"cf-stat-unit\">min</span>".html_safe
     end
-    helper_method :format_time_duration_stat
 
     def format_rate_stat(num, denom)
       "#{(@dispatch_stats[0].values[denom] == 0 || !@dispatch_stats[0].values[num]) ? '??'
       : (@dispatch_stats[0].values[num] / @dispatch_stats[0].values[denom] * 100).round} " \
       "<span class=\"cf-stat-unit\">%</span>".html_safe
     end
-    helper_method :format_rate_stat
 
     private
 
