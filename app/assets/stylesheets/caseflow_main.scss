@@ -375,7 +375,7 @@ svg title {
   height: 1.5rem;
   padding: .1rem;
   position: absolute;
-  right: rem(20px);
+  right: rem(10px);
   width: 1.5rem;
 
   &:hover,
@@ -1180,13 +1180,6 @@ ul {
 
 @import 'tabs';
 @import 'stats';
-
-.usa-search {
-  [type="submit"],
-  .usa-search-submit {
-    background-image: none !important;
-  }
-}
 
 .cf-form-checkbox,
 .cf-form-radio-option {
