@@ -376,7 +376,7 @@ svg title {
   height: 1.5rem;
   padding: .1rem;
   position: absolute;
-  right: rem(20px);
+  right: rem(10px);
   width: 1.5rem;
 
   &:hover,
@@ -429,6 +429,30 @@ div {
     margin-top: 0;
     margin-bottom: 0;
   }
+}
+
+// ===========================*
+// Application progress bar  *
+// ============================*/
+.cf-progress-bar {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+.cf-progress-bar-section {
+  display: table-cell;
+  padding: 4px;
+}
+
+.cf-progress-bar-activated {
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-dark;
+}
+
+.cf-progress-bar-not-activated {
+  color: $color-gray-dark;
+  border-bottom: 8px solid $color-gray-light;
 }
 
 // ===========================*
@@ -764,7 +788,7 @@ table {
   }
 
   tr {
-    border-bottom: 2px solid $color-gray-lightest;
+    border-bottom: 1px solid $color-gray-lighter;
   }
 
   thead th {
@@ -1027,9 +1051,7 @@ fieldset {
 }
 
 .cf-help-divider {
-  margin: 30px 0;
-  color: $color-gray-lighter;
-  border-bottom: 1px;
+  border-bottom: 1px solid $color-gray-lighter;
 }
 
 ul {
@@ -1156,9 +1178,116 @@ ul {
 @import 'tabs';
 @import 'stats';
 
-.usa-search {
-  [type="submit"],
-  .usa-search-submit {
-    background-image: none !important;
+.cf-form-checkbox,
+.cf-form-radio-option {
+  position: relative;
+
+  input {
+    left: -999em;
+  }
+
+  label {
+    padding-left: 3rem;
+
+    &::before {
+      position: absolute;
+      left: 3px;
+      top: 2px;
+    }
+  }
+}
+
+button {
+
+  // preload default loading button SVG
+  .cf-loading-icon-back,
+  .cf-loading-icon-front {
+    &::after {
+      content: ' ';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      background: image-url('icons/loading-pill.svg') center center no-repeat;
+    }
+  }
+
+  // preload app-specific loading button SVGs
+
+  &.cf-cert,
+  &.cf-dispatch,
+  &.cf-efolder,
+  &.cf-feedback {
+    .cf-loading-icon-front {
+      &::after {
+        content: ' ';
+        display: inline-block;
+        width: 0;
+        height: 0;
+      }
+    }
+  }
+
+  &.cf-cert {
+    .cf-loading-icon-back {
+      &::after {
+        background: image-url('icons/loading-pill-cf-cert.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-dispatch {
+    .cf-loading-icon-back {
+      &::after {
+        background: image-url('icons/loading-pill-cf-dispatch.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-efolder {
+    .cf-loading-icon-back {
+      &::after {
+        background: image-url('icons/loading-pill-cf-efolder.svg') center center no-repeat;
+      }
+    }
+  }
+
+  &.cf-feedback {
+    .cf-loading-icon-back {
+      &::after {
+        background: image-url('icons/loading-pill-cf-feedback.svg') center center no-repeat;
+      }
+    }
+  }
+}
+
+.cf-loading {
+  display: inline-block;
+  position: relative;
+
+  .cf-loading-icon-container {
+    display: inline-block;
+    position: relative;
+    padding-right: 23px;
+
+    .cf-loading-icon-back,
+    .cf-loading-icon-front {
+      &::after {
+        // container for preloaded images was 0x0, but now...
+        width: 20px !important;
+        height: 20px !important;
+        box-sizing: border-box;
+        position: absolute;
+        right: 0;
+        top: -.1rem;
+        @include animation(spin 5s linear infinite);
+      }
+    }
+
+    .cf-loading-icon-front {
+      &::after {
+        @include animation(backwardspin 5s linear infinite);
+        opacity: .5;
+      }
+    }
   }
 }

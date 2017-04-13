@@ -7,3 +7,6 @@ before_install: gem install bundler -v 1.12.5
 
 script:
   - bundle exec rake
+
+services:
+  - redis-server

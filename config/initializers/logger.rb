@@ -5,9 +5,7 @@ end
 
 ip = Rails.env.production? ? IPSocket.getaddress(Socket.gethostname) : 'localhost'
 
-log_tags = [:host, ip]
-
-log_tags << lambda { |req| Time.now }
+log_tags = [:host, :uuid, ip]
 
 log_tags << lambda { |req|
   session = get_session(req)
@@ -20,7 +18,32 @@ if !ENV["IS_WORKER"].blank?
   log_tags << "jobs-worker"
 end
 
+class LoggerWithTimestamp < ActiveSupport::Logger
+  def add(severity, message, progname, &block)
+    tagged(Time.now) {
+      super(severity, message, progname, &block)
+    }
+  end
+
+end
+
 Rails.application.config.log_tags = log_tags
+output = Rails.env.test? ? File.join(Rails.root, "log", "test.log") : STDOUT
+logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
+
+# Rails has a lot of loggers
+Rails.logger = logger
+ActiveSupport::Dependencies.logger = logger
+Rails.cache.logger = logger
+ActiveSupport.on_load(:active_record) do
+  ActiveRecord::Base.logger = logger
+end
+ActiveSupport.on_load(:action_controller) do
+  ActionController::Base.logger = logger
+end
+ActiveSupport.on_load(:action_mailer) do
+  ActionMailer::Base.logger = logger
+end
 
 # log sidekiq to application logger (defaults to stdout)
-Sidekiq::Logging.logger = Rails.logger if defined?(Sidekiq::Logging)
+Sidekiq::Logging.logger = logger if defined?(Sidekiq::Logging)
