@@ -27,7 +27,7 @@ body {
 
 a {
   color: $cf-link;
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 a:visited {
@@ -52,7 +52,7 @@ abbr {
 }
 
 label {
-  font-weight: normal !important;
+  font-weight: normal;
   margin-top: 0; // Override USWDS
 }
 
@@ -123,12 +123,13 @@ h3,
 h4,
 h5,
 h6 {
-  &:not(.usa-alert-heading) {
-    font-family: inherit;
-    margin-top: 0;
-  }
-
+  font-family: inherit;
+  margin-top: 0;
   color: $color-gray-dark;
+}
+
+.usa-alert-heading {
+  font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times", serif;
 }
 
 h2 {
@@ -679,7 +680,7 @@ select,
 
 // Overrides USWDS */
 textarea {
-  max-width: 100% !important;
+  max-width: 100%;
 
   &[id="Explanation"] {
     width: 430px;
@@ -688,7 +689,7 @@ textarea {
 
 // Overrides USWDS */
 form {
-  max-width: none !important;
+  max-width: none;
 }
 
 .hidden-field {
@@ -696,18 +697,15 @@ form {
 }
 
 //------ Buttons --------*/
-// I hate using !important, but web design standards
-// form buttons have high specificity.
-// Keep an eye on https://github.com/18F/web-design-standards/issues/891
 [type="submit"],
 [type="button"],
 .usa-button {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  margin-top: 0;
+  margin-bottom: 0;
   margin-right: rem(20px);
 
   &:last-child {
-    margin-right: 0 !important;
+    margin-right: 0;
   }
 }
 
@@ -718,12 +716,9 @@ form {
   display: inline-block;
   font-weight: normal;
   line-height: 1;
-  // I hate using !important, but web design standards
-  // form buttons have high specificity.
-  // Keep an eye on https://github.com/18F/web-design-standards/issues/891
   -webkit-font-smoothing: inherit;
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
   &:visited {
     color: $color-primary;
@@ -731,7 +726,7 @@ form {
 
   // Removes padding, so that these links can be placed inline.
   &--inline {
-    padding: 0 !important;
+    padding: 0;
   }
 
   &:hover {
@@ -920,7 +915,11 @@ fieldset {
   margin-bottom: rem(20px);
 
   label {
+    // This important can be removed when the latest USWDS
+    // are merged into the gem we use.
+    // scss-lint:disable ImportantRule
     margin-bottom: 0 !important;
+    // scss-lint:enable ImportantRule
   }
 }
 
@@ -982,10 +981,8 @@ fieldset {
   line-height: 1.5;
   margin-left: auto;
   margin-right: auto;
-  // TODO: Refactor h1,h2,h3,h4,h5,h6 { &:not(.usa-alert-heading)}
-  // so that we don't have to use !important here.
-  margin-bottom: rem(65px) !important;
-  margin-top: rem(15px) !important;
+  margin-bottom: rem(65px);
+  margin-top: rem(15px);
   width: 65%;
 }
 
@@ -1013,7 +1010,11 @@ fieldset {
 }
 
 .cf-login-input {
+  // This important can be removed when the latest USWDS
+  // are merged into the gem we use.
+  // scss-lint:disable ImportantRule
   display: inline !important;
+  // scss-lint:enable ImportantRule
 }
 
 [id=username_input_id] ~ .cf-txt-example {
@@ -1276,8 +1277,10 @@ button {
     .cf-loading-icon-front {
       &::after {
         // container for preloaded images was 0x0, but now...
+        // scss-lint:disable ImportantRule
         width: 20px !important;
         height: 20px !important;
+        // scss-lint:enable ImportantRule
         box-sizing: border-box;
         position: absolute;
         right: 0;

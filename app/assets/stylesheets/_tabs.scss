@@ -16,8 +16,10 @@
     margin: 0 -1px 0 0;
 
     &::-moz-focus-inner {
+      // scss-lint:disable ImportantRule
       padding: 0 !important;
       border: 0 none !important;
+      // scss-lint:enable ImportantRule
     }
   }
 
