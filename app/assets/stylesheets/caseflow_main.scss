@@ -917,7 +917,9 @@ fieldset {
   label {
     // This important can be removed when the latest USWDS
     // are merged into the gem we use.
+    // scss-lint:disable ImportantRule
     margin-bottom: 0 !important;
+    // scss-lint:enable ImportantRule
   }
 }
 
@@ -1010,7 +1012,9 @@ fieldset {
 .cf-login-input {
   // This important can be removed when the latest USWDS
   // are merged into the gem we use.
+  // scss-lint:disable ImportantRule
   display: inline !important;
+  // scss-lint:enable ImportantRule
 }
 
 [id=username_input_id] ~ .cf-txt-example {
@@ -1273,8 +1277,10 @@ button {
     .cf-loading-icon-front {
       &::after {
         // container for preloaded images was 0x0, but now...
+        // scss-lint:disable ImportantRule
         width: 20px !important;
         height: 20px !important;
+        // scss-lint:enable ImportantRule
         box-sizing: border-box;
         position: absolute;
         right: 0;
