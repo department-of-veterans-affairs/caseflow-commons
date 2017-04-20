@@ -2,12 +2,12 @@ window.Dashboard = (function(d3, moment) {
   // private
   var data, interval, index, maxIndex, dateStrings, charts, values, rates, times, dates, tables, x, y, bars
 
-  // used for turning mouseover events off
-  this.mouseoverEvents = true;
-
   function init(opts) {
     data = opts.data
     interval = opts.interval
+
+    // used for turning mouseover events off
+    this.mouseoverEvents = true;  
 
     index = 0
     maxIndex = data.length - 1
