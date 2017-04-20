@@ -167,7 +167,7 @@ window.Dashboard = (function(d3, moment) {
     return !seconds ? '?? <span class="cf-stat-unit">sec</span>' :
       seconds < 60 ? format(seconds) + ' <span class="cf-stat-unit">sec</span>' :
       seconds / 60 < 60 ? format(seconds / 60) + ' <span class="cf-stat-unit">min</span>' :
-      seconds / 60 / 60 < 24 ? format(seconds / 60 / 60) + ' <span class="cf-stat-unit">hours</span>'
+      seconds / 60 / 60 < 24 ? format(seconds / 60 / 60) + ' <span class="cf-stat-unit">hours</span>' :
         format(seconds / 60 / 60 / 24) + ' <span class="cf-stat-unit">days</span>'
   }
 
