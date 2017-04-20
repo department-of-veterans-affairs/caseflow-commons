@@ -165,8 +165,9 @@ window.Dashboard = (function(d3, moment) {
   }
   function timeFormat(seconds) {
     return !seconds ? '?? <span class="cf-stat-unit">sec</span>' :
-      seconds > 60 ? format(seconds / 60) + ' <span class="cf-stat-unit">min</span>' :
-      format(seconds) + ' <span class="cf-stat-unit">sec</span>'
+      seconds < 60 ? format(seconds) + ' <span class="cf-stat-unit">sec</span>' :
+      seconds / 60 < 60 ? format(seconds / 60) + ' <span class="cf-stat-unit">min</span>' :
+        format(seconds / 60 / 60) + ' <span class="cf-stat-unit">hours</span>'
   }
 
   // public
