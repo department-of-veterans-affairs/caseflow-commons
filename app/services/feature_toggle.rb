@@ -62,7 +62,8 @@ class FeatureToggle
   end
 
   def self.client
-    @client ||= Redis::Namespace.new(:feature_toggle, redis: redis)
+    namespace = (Rails.env.development? || Rails.env.test?) ? "feature_toggle_#{Rails.env}" : "feature_toggle"
+    @client ||= Redis::Namespace.new(namespace.to_sym, redis: redis)
   end
 
   def self.redis
