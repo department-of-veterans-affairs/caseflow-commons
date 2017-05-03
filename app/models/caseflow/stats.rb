@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ##
 # Stats is an interface to quickly access statistics and
 # it is responsible for aggregating and caching statistics.
@@ -8,7 +9,7 @@ module Caseflow
     attr_accessor :interval, :time, :values
 
     TIMEZONE = "Eastern Time (US & Canada)".freeze
-    INTERVALS = [:hourly, :daily, :weekly, :monthly].freeze
+    INTERVALS = %i(hourly daily weekly monthly).freeze
     CALCULATIONS = {}.freeze
 
     def initialize(interval:, time:)
@@ -55,7 +56,6 @@ module Caseflow
       calculated_values
     end
 
-    # rubocop:disable Rails/TimeZone
     def self.now
       Time.find_zone!(TIMEZONE).now
     end
