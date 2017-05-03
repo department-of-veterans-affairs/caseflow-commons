@@ -10,7 +10,7 @@ class FeatureToggle
   # Examples:
   # FeatureToggle.enable!(:foo)
   # FeatureToggle.enable!(:bar, regional_offices: ["RO01", "RO02"])
-  def self.enable!(feature, regional_offices: nil)
+  def self.enable!(feature, regional_offices: nil, users: nil)
     # redis method: sadd (add item to a set)
     client.sadd FEATURE_LIST_KEY, feature unless features.include?(feature)
 
@@ -19,6 +19,11 @@ class FeatureToggle
              key: :regional_offices,
              value: regional_offices)
     end
+
+    if users.present?
+      enable(feature: feature, key: :users, value: users)
+    end
+
     true
   end
 
@@ -26,8 +31,8 @@ class FeatureToggle
   # Examples:
   # FeatureToggle.disable!(:foo)
   # FeatureToggle.disable!(:bar, regional_offices: ["RO01", "RO02"])
-  def self.disable!(feature, regional_offices: nil)
-    unless regional_offices
+  def self.disable!(feature, regional_offices: nil, users: nil)
+    unless regional_offices || users
       client.multi do
         # redis method: srem (remove item from a set)
         client.srem FEATURE_LIST_KEY, feature
@@ -36,9 +41,13 @@ class FeatureToggle
       return true
     end
 
-    disable(feature: feature,
-            key: :regional_offices,
-            value: regional_offices)
+      disable(feature: feature,
+              key: :regional_offices,
+              value: regional_offices)
+
+      disable(feature: feature,
+              key: :users,
+              value: users)
 
     true
   end
@@ -46,14 +55,31 @@ class FeatureToggle
   # Method to check if a given feature is enabled for a user
   def self.enabled?(feature, user: nil)
     return false unless features.include?(feature)
-    regional_offices = get_subkey(feature, :regional_offices)
+    data = get_data(feature)
+
+    # If we do not have any users or regional office restrictions
+    # then the feature is enabled *globally* and we accept *all* users
+    return true if data.empty?
+
+    regional_offices = data[:regional_offices]
+    users = data[:users]
+
+    enabled = false
+
+
+    # If users key is set, check if the feature
+    # is enabled for the user's css_id
+    if users.present?
+      enabled = true if user && users.include?(user.css_id)
+    end
 
     # if regional_offices key is set, check if the feature
-    # is enabled for the user's ro. Otherwise, it is enabled globally
+    # is enabled for the user's ro
     if regional_offices.present?
-      return false unless user && regional_offices.include?(user.regional_office)
+      enabled = true if user && regional_offices.include?(user.regional_office)
     end
-    true
+
+    enabled
   end
 
   # Returns a hash result for a given feature
@@ -73,15 +99,29 @@ class FeatureToggle
     private
 
     def enable(feature:, key:, value:)
-      data = get_subkey(feature, key)
-      data = data.present? ? data + value : value
-      set_subkey(feature, key, data)
+      data = get_data(feature)
+
+      # Remove nil or duplicate values before saving
+      data[key] = ((data[key] || []) + value).compact.uniq
+
+      # Delete empty keys
+      data.delete(key) if data[key].empty?
+
+      set_data(feature, data)
     end
 
     def disable(feature:, key:, value:)
-      data = get_subkey(feature, key)
-      return unless data
-      set_subkey(feature, key, data - value)
+      return unless value
+
+      data = get_data(feature)
+      return unless data[key]
+
+      data[key] = data[key] - value
+
+      # Delete empty keys
+      data.delete(key) if data[key].empty?
+
+      set_data(feature, data)
     end
 
     def feature_hash(feature)
@@ -89,13 +129,12 @@ class FeatureToggle
       JSON.parse(data).symbolize_keys if data
     end
 
-    def get_subkey(feature, key)
-      data = feature_hash(feature)
-      data[key] if data
+    def get_data(feature)
+      feature_hash(feature) || {}
     end
 
-    def set_subkey(feature, key, data)
-      client.set(feature, { key => data.uniq }.to_json)
+    def set_data(feature, data)
+      client.set(feature, data.to_json)
     end
   end
 end
