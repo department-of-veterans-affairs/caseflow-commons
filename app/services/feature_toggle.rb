@@ -10,6 +10,7 @@ class FeatureToggle
   # Examples:
   # FeatureToggle.enable!(:foo)
   # FeatureToggle.enable!(:bar, regional_offices: ["RO01", "RO02"])
+  # FeatureToggle.enable!(:bar, users: ["CSS_ID_1", "CSS_ID_2"])
   def self.enable!(feature, regional_offices: nil, users: nil)
     # redis method: sadd (add item to a set)
     client.sadd FEATURE_LIST_KEY, feature unless features.include?(feature)
@@ -29,6 +30,7 @@ class FeatureToggle
   # Examples:
   # FeatureToggle.disable!(:foo)
   # FeatureToggle.disable!(:bar, regional_offices: ["RO01", "RO02"])
+  # FeatureToggle.disable!(:bar, users: ["CSS_ID_1", "CSS_ID_2"])
   def self.disable!(feature, regional_offices: nil, users: nil)
     unless regional_offices || users
       client.multi do
