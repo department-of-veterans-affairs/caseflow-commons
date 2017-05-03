@@ -20,9 +20,7 @@ class FeatureToggle
              value: regional_offices)
     end
 
-    if users.present?
-      enable(feature: feature, key: :users, value: users)
-    end
+    enable(feature: feature, key: :users, value: users) if users.present?
 
     true
   end
@@ -41,13 +39,13 @@ class FeatureToggle
       return true
     end
 
-      disable(feature: feature,
-              key: :regional_offices,
-              value: regional_offices)
+    disable(feature: feature,
+            key: :regional_offices,
+            value: regional_offices)
 
-      disable(feature: feature,
-              key: :users,
-              value: users)
+    disable(feature: feature,
+            key: :users,
+            value: users)
 
     true
   end
@@ -65,19 +63,8 @@ class FeatureToggle
     users = data[:users]
 
     enabled = false
-
-
-    # If users key is set, check if the feature
-    # is enabled for the user's css_id
-    if users.present?
-      enabled = true if user && users.include?(user.css_id)
-    end
-
-    # if regional_offices key is set, check if the feature
-    # is enabled for the user's ro
-    if regional_offices.present?
-      enabled = true if user && regional_offices.include?(user.regional_office)
-    end
+    enabled = true if enabled_for_user?(users: users, user: user)
+    enabled = true if enabled_for_regional_office?(regional_offices: regional_offices, user: user)
 
     enabled
   end
@@ -97,6 +84,18 @@ class FeatureToggle
 
   class << self
     private
+
+    # If users key is set, check if the feature
+    # is enabled for the user's css_id
+    def enabled_for_user?(users:, user:)
+      users.present? && user && users.include?(user.css_id)
+    end
+
+    # if regional_offices key is set, check if the feature
+    # is enabled for the user's ro
+    def enabled_for_regional_office?(regional_offices:, user:)
+      regional_offices.present? && user && regional_offices.include?(user.regional_office)
+    end
 
     def enable(feature:, key:, value:)
       data = get_data(feature)
