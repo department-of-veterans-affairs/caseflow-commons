@@ -55,16 +55,13 @@ class FeatureToggle
   # Method to check if a given feature is enabled for a user
   def self.enabled?(feature, user: nil)
     return false unless features.include?(feature)
+
     data = get_data(feature)
-
-    # If we do not have any users or regional office restrictions
-    # then the feature is enabled *globally* and we accept *all* users
-    return true if data.empty?
-
     regional_offices = data[:regional_offices]
     users = data[:users]
 
     enabled = false
+    enabled = true if enabled_globally?(users: users, regional_offices: regional_offices)
     enabled = true if enabled_for_user?(users: users, user: user)
     enabled = true if enabled_for_regional_office?(regional_offices: regional_offices, user: user)
 
@@ -86,6 +83,12 @@ class FeatureToggle
 
   class << self
     private
+
+    # If we do not have any users or regional office restrictions
+    # then the feature is enabled *globally* and we accept *all* users
+    def enabled_globally?(users:, regional_offices:)
+      users.nil? && regional_offices.nil?
+    end
 
     # If users key is set, check if the feature
     # is enabled for the user's css_id
