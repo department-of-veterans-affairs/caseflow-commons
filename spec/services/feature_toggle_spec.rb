@@ -3,8 +3,8 @@ require "redis"
 require "redis-namespace"
 
 describe FeatureToggle do
-  let(:user1) { OpenStruct.new(regional_office: "RO03") }
-  let(:user2) { OpenStruct.new(regional_office: "RO07") }
+  let(:user1) { OpenStruct.new(regional_office: "RO03", css_id: "5") }
+  let(:user2) { OpenStruct.new(regional_office: "RO07", css_id: "7") }
 
   before :each do
     Rails.stub(:application) { FakeApplication.instance }
@@ -36,6 +36,39 @@ describe FeatureToggle do
         FeatureToggle.enable!(:test, regional_offices: ["RO07"])
         expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
         expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
+      end
+    end
+
+    context "for a set of users" do
+      subject { FeatureToggle.enable!(:test, users: [user1.css_id]) }
+
+      it "feature is enabled for inidivual user" do
+        subject
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq false
+      end
+
+      it "enable for more users" do
+        subject
+        FeatureToggle.enable!(:test, users: [user2.css_id])
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
+      end
+    end
+
+    context "for an RO and individual users" do
+      let(:user3) { OpenStruct.new(regional_office: "RO08", css_id: "9") }
+
+      subject do
+        FeatureToggle.enable!(:test, users: [user1.css_id])
+        FeatureToggle.enable!(:test, regional_offices: [user2.regional_office])
+      end
+
+      it "feature is enabled for RO users and individual non-RO user" do
+        subject
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
+        expect(FeatureToggle.enabled?(:test, user: user3)).to eq false
       end
     end
   end
@@ -108,6 +141,19 @@ describe FeatureToggle do
       it "no regional offices are disabled" do
         subject
         expect(FeatureToggle.details_for(:test)[:regional_offices]).to eq %w(RO03 RO02 RO09)
+      end
+    end
+
+    context "when disabling individual user access" do
+      before do
+        FeatureToggle.enable!(:test, users: [user1.css_id])
+        FeatureToggle.enable!(:test, regional_offices: [user2.regional_office])
+      end
+      subject { FeatureToggle.disable!(:test, users: [user1.css_id]) }
+
+      it "maintains access for regional offices" do
+        subject
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
       end
     end
   end
