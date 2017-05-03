@@ -132,10 +132,6 @@ h1 {
   font-size: 34px;
 }
 
-h2 {
-  font-size: 24px;
-}
-
 h3 {
   font-size: 19px;
 }
@@ -153,6 +149,8 @@ h5 {
 }
 
 h2 {
+  font-size: 24px;
+
   &[id="page-title"] {
     margin-left: 0;
   }
