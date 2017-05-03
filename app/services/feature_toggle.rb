@@ -6,7 +6,8 @@ class FeatureToggle
     client.smembers(FEATURE_LIST_KEY).map(&:to_sym)
   end
 
-  # Method to enable a feature globally or for a specfic set of regional offices
+  # Method to enable a feature globally or limit acces
+  # to a set of individual users or regional offices
   # Examples:
   # FeatureToggle.enable!(:foo)
   # FeatureToggle.enable!(:bar, regional_offices: ["RO01", "RO02"])
@@ -56,7 +57,7 @@ class FeatureToggle
   def self.enabled?(feature, user: nil)
     return false unless features.include?(feature)
 
-    data = get_data(feature)
+    data = feature_enabled_hash(feature)
     regional_offices = data[:regional_offices]
     users = data[:users]
 
@@ -70,7 +71,7 @@ class FeatureToggle
 
   # Returns a hash result for a given feature
   def self.details_for(feature)
-    feature_hash(feature) || {} if features.include?(feature)
+    feature_enabled_hash(feature) if features.include?(feature)
   end
 
   def self.client
@@ -103,7 +104,7 @@ class FeatureToggle
     end
 
     def enable(feature:, key:, value:)
-      data = get_data(feature)
+      data = feature_enabled_hash(feature)
 
       # Remove nil or duplicate values before saving
       data[key] = ((data[key] || []) + value).compact.uniq
@@ -117,7 +118,7 @@ class FeatureToggle
     def disable(feature:, key:, value:)
       return unless value
 
-      data = get_data(feature)
+      data = feature_enabled_hash(feature)
       return unless data[key]
 
       data[key] = data[key] - value
@@ -128,13 +129,9 @@ class FeatureToggle
       set_data(feature, data)
     end
 
-    def feature_hash(feature)
+    def feature_enabled_hash(feature)
       data = client.get(feature)
-      JSON.parse(data).symbolize_keys if data
-    end
-
-    def get_data(feature)
-      feature_hash(feature) || {}
+      data && JSON.parse(data).symbolize_keys || {}
     end
 
     def set_data(feature, data)
