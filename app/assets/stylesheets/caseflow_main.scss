@@ -128,11 +128,31 @@ h6 {
   color: $color-gray-dark;
 }
 
+h1 {
+  font-size: 34px;
+}
+
+h3 {
+  font-size: 19px;
+}
+
+h4 {
+  font-size: 15px;
+}
+
+h5 {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 .usa-alert-heading {
   font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times", serif;
 }
 
 h2 {
+  font-size: 24px;
+
   &[id="page-title"] {
     margin-left: 0;
   }

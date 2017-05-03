@@ -4,7 +4,11 @@
 
 .cf-stats-section {
   @include outer-container;
-  margin-bottom: 1em;
+  margin-bottom: 20px;
+}
+
+.cf-stats-active-users {
+  margin-top: 40px;
 }
 
 .cf-stats-table {
