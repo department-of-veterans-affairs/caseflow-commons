@@ -570,13 +570,13 @@ div {
   &--alt {
     background: $color-white;
     border: 1px solid $color-gray-lighter;
-    padding: rem(30px);
+    padding: rem(40px);
   }
 
   // Make the top margin larger whenever
   // cf-app-segment is the first-child
   &:first-child {
-    margin-top: rem(40px);
+    margin-top: rem(30px);
   }
 }
 
