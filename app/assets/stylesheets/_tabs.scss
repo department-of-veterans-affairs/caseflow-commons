@@ -1,3 +1,5 @@
+$color-tab-text-hover: #1f5593;
+
 .cf-tab-navigation {
   @include unstyled-list;
 
@@ -38,11 +40,18 @@
   padding: 0;
   color: $color-gray;
   line-height: normal;
-  font-weight: 700;
+  font-weight: 500;
 
   > span {
     display: inline-block;
     padding: 15px 1.5em;
+  }
+
+  i {
+    width: 17px;
+    height: 17px;
+    margin-right: 0.25em;
+    margin-left: -0.4em;
   }
 
   svg {
@@ -83,8 +92,9 @@
 .cf-active {
   color: $color-primary;
   border: 1px solid $color-primary;
-  box-shadow: 0 2px 0 0 $color-primary inset;
+  box-shadow: 0 1px 0 $color-white;
   border-bottom: 0;
+  font-weight: 700;
 
   > span {
     top: 1px;
@@ -93,6 +103,12 @@
 
     > span {
       top: -1px;
+    }
+  }
+
+  span {
+    &:hover {
+      color: $color-tab-text-hover;
     }
   }
 
