@@ -1045,6 +1045,21 @@ fieldset {
   }
 }
 
+.cf-success-checklist {
+  position: relative;
+  max-width: 400px;
+  margin: 50px 0 65px 25%;
+  list-style-type: none;
+
+  li {
+    background: url('icons/icon-check.svg') no-repeat left top transparent;
+    background-size: 22px 17px;
+    background-position-y: 7px;
+    padding-left: 38px;
+    padding-top: 3px;
+  }
+}
+
 .cf-login-input {
   // This important can be removed when the latest USWDS
   // are merged into the gem we use.
@@ -1091,6 +1106,7 @@ fieldset {
 }
 
 .cf-help-divider {
+  margin: 5px 25px 30px auto;
   border-bottom: 1px solid $color-gray-lighter;
 }
 
