@@ -467,12 +467,14 @@ div {
 
 .cf-progress-bar-activated {
   color: $color-gray-dark;
-  border-bottom: 8px solid $color-gray-dark;
+  font-weight: 700;
+  border-bottom: 7px solid $color-gray-dark;
 }
 
 .cf-progress-bar-not-activated {
   color: $color-gray-dark;
-  border-bottom: 8px solid $color-gray-light;
+  font-weight: 700;
+  border-bottom: 7px solid $color-gray-light;
 }
 
 // ===========================*
@@ -755,6 +757,24 @@ form {
     text-decoration: none;
   }
 
+  &:hover,
+  &.button-hover {
+    background-color: $color-white;
+    color: $color-primary-darker;
+    text-decoration: underline;
+  }
+
+  &:active,
+  &.button-active {
+    background-color: $color-white;
+    color: $color-primary-darkest;
+    text-decoration: underline;
+  }
+
+  &.usa-button-disabled {
+    color: $color-gray-light;
+  }
+
   &--confirm {
     &:visited {
       color: $color-secondary-dark;
@@ -851,6 +871,27 @@ table {
   .cf-btn-forward {
     display: inline-block;
     margin-right: 0;
+  }
+}
+
+input {
+  &[type=number] {
+    display: inline;
+  }
+}
+
+.cf-inline-form {
+  label,
+  input {
+    display: inline;
+    margin-right: 10px;
+  }
+
+  input {
+    &[type=number] {
+      width: 60px;
+      height: 35px;
+    }
   }
 }
 
@@ -973,9 +1014,23 @@ fieldset {
   }
 }
 
+.cf-form-checkboxes-inline {
+  .checkbox {
+    float: left;
+    padding-right: rem(30px);
+    margin-bottom: .5em;
+  }
+}
+
+[class*='cf-form-checkbox'] {
+  legend {
+    margin-bottom: .75em;
+  }
+}
+
 .usa-input-error {
   [type="radio"] + label::before {
-    box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-secondary-dark, 0 0 3px 4px $color-secondary, 0 0 7px 4px $color-secondary-dark;
+    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-medium;
   }
 }
 
@@ -1029,6 +1084,21 @@ fieldset {
   }
 }
 
+.cf-success-checklist {
+  position: relative;
+  max-width: 400px;
+  margin: 50px 0 65px 25%;
+  list-style-type: none;
+
+  li {
+    background: url('icons/icon-check.svg') no-repeat left top transparent;
+    background-size: 22px 17px;
+    background-position-y: 7px;
+    padding-left: 38px;
+    padding-top: 3px;
+  }
+}
+
 .cf-login-input {
   // This important can be removed when the latest USWDS
   // are merged into the gem we use.
@@ -1075,6 +1145,7 @@ fieldset {
 }
 
 .cf-help-divider {
+  margin: 30px auto;
   border-bottom: 1px solid $color-gray-lighter;
 }
 
@@ -1282,6 +1353,10 @@ button {
       }
     }
   }
+}
+
+.cf-secondary-disabled {
+  opacity: .25;
 }
 
 .cf-loading {
