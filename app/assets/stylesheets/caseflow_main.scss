@@ -60,9 +60,31 @@ p {
   margin-top: rem(20px);
   margin-bottom: rem(20px);
   color: $color-gray-dark;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.5em;
+}
+
+.cf-lead-paragraph {
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 1.5em;
+}
+
+.cf-display-1 {
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 1.3em;
+}
+
+.cf-display-2 {
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1.3em;
 }
 
 .cf-doc-embed {
+
   width: 100%;
   height: 80vh;
 }
