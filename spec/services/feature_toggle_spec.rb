@@ -106,16 +106,23 @@ describe FeatureToggle do
       end
       subject { FeatureToggle.disable!(:test, regional_offices: %w(RO03 RO02 RO09)) }
 
-      it "feature becomes enabled for everyone" do
+      it "feature becomes disabled for everyone" do
         subject
-        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
-        expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
-      end
-
-      it "feature can be disabled globally" do
-        subject
-        FeatureToggle.disable!(:test)
+        expect(FeatureToggle.enabled?(:test)).to eq false
         expect(FeatureToggle.enabled?(:test, user: user1)).to eq false
+      end
+    end
+
+    context "when regional_offices becomes an empty array but users are still present" do
+      before do
+        FeatureToggle.enable!(:test, regional_offices: %w(RO03 RO02 RO09), users: [user1.css_id])
+      end
+      subject { FeatureToggle.disable!(:test, regional_offices: %w(RO03 RO02 RO09)) }
+
+      it "feature is still enabled for a set of users" do
+        subject
+        expect(FeatureToggle.enabled?(:test)).to eq false
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
         expect(FeatureToggle.enabled?(:test, user: user2)).to eq false
       end
     end
