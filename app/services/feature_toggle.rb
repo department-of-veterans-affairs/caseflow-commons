@@ -34,11 +34,7 @@ class FeatureToggle
   # FeatureToggle.disable!(:bar, users: ["CSS_ID_1", "CSS_ID_2"])
   def self.disable!(feature, regional_offices: nil, users: nil)
     unless regional_offices || users
-      client.multi do
-        # redis method: srem (remove item from a set)
-        client.srem FEATURE_LIST_KEY, feature
-        client.del feature
-      end
+      remove_feature(feature)
       return true
     end
 
@@ -50,6 +46,9 @@ class FeatureToggle
             key: :users,
             value: users)
 
+    # disable the feature completely if users and regional_offices become empty
+    # to avoid accidentally enabling the feature globally
+    remove_feature(feature) if feature_enabled_hash(feature).empty?
     true
   end
 
@@ -134,6 +133,14 @@ class FeatureToggle
     def feature_enabled_hash(feature)
       data = client.get(feature)
       data && JSON.parse(data).symbolize_keys || {}
+    end
+
+    def remove_feature(feature)
+      client.multi do
+        # redis method: srem (remove item from a set)
+        client.srem FEATURE_LIST_KEY, feature
+        client.del feature
+      end
     end
 
     def set_data(feature, data)
