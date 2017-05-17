@@ -20,10 +20,11 @@ module Caseflow
       self.files[filename]
     end
 
-    def self.stream_content(_filename)
+    def self.stream_content(key)
+      file = File.open(key, "r")
       Enumerator.new do |y|
-        10.times do |i|
-          y << "This is line #{i}\n"
+        file.each_line do |segment|
+          y << segment
         end
       end
     end

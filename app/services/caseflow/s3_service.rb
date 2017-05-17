@@ -36,14 +36,14 @@ module Caseflow
       nil
     end
 
-    def self.stream_content(filename)
+    def self.stream_content(key)
       init!
 
       # When you pass a block to #get_object, chunks of data are yielded as they are read off the socket.
       Enumerator.new do |y|
         @client.get_object(
           bucket: bucket_name,
-          key: filename
+          key: key
         ) do |segment|
           y << segment
         end
