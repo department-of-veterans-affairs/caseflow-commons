@@ -56,9 +56,6 @@ module Caseflow
       return if @bucket
 
       Aws.config.update(region: "us-gov-west-1")
-      ENV["AWS_SECRET_ACCESS_KEY"] = "3PT4c8MIK3+Jf4fgKKN1wd2BGgoExgfbSCKByw3Y"
-      ENV["AWS_ACCESS_KEY_ID"] = "AKIAKHNDR4K5KJ5RUZHQ"
-      Aws.use_bundled_cert!
 
       @client = Aws::S3::Client.new
       @resource = Aws::S3::Resource.new(client: @client)
