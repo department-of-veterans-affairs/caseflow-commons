@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FeatureToggle
   # Keeps track of all enabled features
   FEATURE_LIST_KEY = :feature_list_key

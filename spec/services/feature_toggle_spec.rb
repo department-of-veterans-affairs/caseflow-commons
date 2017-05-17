@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "redis"
 require "redis-namespace"
@@ -174,7 +176,7 @@ describe FeatureToggle do
       end
       subject { FeatureToggle.features.sort }
 
-      it { is_expected.to eq [:search, :test] }
+      it { is_expected.to eq %i(search test) }
     end
 
     context "when features do not exist" do
