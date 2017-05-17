@@ -97,6 +97,21 @@ module Caseflow
       percentile_model && percentile_model.send(attribute)
     end
 
+    def format_time_duration_stat(seconds)
+      return "?? <span class=\"cf-stat-unit\">sec</span>".html_safe unless seconds
+      return "#{format('%.2f', seconds)} <span class=\"cf-stat-unit\">sec</span>".html_safe if seconds < 60
+      "#{format('%.2f', seconds / 60)} <span class=\"cf-stat-unit\">min</span>".html_safe
+    end
+
+    def format_rate_stat(num, denom)
+      rate_stat = if @dispatch_stats[0].values[denom] == 0 || !@dispatch_stats[0].values[num]
+                    "??"
+                  else
+                    (@dispatch_stats[0].values[num] / @dispatch_stats[0].values[denom] * 100).round
+                  end
+      (rate_stat + "<span class=\"cf-stat-unit\">%</span>").html_safe
+    end
+
     private
 
     def load_values
