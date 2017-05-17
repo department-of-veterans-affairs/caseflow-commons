@@ -19,5 +19,14 @@ module Caseflow
       self.files ||= {}
       self.files[filename]
     end
+
+    def self.stream_content(key)
+      file = File.open(key, "r")
+      Enumerator.new do |y|
+        file.each_line do |segment|
+          y << segment
+        end
+      end
+    end
   end
 end

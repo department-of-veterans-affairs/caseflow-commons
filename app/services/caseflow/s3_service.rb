@@ -36,6 +36,22 @@ module Caseflow
       nil
     end
 
+    def self.stream_content(key)
+      init!
+
+      # When you pass a block to #get_object, chunks of data are yielded as they are read off the socket.
+      Enumerator.new do |y|
+        @client.get_object(
+          bucket: bucket_name,
+          key: key
+        ) do |segment|
+          y << segment
+        end
+      end
+    rescue Aws::S3::Errors::NoSuchKey
+      nil
+    end
+
     def self.init!
       return if @bucket
 
