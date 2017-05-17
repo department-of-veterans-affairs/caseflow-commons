@@ -19,5 +19,13 @@ module Caseflow
       self.files ||= {}
       self.files[filename]
     end
+
+    def self.stream_content(_filename)
+      Enumerator.new do |y|
+        10.times do |i|
+          y << "This is line #{i}\n"
+        end
+      end
+    end
   end
 end

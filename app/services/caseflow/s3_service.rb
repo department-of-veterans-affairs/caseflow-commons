@@ -36,10 +36,29 @@ module Caseflow
       nil
     end
 
+    def self.stream_content(filename)
+      init!
+
+      # When you pass a block to #get_object, chunks of data are yielded as they are read off the socket.
+      Enumerator.new do |y|
+        @client.get_object(
+          bucket: bucket_name,
+          key: filename
+        ) do |segment|
+          y << segment
+        end
+      end
+    rescue Aws::S3::Errors::NoSuchKey
+      nil
+    end
+
     def self.init!
       return if @bucket
 
       Aws.config.update(region: "us-gov-west-1")
+      ENV["AWS_SECRET_ACCESS_KEY"] = "3PT4c8MIK3+Jf4fgKKN1wd2BGgoExgfbSCKByw3Y"
+      ENV["AWS_ACCESS_KEY_ID"] = "AKIAKHNDR4K5KJ5RUZHQ"
+      Aws.use_bundled_cert!
 
       @client = Aws::S3::Client.new
       @resource = Aws::S3::Resource.new(client: @client)
