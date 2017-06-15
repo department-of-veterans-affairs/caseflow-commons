@@ -978,7 +978,7 @@ input {
 
 fieldset {
   margin-top: rem(20px);
-  margin-bottom: rem(20px);
+  margin-bottom: rem(40px);
 
   > *,
   .cf-form-textinput {
@@ -1007,7 +1007,7 @@ fieldset {
 
 .cf-form-radio-option {
   @include clearfix;
-  margin-bottom: rem(40px);
+  margin-bottom: rem(20px);
 
   label {
     // This important can be removed when the latest USWDS
@@ -1039,12 +1039,12 @@ fieldset {
 .cf-form-checkboxes,
 .cf-form-cond-req {
   margin-top: rem(20px);
-  margin-bottom: rem(20px);
+  margin-bottom: rem(40px);
 }
 
 .cf-form-checkbox {
   &:not(:last-child) {
-    margin-bottom: rem(40px);
+    margin-bottom: rem(20px);
   }
 }
 
