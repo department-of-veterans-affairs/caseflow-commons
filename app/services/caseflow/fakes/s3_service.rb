@@ -3,6 +3,10 @@ module Caseflow
   class Fakes::S3Service
     cattr_accessor :files
 
+    def self.exists?(_key)
+      true
+    end
+
     def self.store_file(filename, content, _type = :content)
       self.files ||= {}
       self.files[filename] = content

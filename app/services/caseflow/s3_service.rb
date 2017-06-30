@@ -4,6 +4,11 @@ require "aws-sdk"
 # Thin interface to all things Amazon S3
 module Caseflow
   class S3Service
+    def self.exists?(key)
+      init!
+      @bucket.object(key).exists?
+    end
+
     def self.store_file(filename, content_or_filepath, type = :content)
       init!
 
@@ -39,6 +44,8 @@ module Caseflow
     def self.stream_content(key)
       init!
 
+      return unless exists?(key)
+
       # When you pass a block to #get_object, chunks of data are yielded as they are read off the socket.
       Enumerator.new do |y|
         @client.get_object(
@@ -48,8 +55,6 @@ module Caseflow
           y << segment
         end
       end
-    rescue Aws::S3::Errors::NoSuchKey
-      nil
     end
 
     def self.init!
