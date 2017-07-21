@@ -65,6 +65,19 @@ p {
   line-height: 1.5em;
 }
 
+.cf-help-content,
+ .cf-sg-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    max-width: 70rem;
+  }
+}
+
 .cf-lead-paragraph {
   font-weight: 400;
   font-size: 19px;
