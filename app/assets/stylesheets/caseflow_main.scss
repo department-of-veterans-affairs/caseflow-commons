@@ -56,7 +56,7 @@ label {
   margin-top: 0; // Override USWDS
 }
 
- p {
+p {
   margin-top: rem(20px);
   margin-bottom: rem(24px);
   color: $color-gray-dark;
@@ -64,9 +64,16 @@ label {
   font-size: 17px;
   line-height: 1.5em;
 }
+
 .cf-help-content {
-h1,h2,h3,h4,h5,h6,p {
- max-width: 70rem;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    max-width: 70rem;
   }
 }
 
