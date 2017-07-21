@@ -63,11 +63,12 @@ p {
   font-weight: 400;
   font-size: 17px;
   line-height: 1.5em;
+  max-width: 70rem;
 }
 
 .cf-lead-paragraph {
   font-weight: 400;
-  font-size: 22px;
+  font-size: 19px;
   line-height: 1.5em;
   margin-bottom: 30px;
 }
@@ -152,6 +153,7 @@ h6 {
   font-family: inherit;
   margin-top: 0;
   color: $color-gray-dark;
+  max-width: 70rem;
 }
 
 h1 {
