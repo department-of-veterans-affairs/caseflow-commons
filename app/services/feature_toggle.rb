@@ -74,7 +74,7 @@ class FeatureToggle
   end
 
   # Set this to customize the redis namespace to prevent collisions
-  def cache_namespace=(namespace)
+  def self.cache_namespace=(namespace)
     @cache_namespace = namespace
     @client = nil
   end
