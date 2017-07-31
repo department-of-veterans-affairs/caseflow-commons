@@ -73,10 +73,16 @@ class FeatureToggle
     feature_enabled_hash(feature) if features.include?(feature)
   end
 
+  # Set this to customize the redis namespace to prevent collisions
+  def self.cache_namespace=(namespace)
+    @cache_namespace = namespace
+    @client = nil
+  end
+
   def self.client
     # Use separate Redis namespace for test to avoid conflicts between test and dev environments
-    namespace = Rails.env.test? ? :feature_toggle_test : :feature_toggle
-    @client ||= Redis::Namespace.new(namespace, redis: redis)
+    @cache_namespace ||= Rails.env.test? ? :feature_toggle_test : :feature_toggle
+    @client ||= Redis::Namespace.new(@cache_namespace, redis: redis)
   end
 
   def self.redis
