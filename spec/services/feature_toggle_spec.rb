@@ -58,7 +58,7 @@ describe FeatureToggle do
 
       it "is not case sensitive" do
         subject
-        expect FeatureToggle.enabled?(:test, user: user3).to eq false
+        expect(FeatureToggle.enabled?(:test, user: user3)).to eq false
         FeatureToggle.enable!(:test, users: [user3.css_id.downcase])
         expect(FeatureToggle.enabled?(:test, user: user3)).to eq true
       end
