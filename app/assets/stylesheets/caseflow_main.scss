@@ -58,29 +58,46 @@ label {
 
 p {
   margin-top: rem(20px);
-  margin-bottom: rem(20px);
+  margin-bottom: rem(24px);
   color: $color-gray-dark;
   font-weight: 400;
   font-size: 17px;
   line-height: 1.5em;
 }
 
+.cf-help-content,
+ .cf-sg-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    max-width: 70rem;
+  }
+}
+
 .cf-lead-paragraph {
-  font-weight: 300;
-  font-size: 22px;
+  font-weight: 400;
+  font-size: 19px;
   line-height: 1.5em;
+  margin-bottom: 30px;
 }
 
 .cf-display-1 {
   font-weight: 700;
   font-size: 52px;
   line-height: 1.3em;
+  margin-bottom: 40px;
 }
 
 .cf-display-2 {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 44px;
   line-height: 1.3em;
+  margin-bottom: 40px;
+
 }
 
 .cf-doc-embed {
@@ -152,20 +169,24 @@ h6 {
 
 h1 {
   font-size: 34px;
+  margin-bottom: 30px;
 }
 
 h3 {
   font-size: 19px;
+  margin-bottom: 16px;
 }
 
 h4 {
   font-size: 15px;
+  margin-bottom: 12px;
 }
 
 h5 {
   font-size: 13px;
   font-weight: 400;
   text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
 .usa-alert-heading {
@@ -174,6 +195,7 @@ h5 {
 
 h2 {
   font-size: 24px;
+  margin-bottom: 30px;
 
   &[id="page-title"] {
     margin-left: 0;
@@ -258,7 +280,7 @@ dd {
 
 .cf-apppeal-id {
   box-sizing: border-box;
-  background: transparent;
+  background: $color-white;
   border: 2px solid $color-gray;
   color: $color-gray;
   padding: 1rem;
@@ -480,6 +502,7 @@ div {
   width: 100%;
   display: table;
   table-layout: fixed;
+  font-size: 18px;
 }
 
 .cf-progress-bar-section {
@@ -490,12 +513,14 @@ div {
 .cf-progress-bar-activated {
   color: $color-gray-dark;
   font-weight: 700;
+  padding-bottom: 6px;
   border-bottom: 7px solid $color-gray-dark;
 }
 
 .cf-progress-bar-not-activated {
   color: $color-gray-dark;
   font-weight: 700;
+  padding-bottom: 6px;
   border-bottom: 7px solid $color-gray-light;
 }
 
@@ -965,8 +990,7 @@ input {
 }
 
 fieldset {
-  margin-top: rem(20px);
-  margin-bottom: rem(20px);
+  margin-bottom: rem(40px);
 
   > *,
   .cf-form-textinput {
@@ -1027,12 +1051,12 @@ fieldset {
 .cf-form-checkboxes,
 .cf-form-cond-req {
   margin-top: rem(20px);
-  margin-bottom: rem(20px);
+  margin-bottom: rem(40px);
 }
 
 .cf-form-checkbox {
   &:not(:last-child) {
-    margin-bottom: rem(10px);
+    margin-bottom: rem(20px);
   }
 }
 
@@ -1088,6 +1112,7 @@ fieldset {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  color: $color-gray;
 }
 
 .cf-list-checklist {
@@ -1414,3 +1439,11 @@ button {
     }
   }
 }
+
+.cf-form-showhide-radio,
+ .cf-form-checkboxes {
+  .question-label {
+    margin-bottom: 20px;
+ }
+}
+
