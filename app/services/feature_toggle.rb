@@ -99,9 +99,16 @@ class FeatureToggle
     end
 
     # If users key is set, check if the feature
-    # is enabled for the user's css_id
+    # is enabled for the user's css_id.
+    # Since CSS usernames are not case sensitive,
+    # our check is not case sensitive either.
     def enabled_for_user?(users:, user:)
-      users.present? && user && users.include?(user.css_id)
+      return false unless users.present? && user
+
+      downcased_users = users.map { |usr| usr.downcase.strip }
+      downcased_user = user.css_id.downcase.strip
+
+      downcased_users.include?(downcased_user)
     end
 
     # if regional_offices key is set, check if the feature
