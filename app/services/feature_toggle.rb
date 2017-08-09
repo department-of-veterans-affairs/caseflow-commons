@@ -103,10 +103,12 @@ class FeatureToggle
     # Since CSS usernames are not case sensitive,
     # our check is not case sensitive either.
     def enabled_for_user?(users:, user:)
+      return false unless users.present? && user
+
       downcased_users = users.map { |usr| usr.downcase.strip }
       downcased_user = user.css_id.downcase.strip
 
-      users.present? && user && downcased_users.include?(downcased_user)
+      downcased_users.include?(downcased_user)
     end
 
     # if regional_offices key is set, check if the feature
