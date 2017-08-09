@@ -5,6 +5,7 @@ require "redis-namespace"
 describe FeatureToggle do
   let(:user1) { OpenStruct.new(regional_office: "RO03", css_id: "5") }
   let(:user2) { OpenStruct.new(regional_office: "RO07", css_id: "7") }
+  let(:user3) { OpenStruct.new(regional_office: "RO07", css_id: "CSSID") }
 
   before :each do
     Rails.stub(:application) { FakeApplication.instance }
@@ -42,17 +43,24 @@ describe FeatureToggle do
     context "for a set of users" do
       subject { FeatureToggle.enable!(:test, users: [user1.css_id]) }
 
-      it "feature is enabled for inidivual user" do
+      it "feature is enabled for individual user" do
         subject
         expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
         expect(FeatureToggle.enabled?(:test, user: user2)).to eq false
       end
 
-      it "enable for more users" do
+      it "can be enabled for more users" do
         subject
         FeatureToggle.enable!(:test, users: [user2.css_id])
         expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
         expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
+      end
+
+      it "is not case sensitive" do
+        subject
+        expect FeatureToggle.enabled?(:test, user: user3).to eq false
+        FeatureToggle.enable!(:test, users: [user3.css_id.downcase])
+        expect(FeatureToggle.enabled?(:test, user: user3)).to eq true
       end
     end
 
