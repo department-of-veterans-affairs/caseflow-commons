@@ -1,6 +1,4 @@
 require "spec_helper"
-require "redis"
-require "redis-namespace"
 
 describe FeatureToggle do
   let(:user1) { OpenStruct.new(regional_office: "RO03", css_id: "5") }
