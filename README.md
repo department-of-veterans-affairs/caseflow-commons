@@ -33,3 +33,74 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/department-of-veterans-affairs/caseflow-commons.
+
+## Feature Toggle
+
+To enable and disable features using `rails c`. Example usage:
+
+```
+# users
+user1 = User.new(regional_office: "RO03")
+user2 = User.new(regional_office: "RO04")
+
+# enable for everyone
+FeatureToggle.enable!(:apple)
+=> true
+FeatureToggle.enabled?(:apple, user1)
+=> true
+
+# enable for a list of regional offices
+FeatureToggle.enable!(:apple, regional_offices: ["RO03", "RO08"])
+=> true
+
+# add more regional offices to the same feature
+FeatureToggle.enable!(:apple, regional_offices: ["RO03", "RO09"])
+=> true
+
+# view the details
+FeatureToggle.details_for(:apple)
+=> { :regional_offices => ["RO03", "RO08", "RO09"] }
+
+# check if the feature is enabled for a given user
+FeatureToggle.enabled?(:apple, user1)
+=> true
+FeatureToggle.enabled?(:apple, user2)
+=> false
+
+# disable a few regional offices
+FeatureToggle.disable!(:apple, regional_offices: ["RO03", "RO09"])
+=> true
+FeatureToggle.details_for(:apple)
+=> { :regional_offices =>["RO08"] }
+```
+
+## Functions
+
+Functions module is used to grant and deny user permissions/roles. Example usage:
+
+```
+# Add a role to the list of users and overwrite the list before
+# Caution: Empty array will remove all users who were granted the function.
+Functions.grant!("Reader", users: ["CSS_ID_1", "CSS_ID_2"])
+=> true
+
+# Deny a role
+Functions.deny!("Reader", users: ["CSS_ID_1"])
+=> true
+
+# Method to check if a given function is granted for a user
+ Functions.granted?("Reader", "CSS_ID_1")
+=> false
+
+# Method to check if a given function is denied to a user
+ Functions.denied?("Reader", "CSS_ID_1")
+=> true
+
+# Returns a hash result for a given function
+Functions.details_for("Reader")
+=> {:granted=>["CSS_ID_2"], :denied=>["CSS_ID_1"]}
+
+# Returns a hash result for all functions with granted and denied users
+Functions.list_all
+=> {"Reader"=>{:granted=>["CSS_ID_2"], :denied=>["CSS_ID_1"]}}
+```
