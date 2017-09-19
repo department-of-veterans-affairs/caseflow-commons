@@ -72,6 +72,10 @@ FeatureToggle.disable!(:apple, regional_offices: ["RO03", "RO09"])
 => true
 FeatureToggle.details_for(:apple)
 => { :regional_offices =>["RO08"] }
+
+# List all toggle features
+FeatureToggle.features
+=> [:apple]
 ```
 
 ## Functions
