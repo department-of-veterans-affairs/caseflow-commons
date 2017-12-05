@@ -48,7 +48,7 @@ abbr {
 }
 
 .cf-error {
-  color: $color-secondary-dark;
+  color: $color-secondary;
 }
 
 label {
@@ -237,7 +237,7 @@ dd {
   height: .8em;
 
   path {
-    fill: $color-secondary-dark;
+    fill: $color-secondary;
   }
 }
 
@@ -549,7 +549,7 @@ div {
 
 .cf-nav-whatsnew {
   &::after {
-    color: $color-secondary-dark;
+    color: $color-secondary;
     content: '\00A0\2605';
     display: inline-block;
     font-size: 1.25rem;
@@ -824,10 +824,10 @@ form {
 
   &--confirm {
     &:visited {
-      color: $color-secondary-dark;
+      color: $color-secondary;
     }
 
-    color: $color-secondary-dark;
+    color: $color-secondary;
     font-weight: bold;
   }
 
@@ -893,7 +893,7 @@ table {
   b {
     &::after {
       content: '* ';
-      color: $color-secondary-dark;
+      color: $color-secondary;
       font-family: inherit;
       font-weight: bold;
       font-style: normal;
