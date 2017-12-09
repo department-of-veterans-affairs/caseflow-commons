@@ -4,10 +4,6 @@ rvm:
   - 2.3.0
 before_install: gem install bundler -v 1.12.5
 
-branches:
-  only:
-    - master
-
 script:
   - if [[ -z $(git diff origin/master -- lib/caseflow/version.rb) ]]; then echo "Update version number when updating caseflow commons (lib/caseflow/version.rb)"; exit 1; fi
   - bundle exec rake
