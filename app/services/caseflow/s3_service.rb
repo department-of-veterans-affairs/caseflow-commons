@@ -12,22 +12,28 @@ module Caseflow
     def self.store_file(filename, content_or_filepath, type = :content)
       init!
 
-      content = type == :content ? content_or_filepath : File.open(content_or_filepath, "rb")
-
-      @bucket.put_object(acl: "private",
-                         key: filename,
-                         body: content,
-                         server_side_encryption: "AES256")
+      # Always create and destroy a temp file.
+      tempfile = Tempfile.new(filename)
+      begin
+         # If the calling code does not pass the type argument then we expect the second argument
+         # will be file contents. Write those contents to a tempfile and upload that temp file.
+         filepath = content_or_filepath
+         if type == :content
+           tempfile.write(content_or_filepath)
+           tempfile.rewind
+           filepath = tempfile.path
+         end
+         @bucket.object(filename).upload_file(filepath, acl: "private", server_side_encryption: "AES256")
+       ensure
+         tempfile.unlink
+         tempfile.close!
+       end
     end
 
     def self.fetch_file(filename, dest_filepath)
       init!
 
-      @client.get_object(
-        response_target: dest_filepath,
-        bucket: bucket_name,
-        key: filename
-      )
+      @bucket.object(filename).download_file(dest_filepath)
     end
 
     def self.fetch_content(filename)
