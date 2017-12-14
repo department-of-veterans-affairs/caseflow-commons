@@ -17,12 +17,3 @@
        asset-url('source-sans-pro-bold.woff') format('woff');
 }
 
-@font-face {
-  font-family: 'Merriweather', serif;
-  font-style: normal;
-  font-weight: 400;
-  src: local('Merriweather'),
-       local('Merriweather-Regular'),
-       asset-url('merriweather.woff2') format('woff2'),
-       asset-url('merriweather.woff') format('woff');
-}
