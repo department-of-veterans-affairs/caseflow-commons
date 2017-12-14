@@ -15,19 +15,18 @@ module Caseflow
       # Always create and destroy a temp file.
       tempfile = Tempfile.new(filename)
       begin
-         # If the calling code does not pass the type argument then we expect the second argument
-         # will be file contents. Write those contents to a tempfile and upload that temp file.
-         filepath = content_or_filepath
-         if type == :content
-           tempfile.write(content_or_filepath)
-           tempfile.rewind
-           filepath = tempfile.path
-         end
-         @bucket.object(filename).upload_file(filepath, acl: "private", server_side_encryption: "AES256")
-       ensure
-         tempfile.unlink
-         tempfile.close!
-       end
+        # If the calling code does not pass the type argument then we expect the second argument
+        # will be file contents. Write those contents to a tempfile and upload that temp file.
+        filepath = content_or_filepath
+        if type == :content
+          tempfile.write(content_or_filepath)
+          tempfile.rewind
+          filepath = tempfile.path
+        end
+        @bucket.object(filename).upload_file(filepath, acl: "private", server_side_encryption: "AES256")
+      ensure
+        tempfile.close!
+      end
     end
 
     def self.fetch_file(filename, dest_filepath)
@@ -39,10 +38,13 @@ module Caseflow
     def self.fetch_content(filename)
       init!
 
-      @client.get_object(
-        bucket: bucket_name,
-        key: filename
-      ).body.read
+      tempfile = Tempfile.new(filename)
+      begin
+        @bucket.object(filename).download_file(tempfile.path)
+        tempfile.read
+      ensure
+        tempfile.close!
+      end
     rescue Aws::S3::Errors::NoSuchKey
       nil
     end
