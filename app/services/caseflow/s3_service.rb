@@ -9,12 +9,24 @@ module Caseflow
       @bucket.object(key).exists?
     end
 
-    def self.store_file(filename, content_or_filepath, type)
-      init!
+    def self.store_file(filename, content_or_filepath, type = :content)
+      # Always create and destroy a temp file.
+      tempfile = Tempfile.new(filename)
 
-      yield_file_name_and_path(filename, content_or_filepath, type) do |name, path|
-        @bucket.object(name).upload_file(path, acl: "private", server_side_encryption: "AES256")
+      # If the calling code does not pass the type argument then we expect the second argument
+      # will be file contents. Write those contents to a tempfile and upload that temp file.
+      filepath = content_or_filepath
+
+      # If we do not pass a third argument (type), we expect the content_or_filepath argument to represent content.
+      # Write that content to a temporary file so we can upload that file to S3.
+      if type == :content
+        tempfile.write(content_or_filepath)
+        tempfile.rewind
+        filepath = tempfile.path
       end
+      upload_file_to_s3(filename, filepath)
+    ensure
+      tempfile.close!
     end
 
     def self.fetch_file(filename, dest_filepath)
@@ -67,24 +79,12 @@ module Caseflow
       Rails.application.config.s3_bucket_name
     end
 
-    private
+    private_class_method
 
-    def yield_file_name_and_path(filename, content_or_filepath, type = :content)
-      # Always create and destroy a temp file.
-      tempfile = Tempfile.new(filename)
-      begin
-        # If the calling code does not pass the type argument then we expect the second argument
-        # will be file contents. Write those contents to a tempfile and upload that temp file.
-        filepath = content_or_filepath
-        if type == :content
-          tempfile.write(content_or_filepath)
-          tempfile.rewind
-          filepath = tempfile.path
-        end
-        yield filename, filepath
-      ensure
-        tempfile.close!
-      end
+    def self.upload_file_to_s3(name, path)
+      init!
+
+      @bucket.object(name).upload_file(path, acl: "private", server_side_encryption: "AES256")
     end
   end
 end
