@@ -43,7 +43,7 @@ linters:
   IdSelector:
     enabled: true
   ImportantRule:
-    enabled: true 
+    enabled: true
   ImportPath:
     enabled: true
     leading_underscore: false
@@ -89,7 +89,7 @@ linters:
     severity: warning
   SelectorDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 10
     severity: warning
   SelectorFormat:
     enabled: false # strict_BEM doesn't seem to be supported by Hound
