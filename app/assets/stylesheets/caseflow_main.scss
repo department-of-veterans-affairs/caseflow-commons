@@ -100,6 +100,14 @@ p {
 
 }
 
+.cf-red-text {
+  color: $color-secondary;
+}
+
+.cf-font-light {
+  font-weight: 300;
+}
+
 .cf-doc-embed {
 
   width: 100%;
@@ -258,7 +266,7 @@ dd {
   height: 100%;
 
   path {
-    fill: $color-gray-light;
+    fill: $color-gray-dark;
   }
 
   &:hover {
@@ -428,6 +436,10 @@ svg title {
   margin-left: auto;
   margin-right: auto;
   width: 490px;
+
+  table {
+    margin: 0 0 2em;
+  }
 }
 
 .cf-modal-title {
@@ -1447,4 +1459,3 @@ button {
     margin-bottom: 20px;
  }
 }
-

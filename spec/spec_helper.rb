@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.expand_path("../../app/services", __FILE__)
 require "redis"
 require "redis-namespace"
 require "caseflow"
+require "caseflow/s3_service"
 require "stats"
 require "feature_toggle"
 require "functions"
