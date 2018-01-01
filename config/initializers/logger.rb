@@ -32,7 +32,8 @@ output = Rails.env.test? ? File.join(Rails.root, "log", "test.log") : STDOUT
 logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
 
 # Rails has a lot of loggers
-Rails.logger = logger
+# This line causes double logging in development
+Rails.logger = logger unless Rails.env.development?
 ActiveSupport::Dependencies.logger = logger
 Rails.cache.logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(File.join(Rails.root, "log", "cache.log")))
 ActiveSupport.on_load(:active_record) do
@@ -43,6 +44,9 @@ ActiveSupport.on_load(:action_controller) do
 end
 ActiveSupport.on_load(:action_mailer) do
   ActionMailer::Base.logger = logger
+end
+ActiveSupport.on_load(:action_view) do
+  ActionView::Base.logger = logger
 end
 
 # log sidekiq to application logger (defaults to stdout)
