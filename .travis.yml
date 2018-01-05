@@ -12,10 +12,6 @@ branches:
     - master
 
 script:
-  - if [[ $(git rev-parse --abbrev-ref HEAD) != "master" && -z $(git diff origin/master -- lib/caseflow/version.rb) ]]; then
-      echo "Update version number when updating caseflow commons (lib/caseflow/version.rb)";
-      exit 1;
-    fi
   - bundle exec rake
 
 services:
