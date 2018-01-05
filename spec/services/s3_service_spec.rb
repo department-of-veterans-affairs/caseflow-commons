@@ -63,6 +63,10 @@ describe Caseflow::S3Service do
     #   end
     # end
 
+    # TODO: Remove this after I determine if the Travis clock has really drifted.
+    `curl http://s3.amazonaws.com -v`
+    `date -u`
+
     context "store_file" do
       let(:utf8_filename) { "#{aws_directory}/object_from_content" }
       let(:utf8_content) { "maybe we got lost in translation" }
