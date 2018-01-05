@@ -56,12 +56,12 @@ describe Caseflow::S3Service do
     before { allow(Caseflow::S3Service).to receive(:bucket_name).and_return(test_bucket_name) }
     after { aws_bucket.objects(prefix: aws_directory).each(&:delete) }
 
-    context "fetch_content" do
-      let(:nonexistent_filename) { "#{aws_directory}/nonexistent_filename" }
-      it "returns nil for object not found in bucket" do
-        expect(Caseflow::S3Service.fetch_content(nonexistent_filename)).to eq(nil)
-      end
-    end
+    # context "fetch_content" do
+    #   let(:nonexistent_filename) { "#{aws_directory}/nonexistent_filename" }
+    #   it "returns nil for object not found in bucket" do
+    #     expect(Caseflow::S3Service.fetch_content(nonexistent_filename)).to eq(nil)
+    #   end
+    # end
 
     context "store_file" do
       let(:utf8_filename) { "#{aws_directory}/object_from_content" }
