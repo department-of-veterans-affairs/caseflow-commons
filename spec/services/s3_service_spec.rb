@@ -56,6 +56,12 @@ describe Caseflow::S3Service do
     before { allow(Caseflow::S3Service).to receive(:bucket_name).and_return(test_bucket_name) }
     after { aws_bucket.objects(prefix: aws_directory).each(&:delete) }
 
+    before do
+      `service ntp stop`
+      `ntpdate -s 0.amazon.pool.ntp.org`
+      `service ntp start`
+    end
+
     context "fetch_content" do
       let(:nonexistent_filename) { "#{aws_directory}/nonexistent_filename" }
       it "returns nil for object not found in bucket" do
