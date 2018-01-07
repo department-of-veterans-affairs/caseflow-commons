@@ -57,9 +57,9 @@ describe Caseflow::S3Service do
     after { aws_bucket.objects(prefix: aws_directory).each(&:delete) }
 
     before do
-      `service ntp stop`
-      `ntpdate -s 0.amazon.pool.ntp.org`
-      `service ntp start`
+      `sudo service ntp stop`
+      `sudo ntpdate -s 0.amazon.pool.ntp.org`
+      `sudo service ntp start`
     end
 
     context "fetch_content" do
