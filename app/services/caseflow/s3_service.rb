@@ -86,8 +86,8 @@ module Caseflow
       init!
 
       @bucket.object(name).upload_file(path, acl: "private", server_side_encryption: "AES256")
-    rescue Aws::S3::Errors::RequestTimeTooSkewed => err
-      puts err
+    # rescue Aws::S3::Errors::RequestTimeTooSkewed => err
+    #   puts err
     end
   end
 end
