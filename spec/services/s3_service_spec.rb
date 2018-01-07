@@ -76,7 +76,7 @@ describe Caseflow::S3Service do
         begin
           expect(Caseflow::S3Service.store_file(ascii_8bit_filename, ascii_8bit_content)).to eq(true)
         rescue Aws::S3::Errors::RequestTimeTooSkewed => err
-          puts err
+          pp err
       end
       end
     end
