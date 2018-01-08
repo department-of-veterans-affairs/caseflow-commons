@@ -15,4 +15,5 @@ group :development, :test do
   gem "timecop"
   gem "redis-rails"
   gem "redis-namespace"
+  gem "danger"
 end

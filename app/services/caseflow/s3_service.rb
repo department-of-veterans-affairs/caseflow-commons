@@ -45,7 +45,7 @@ module Caseflow
       ensure
         tempfile.close!
       end
-    rescue Aws::S3::Errors::NoSuchKey
+    rescue Aws::S3::Errors::NotFound
       nil
     end
 
