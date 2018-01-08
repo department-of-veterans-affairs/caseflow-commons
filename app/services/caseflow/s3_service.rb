@@ -11,7 +11,7 @@ module Caseflow
 
     def self.store_file(filename, content_or_filepath, type = :content)
       # Always create and destroy a temp file.
-      tempfile = Tempfile.new(filename)
+      tempfile = Tempfile.new("s3service")
 
       # If the calling code does not pass the type argument then we expect the second argument
       # will be file contents. Write those contents to a tempfile and upload that temp file.
@@ -20,9 +20,10 @@ module Caseflow
       # If we do not pass a third argument (type), we expect the content_or_filepath argument to represent content.
       # Write that content to a temporary file so we can upload that file to S3.
       if type == :content
-        tempfile.write(content_or_filepath)
-        tempfile.rewind
         filepath = tempfile.path
+        tempfile.open
+        IO.binwrite(filepath, content_or_filepath)
+        tempfile.rewind
       end
       upload_file_to_s3(filename, filepath)
     ensure
@@ -38,10 +39,10 @@ module Caseflow
     def self.fetch_content(filename)
       init!
 
-      tempfile = Tempfile.new(filename)
+      tempfile = Tempfile.new("s3service")
       begin
         @bucket.object(filename).download_file(tempfile.path)
-        tempfile.read
+        IO.binread(tempfile.path)
       ensure
         tempfile.close!
       end
