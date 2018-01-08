@@ -73,11 +73,7 @@ describe Caseflow::S3Service do
       let(:ascii_8bit_filename) { "#{aws_directory}/ascii_8bit_content" }
       let(:ascii_8bit_content) { "Buenos Días".force_encoding("ASCII-8BIT") }
       it "correctly handles ASCII-8BIT encoded content" do
-        begin
-          expect(Caseflow::S3Service.store_file(ascii_8bit_filename, ascii_8bit_content)).to eq(true)
-        rescue Aws::S3::Errors::RequestTimeTooSkewed => err
-          pp err
-      end
+        expect(Caseflow::S3Service.store_file(ascii_8bit_filename, ascii_8bit_content)).to eq(true)
       end
     end
 
