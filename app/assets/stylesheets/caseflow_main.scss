@@ -48,7 +48,7 @@ abbr {
 }
 
 .cf-error {
-  color: $color-secondary-dark;
+  color: $color-secondary;
 }
 
 label {
@@ -98,6 +98,14 @@ p {
   line-height: 1.3em;
   margin-bottom: 40px;
 
+}
+
+.cf-red-text {
+  color: $color-secondary;
+}
+
+.cf-font-light {
+  font-weight: 300;
 }
 
 .cf-doc-embed {
@@ -190,7 +198,7 @@ h5 {
 }
 
 .usa-alert-heading {
-  font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-family: 'Source Sans Pro';
 }
 
 h2 {
@@ -237,7 +245,7 @@ dd {
   height: .8em;
 
   path {
-    fill: $color-secondary-dark;
+    fill: $color-secondary;
   }
 }
 
@@ -258,7 +266,7 @@ dd {
   height: 100%;
 
   path {
-    fill: $color-gray-light;
+    fill: $color-gray-dark;
   }
 
   &:hover {
@@ -280,7 +288,7 @@ dd {
 
 .cf-apppeal-id {
   box-sizing: border-box;
-  background: transparent;
+  background: $color-white;
   border: 2px solid $color-gray;
   color: $color-gray;
   padding: 1rem;
@@ -428,6 +436,10 @@ svg title {
   margin-left: auto;
   margin-right: auto;
   width: 490px;
+
+  table {
+    margin: 0 0 2em;
+  }
 }
 
 .cf-modal-title {
@@ -549,7 +561,7 @@ div {
 
 .cf-nav-whatsnew {
   &::after {
-    color: $color-secondary-dark;
+    color: $color-secondary;
     content: '\00A0\2605';
     display: inline-block;
     font-size: 1.25rem;
@@ -824,10 +836,10 @@ form {
 
   &--confirm {
     &:visited {
-      color: $color-secondary-dark;
+      color: $color-secondary;
     }
 
-    color: $color-secondary-dark;
+    color: $color-secondary;
     font-weight: bold;
   }
 
@@ -893,7 +905,7 @@ table {
   b {
     &::after {
       content: '* ';
-      color: $color-secondary-dark;
+      color: $color-secondary;
       font-family: inherit;
       font-weight: bold;
       font-style: normal;
@@ -1330,6 +1342,7 @@ ul {
 
   label {
     padding-left: 3rem;
+    display: inline-block;
 
     &::before {
       position: absolute;
@@ -1446,4 +1459,3 @@ button {
     margin-bottom: 20px;
  }
 }
-

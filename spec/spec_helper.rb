@@ -2,9 +2,13 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 $LOAD_PATH.unshift File.expand_path("../../app/models/caseflow", __FILE__)
 $LOAD_PATH.unshift File.expand_path("../../app/services", __FILE__)
+require "redis"
+require "redis-namespace"
 require "caseflow"
+require "caseflow/s3_service"
 require "stats"
 require "feature_toggle"
+require "functions"
 
 class FakeCache
   # make it a singleton so there is only one instance shared between the tests and application code
