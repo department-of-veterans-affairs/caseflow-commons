@@ -86,7 +86,7 @@ class FeatureToggle
   end
 
   def self.redis
-    @redis ||= Redis.new(url: "redis://localhost:6379/0/cache/")
+    @redis ||= Redis.new(url: Rails.application.secrets.redis_url_cache)
   end
 
   # Example of config_file:
