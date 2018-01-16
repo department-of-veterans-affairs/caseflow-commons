@@ -86,8 +86,89 @@ class FeatureToggle
   end
 
   def self.redis
-    @redis ||= Redis.new(url: Rails.application.secrets.redis_url_cache)
+    @redis ||= Redis.new(url: "redis://localhost:6379/0/cache/")
   end
+
+  # Example of config_file:
+  # [
+  #   {
+  #     feature: "enable_all_feature",
+  #     enable_all: true
+  #   },
+  #   {
+  #     feature: "enable_users",
+  #     users: ["VHAISADJURIN", "VHAISAPROKOA", "VHAISWSTEWAA"]
+  #   },
+  #   {
+  #     feature: "enable_regional_offices",
+  #     users: ["CSS_ID_1"],
+  #     regional_offices: ["RO01"]
+  #   }
+  # ]
+  # rubocop:disable all
+  def self.sync!(config_file)
+    features_from_cache = features
+
+    features_from_cache.each do |feature_from_cache|
+      # Hash from config file (example: {feature: "enable_all_feature", regional_offices: ["RO01"]})
+      hash_from_file = config_file.select { |hash| hash[:feature] == feature_from_cache.to_s }[0]
+
+      if hash_from_file.nil?
+        disable!(feature_from_cache)
+      else
+        enable_all_key = hash_from_file.keys.select { |key| key == :enable_all }[0]
+        users_key = hash_from_file.keys.select { |key| key == :users }[0]
+        offices_key = hash_from_file.keys.select { |key| key == :regional_offices }[0]
+
+        enable_all_value = hash_from_file[:enable_all] unless enable_all_key.nil?
+        users_value = hash_from_file[:users] unless users_key.nil?
+        offices_value = hash_from_file[:regional_offices] unless offices_key.nil?
+
+        if enable_all_value
+          enable!(feature_from_cache)
+        else
+          hash_from_cache = details_for(feature_from_cache)
+          if hash_from_cache.empty?
+            disable!(feature_from_cache)
+            enable!(feature_from_cache, users: users_value) unless users_key.nil?
+            enable!(feature_from_cache, regional_offices: offices_value) unless offices_key.nil?
+          else
+            # Details existing in Redis (example: {:users=>["Good", "Bad", "Ugly"], :regional_offices=>["TR"]})
+            users_key_cache = hash_from_cache.keys.select { |key| key == :users }[0]
+            offices_key_cache = hash_from_cache.keys.select { |key| key == :regional_offices }[0]
+
+            users_value_cache = hash_from_cache[:users] unless users_key_cache.nil?
+            offices_value_cache = hash_from_cache[:regional_offices] unless offices_key_cache.nil?
+
+            if users_key_cache
+              if users_key
+                disable!(feature_from_cache, users: users_value_cache - users_value)
+              else
+                disable!(feature_from_cache, users: users_key_cache)
+              end
+            end
+            if offices_key_cache
+              if offices_key
+                disable!(feature_from_cache, regional_offices: offices_value_cache - offices_value)
+              else
+                disable!(feature_from_cache, regional_offices: offices_key_cache)
+              end
+            end
+            enable!(feature_from_cache, users: users_value) unless users_key.nil?
+            enable!(feature_from_cache, regional_offices: offices_value) unless offices_key.nil?
+          end
+        end
+      end
+    end
+
+    # Enable features that were non-existed before
+    features_from_file = config_file.map { |hash| hash.values[0] } - features_from_cache
+    features_from_file.each do |feature|
+      hash_from_file = config_file.select { |hash| hash[:feature] == feature.to_s }[0]
+      hash_from_file.keys[1] == :enable_all ? enable!(feature) : enable!(feature, hash_from_file.keys[1] => hash_from_file.values[1])
+    end
+  end
+  # rubocop:enable all
 
   class << self
     private
