@@ -127,13 +127,13 @@ class FeatureToggle
         if enable_all_value
           enable!(feature_from_cache)
         else
+          # Details in cache (example: {:users=>["Good", "Bad", "Ugly"], :regional_offices=>["TR"]})
           hash_from_cache = details_for(feature_from_cache)
           if hash_from_cache.empty?
             disable!(feature_from_cache)
             enable!(feature_from_cache, users: users_value) unless users_key.nil?
             enable!(feature_from_cache, regional_offices: offices_value) unless offices_key.nil?
           else
-            # Details existing in Redis (example: {:users=>["Good", "Bad", "Ugly"], :regional_offices=>["TR"]})
             users_key_cache = hash_from_cache.keys.select { |key| key == :users }[0]
             offices_key_cache = hash_from_cache.keys.select { |key| key == :regional_offices }[0]
 
