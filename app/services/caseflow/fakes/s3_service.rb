@@ -7,8 +7,9 @@ module Caseflow
       true
     end
 
-    def self.store_file(filename, content, _type = :content)
+    def self.store_file(filename, content, type = :content)
       self.files ||= {}
+      content = IO.read(content) if type == :filepath
       self.files[filename] = content
     end
 
