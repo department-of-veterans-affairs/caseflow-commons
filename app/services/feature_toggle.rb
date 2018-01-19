@@ -89,6 +89,40 @@ class FeatureToggle
     @redis ||= Redis.new(url: Rails.application.secrets.redis_url_cache)
   end
 
+  # Example of config_file:
+  # [
+  #   {
+  #     feature: "enable_all_feature",
+  #     enable_all: true
+  #   },
+  #   {
+  #     feature: "enable_users",
+  #     users: ["VHAISADJURIN", "VHAISAPROKOA", "VHAISWSTEWAA"]
+  #   },
+  #   {
+  #     feature: "enable_regional_offices",
+  #     users: ["CSS_ID_1"],
+  #     regional_offices: ["RO01"]
+  #   }
+  # ]
+  def self.sync!(config_file)
+    existing_features = features
+    client.multi do
+      features_from_file = []
+      config_file.each do |feature_hash|
+        feature = feature_hash[:feature]
+        features_from_file.push(feature)
+        client.sadd FEATURE_LIST_KEY, feature unless existing_features.include?(feature)
+        next unless feature_hash[:enable_all].nil?
+        data = {}
+        data[:users] = feature_hash[:users] if feature_hash.keys.any? { |key| key == :users }
+        data[:regional_offices] = feature_hash[:regional_offices] if feature_hash.keys.any? { |key| key == :regional_offices }
+        set_data(feature, data)
+      end
+      existing_features.each { |feature| remove_feature(feature) unless features_from_file.include?(feature.to_s) }
+    end
+  end
+
   class << self
     private
 
