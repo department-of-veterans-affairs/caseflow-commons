@@ -4,14 +4,14 @@ describe FeatureToggle do
   let(:user1) { OpenStruct.new(regional_office: "RO03", css_id: "5") }
   let(:user2) { OpenStruct.new(regional_office: "RO07", css_id: "7") }
   let(:user3) { OpenStruct.new(regional_office: "RO07", css_id: "CSSID") }
-  features_config = [
-    {
+  features_config = '[
+   {
       feature: "all_feature",
       enable_all: true
     },
     {
       feature: "users_feature",
-      users: %w(Good Bad Ugly)
+      users: ["Good", "Bad", "Ugly"]
     },
     {
       feature: "offices_feature",
@@ -19,9 +19,9 @@ describe FeatureToggle do
     },
     {
       feature: "users_and_offices",
-      users: %w(Good Bad Ugly),
+      users: ["Good", "Bad", "Ugly"],
       regional_offices: ["O.K.Corral", "Alamo", "Tombstone"]
-    }]
+    }]'
 
   before :each do
     Rails.stub(:application) { FakeApplication.instance }
