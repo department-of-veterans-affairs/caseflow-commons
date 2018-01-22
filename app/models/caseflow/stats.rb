@@ -75,7 +75,7 @@ module Caseflow
     end
 
     def self.calculate_all!
-      INTERVALS.each do |interval|
+      self::INTERVALS.each do |interval|
         {
           hourly: 0...24,
           daily: 0...30,
@@ -114,7 +114,7 @@ module Caseflow
     end
 
     def calculate_cache_id
-      id = "stats-#{range_start.year}"
+      id = "#{self.class.name}-#{range_start.year}"
 
       case interval
       when :monthly then id + "-#{range_start.month}"
