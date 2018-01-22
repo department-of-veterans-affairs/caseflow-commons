@@ -113,7 +113,7 @@ class FeatureToggle
       config_hash.each do |feature_hash|
         feature = feature_hash["feature"]
         features_from_file.push(feature)
-        client.sadd FEATURE_LIST_KEY, feature unless existing_features.include?(feature)
+        client.sadd FEATURE_LIST_KEY, feature
         data = {}
         data[:users] = feature_hash["users"] if feature_hash.key?("users")
         data[:regional_offices] = feature_hash["regional_offices"] if feature_hash.key?("regional_offices")
