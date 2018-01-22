@@ -307,7 +307,7 @@ describe FeatureToggle do
 
     context "where existing features and new hash have common members" do
       before do
-        FeatureToggle.enable!(:all_feature)
+        FeatureToggle.enable!(:all_feature, users: ["Il cattivo"])
         FeatureToggle.enable!(:some_other_feature)
         FeatureToggle.enable!(:users_feature, users: ["Good", "Il Buono"])
         FeatureToggle.enable!(:offices_feature, regional_offices: ["O.K.Corral", "Alamo", "Rio Bravo"])
