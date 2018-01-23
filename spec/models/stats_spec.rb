@@ -10,6 +10,7 @@ describe Caseflow::Stats do
   end
 
   let(:time) { Timecop.freeze(Time.utc(2017, 1, 0o1, 20, 59, 0)) }
+  after(:all) { Timecop.return }
 
   context "#range" do
     subject { Caseflow::Stats.new(time: time, interval: interval).range }

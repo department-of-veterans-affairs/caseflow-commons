@@ -4,6 +4,24 @@ describe FeatureToggle do
   let(:user1) { OpenStruct.new(regional_office: "RO03", css_id: "5") }
   let(:user2) { OpenStruct.new(regional_office: "RO07", css_id: "7") }
   let(:user3) { OpenStruct.new(regional_office: "RO07", css_id: "CSSID") }
+  features_config = '[
+   {
+      feature: "all_feature",
+      enable_all: true
+    },
+    {
+      feature: "users_feature",
+      users: ["Good", "Bad", "Ugly"]
+    },
+    {
+      feature: "offices_feature",
+      regional_offices: ["O.K.Corral", "Alamo"]
+    },
+    {
+      feature: "users_and_offices",
+      users: ["Good", "Bad", "Ugly"],
+      regional_offices: ["O.K.Corral", "Alamo", "Tombstone"]
+    }]'
 
   before :each do
     Rails.stub(:application) { FakeApplication.instance }
@@ -248,6 +266,65 @@ describe FeatureToggle do
       context "when user is not passed" do
         let(:user) { nil }
         it { is_expected.to eq false }
+      end
+    end
+  end
+
+  context ".sync!" do
+    before :each do
+      FeatureToggle.redis.flushall
+    end
+
+    context "when there are no existing features enabled" do
+      before do
+        FeatureToggle.sync!(features_config)
+      end
+
+      it "sets new features" do
+        expect(FeatureToggle.details_for(:all_feature)).to be_empty
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
+      end
+    end
+
+    context "when existing features are enabled for all" do
+      before do
+        FeatureToggle.enable!(:all_feature)
+        FeatureToggle.enable!(:users_feature)
+        FeatureToggle.enable!(:offices_feature)
+        FeatureToggle.enable!(:users_and_offices)
+        FeatureToggle.sync!(features_config)
+      end
+
+      it "all_feature stays the same" do
+        expect(FeatureToggle.details_for(:all_feature)).to be_empty
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
+        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_and_offices)[:regional_offices]).to eql ["O.K.Corral", "Alamo", "Tombstone"]
+      end
+    end
+
+    context "where existing features and new hash have common members" do
+      before do
+        FeatureToggle.enable!(:all_feature, users: ["Il cattivo"])
+        FeatureToggle.enable!(:some_other_feature)
+        FeatureToggle.enable!(:users_feature, users: ["Good", "Il Buono"])
+        FeatureToggle.enable!(:offices_feature, regional_offices: ["O.K.Corral", "Alamo", "Rio Bravo"])
+        FeatureToggle.enable!(:users_and_offices, users: ["Good", "Bad", "Il Brutto"])
+        FeatureToggle.enable!(:users_and_offices, regional_offices: ["O.K.Corral", "Alamo", "Rio Bravo"])
+        FeatureToggle.sync!(features_config)
+      end
+
+      it "enables only new members" do
+        expect(FeatureToggle.features.sort).to eq [:all_feature, :offices_feature, :users_and_offices, :users_feature]
+        expect(FeatureToggle.details_for(:all_feature)).to be_empty
+        expect(FeatureToggle.details_for(:some_other_feature)).to eql nil
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_and_offices)[:regional_offices]).to eql ["O.K.Corral", "Alamo", "Tombstone"]
       end
     end
   end
