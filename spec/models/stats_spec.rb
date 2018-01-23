@@ -79,7 +79,7 @@ describe Caseflow::Stats do
     class WonderfulThing
     end
 
-    class Stats < Caseflow::Stats
+    class TestStats < Caseflow::Stats
       CALCULATIONS = {
         wonderful_things_happened: lambda do |_range|
           ObjectSpace.each_object(WonderfulThing).count
@@ -87,12 +87,12 @@ describe Caseflow::Stats do
       }.freeze
     end
 
-    let(:stats) { Stats.new(time: Stats.now, interval: "daily") }
+    let(:stats) { TestStats.new(time: TestStats.now, interval: "daily") }
     subject { stats.values }
 
     context "when cached stat values exist" do
       before do
-        Rails.cache.write("stats-2017-1-1", wonderful_things_happened: 55)
+        Rails.cache.write("TestStats-2017-1-1", wonderful_things_happened: 55)
       end
 
       it "loads cached value" do
