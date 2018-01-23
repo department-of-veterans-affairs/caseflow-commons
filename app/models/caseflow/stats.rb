@@ -17,7 +17,7 @@ module Caseflow
     end
 
     def values
-      @values ||= load_values || calculate_and_save_values!
+      @values ||= load_values || calculate_and_save_values!(clear_cache: false)
     end
 
     def complete?
