@@ -153,8 +153,8 @@ describe Functions do
       end
 
       it "returns a hash" do
-        expect(subject).to include("Reader" => { granted: %w(5 7) },
-                                   "System Admin" => { granted: %w(5 7), denied: ["Foo"] })
+        expect(subject).to include("Reader" => { granted: %w[5 7] },
+                                   "System Admin" => { granted: %w[5 7], denied: ["Foo"] })
       end
     end
   end
