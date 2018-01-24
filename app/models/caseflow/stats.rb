@@ -1,13 +1,15 @@
 # frozen_string_literal: true
+
 ##
 # Stats is an interface to quickly access statistics and
 # it is responsible for aggregating and caching statistics.
 #
 module Caseflow
   class Stats
-    attr_accessor :interval, :time, :values
+    attr_accessor :interval, :time
+    attr_writer :values
 
-    TIMEZONE = "Eastern Time (US & Canada)".freeze
+    TIMEZONE = "Eastern Time (US & Canada)"
     INTERVALS = [:hourly, :daily, :weekly, :monthly].freeze
     CALCULATIONS = {}.freeze
 
@@ -17,7 +19,7 @@ module Caseflow
     end
 
     def values
-      @values ||= load_values || calculate_and_save_values!
+      @values ||= load_values || calculate_and_save_values!(clear_cache: false)
     end
 
     def complete?
@@ -47,15 +49,14 @@ module Caseflow
       }[interval]
     end
 
-    def calculate_and_save_values!
-      return true if complete?
+    def calculate_and_save_values!(clear_cache:)
+      return true if complete? && !clear_cache
       calculated_values = calculate_values
       calculated_values[:complete] = Stats.now >= range_finish
       Rails.cache.write(cache_id, calculated_values)
       calculated_values
     end
 
-    # rubocop:disable Rails/TimeZone
     def self.now
       Time.find_zone!(TIMEZONE).now
     end
@@ -74,8 +75,8 @@ module Caseflow
       new(interval: interval, time: offset_time)
     end
 
-    def self.calculate_all!
-      INTERVALS.each do |interval|
+    def self.calculate_all!(clear_cache: false)
+      self::INTERVALS.each do |interval|
         {
           hourly: 0...24,
           daily: 0...30,
@@ -83,7 +84,7 @@ module Caseflow
           monthly: 0...24
         }[interval].each do |i|
           offset(interval: interval, time: Stats.now, offset: i)
-            .calculate_and_save_values!
+            .calculate_and_save_values!(clear_cache: clear_cache)
         end
       end
     end
@@ -114,7 +115,7 @@ module Caseflow
     end
 
     def calculate_cache_id
-      id = "stats-#{range_start.year}"
+      id = "#{self.class.name}-#{range_start.year}"
 
       case interval
       when :monthly then id + "-#{range_start.month}"

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Caseflow
-  VERSION = "0.3.0".freeze
+  VERSION = "0.2.13".freeze
 end

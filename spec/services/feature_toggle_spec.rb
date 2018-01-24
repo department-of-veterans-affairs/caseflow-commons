@@ -40,7 +40,7 @@ describe FeatureToggle do
     end
 
     context "for a set of regional_offices" do
-      subject { FeatureToggle.enable!(:test, regional_offices: %w(RO01 RO02 RO03)) }
+      subject { FeatureToggle.enable!(:test, regional_offices: %w[RO01 RO02 RO03]) }
 
       it "feature is enabled for users who belong to the regional offices" do
         subject
@@ -113,7 +113,7 @@ describe FeatureToggle do
 
     context "for a set of regional offices" do
       before do
-        FeatureToggle.enable!(:test, regional_offices: %w(RO07 RO03))
+        FeatureToggle.enable!(:test, regional_offices: %w[RO07 RO03])
       end
       subject { FeatureToggle.disable!(:test, regional_offices: ["RO03"]) }
 
@@ -126,9 +126,9 @@ describe FeatureToggle do
 
     context "when regional_offices becomes an empty array" do
       before do
-        FeatureToggle.enable!(:test, regional_offices: %w(RO03 RO02 RO09))
+        FeatureToggle.enable!(:test, regional_offices: %w[RO03 RO02 RO09])
       end
-      subject { FeatureToggle.disable!(:test, regional_offices: %w(RO03 RO02 RO09)) }
+      subject { FeatureToggle.disable!(:test, regional_offices: %w[RO03 RO02 RO09]) }
 
       it "feature becomes disabled for everyone" do
         subject
@@ -139,9 +139,9 @@ describe FeatureToggle do
 
     context "when regional_offices becomes an empty array but users are still present" do
       before do
-        FeatureToggle.enable!(:test, regional_offices: %w(RO03 RO02 RO09), users: [user1.css_id])
+        FeatureToggle.enable!(:test, regional_offices: %w[RO03 RO02 RO09], users: [user1.css_id])
       end
-      subject { FeatureToggle.disable!(:test, regional_offices: %w(RO03 RO02 RO09)) }
+      subject { FeatureToggle.disable!(:test, regional_offices: %w[RO03 RO02 RO09]) }
 
       it "feature is still enabled for a set of users" do
         subject
@@ -153,25 +153,25 @@ describe FeatureToggle do
 
     context "when sending an empty array" do
       before do
-        FeatureToggle.enable!(:test, regional_offices: %w(RO03 RO02 RO09))
+        FeatureToggle.enable!(:test, regional_offices: %w[RO03 RO02 RO09])
       end
       subject { FeatureToggle.disable!(:test, regional_offices: []) }
 
       it "no regional offices are disabled" do
         subject
-        expect(FeatureToggle.details_for(:test)[:regional_offices]).to eq %w(RO03 RO02 RO09)
+        expect(FeatureToggle.details_for(:test)[:regional_offices]).to eq %w[RO03 RO02 RO09]
       end
     end
 
     context "when sending incorrect regional offices" do
       before do
-        FeatureToggle.enable!(:test, regional_offices: %w(RO03 RO02 RO09))
+        FeatureToggle.enable!(:test, regional_offices: %w[RO03 RO02 RO09])
       end
       subject { FeatureToggle.disable!(:test, regional_offices: ["RO01"]) }
 
       it "no regional offices are disabled" do
         subject
-        expect(FeatureToggle.details_for(:test)[:regional_offices]).to eq %w(RO03 RO02 RO09)
+        expect(FeatureToggle.details_for(:test)[:regional_offices]).to eq %w[RO03 RO02 RO09]
       end
     end
 
@@ -215,7 +215,7 @@ describe FeatureToggle do
       before do
         FeatureToggle.enable!(:banana)
       end
-      it { is_expected.to be {} }
+      it { is_expected.to be_empty }
     end
 
     context "when not enabled" do
@@ -224,9 +224,9 @@ describe FeatureToggle do
 
     context "when enabled for a list of regional offices" do
       before do
-        FeatureToggle.enable!(:banana, regional_offices: %w(RO03 RO02 RO09))
+        FeatureToggle.enable!(:banana, regional_offices: %w[RO03 RO02 RO09])
       end
-      it { is_expected.to eq(regional_offices: %w(RO03 RO02 RO09)) }
+      it { is_expected.to eq(regional_offices: %w[RO03 RO02 RO09]) }
     end
   end
 
@@ -250,7 +250,7 @@ describe FeatureToggle do
       subject { FeatureToggle.enabled?(:search, user: user) }
 
       before do
-        FeatureToggle.enable!(:search, regional_offices: %w(RO01 RO02 RO03))
+        FeatureToggle.enable!(:search, regional_offices: %w[RO01 RO02 RO03])
       end
 
       context "if a user is associated with a regional office" do
@@ -282,7 +282,7 @@ describe FeatureToggle do
 
       it "sets new features" do
         expect(FeatureToggle.details_for(:all_feature)).to be_empty
-        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w[Good Bad Ugly]
         expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
       end
     end
@@ -298,9 +298,9 @@ describe FeatureToggle do
 
       it "all_feature stays the same" do
         expect(FeatureToggle.details_for(:all_feature)).to be_empty
-        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w[Good Bad Ugly]
         expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
-        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w[Good Bad Ugly]
         expect(FeatureToggle.details_for(:users_and_offices)[:regional_offices]).to eql ["O.K.Corral", "Alamo", "Tombstone"]
       end
     end
@@ -320,10 +320,10 @@ describe FeatureToggle do
         expect(FeatureToggle.features.sort).to eq [:all_feature, :offices_feature, :users_and_offices, :users_feature]
         expect(FeatureToggle.details_for(:all_feature)).to be_empty
         expect(FeatureToggle.details_for(:some_other_feature)).to eql nil
-        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w[Good Bad Ugly]
         expect(FeatureToggle.details_for(:offices_feature)[:regional_offices]).to eql ["O.K.Corral", "Alamo"]
-        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w(Good Bad Ugly)
-        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w(Good Bad Ugly)
+        expect(FeatureToggle.details_for(:users_feature)[:users]).to eql %w[Good Bad Ugly]
+        expect(FeatureToggle.details_for(:users_and_offices)[:users]).to eql %w[Good Bad Ugly]
         expect(FeatureToggle.details_for(:users_and_offices)[:regional_offices]).to eql ["O.K.Corral", "Alamo", "Tombstone"]
       end
     end
