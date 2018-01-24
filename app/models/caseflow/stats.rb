@@ -19,7 +19,7 @@ module Caseflow
     end
 
     def values
-      @values ||= load_values || calculate_and_save_values!
+      @values ||= load_values || calculate_and_save_values!(clear_cache: false)
     end
 
     def complete?
@@ -49,8 +49,8 @@ module Caseflow
       }[interval]
     end
 
-    def calculate_and_save_values!
-      return true if complete?
+    def calculate_and_save_values!(clear_cache:)
+      return true if complete? && !clear_cache
       calculated_values = calculate_values
       calculated_values[:complete] = Stats.now >= range_finish
       Rails.cache.write(cache_id, calculated_values)
@@ -75,7 +75,7 @@ module Caseflow
       new(interval: interval, time: offset_time)
     end
 
-    def self.calculate_all!
+    def self.calculate_all!(clear_cache: false)
       self::INTERVALS.each do |interval|
         {
           hourly: 0...24,
@@ -84,7 +84,7 @@ module Caseflow
           monthly: 0...24
         }[interval].each do |i|
           offset(interval: interval, time: Stats.now, offset: i)
-            .calculate_and_save_values!
+            .calculate_and_save_values!(clear_cache: clear_cache)
         end
       end
     end
