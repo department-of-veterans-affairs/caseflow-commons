@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "timecop"
 require "active_model"
 require "pry"

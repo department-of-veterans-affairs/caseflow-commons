@@ -106,7 +106,7 @@ class FeatureToggle
   #   }
   # ]
   def self.sync!(config_file_string)
-    config_hash = YAML.load(config_file_string)
+    config_hash = YAML.safe_load(config_file_string)
     existing_features = features
     client.multi do
       features_from_file = []
