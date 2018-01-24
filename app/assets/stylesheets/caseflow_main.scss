@@ -558,21 +558,6 @@ div {
   right: 2rem;
 }
 
-
-.cf-nav-whatsnew {
-  &::after {
-    color: $color-secondary;
-    content: '\00A0\2605';
-    display: inline-block;
-    font-size: 1.25rem;
-    vertical-align: 2px;
-  }
-
-  &:hover::after {
-    color: $color-secondary;
-  }
-}
-
 .cf-logo {
   color: $color-gray-dark;
   font-size: 1.7rem;
