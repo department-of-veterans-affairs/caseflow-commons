@@ -10,7 +10,11 @@ module Caseflow
     attr_writer :values
 
     TIMEZONE = "Eastern Time (US & Canada)"
+
+    # By default, don't include fiscal yearly. Define INTERVALS in the
+    # your specific Stats subclass if you want it included.
     INTERVALS = [:hourly, :daily, :weekly, :monthly].freeze
+
     CALCULATIONS = {}.freeze
 
     def initialize(interval:, time:)
@@ -36,7 +40,8 @@ module Caseflow
         hourly: time.beginning_of_hour,
         daily: time.beginning_of_day,
         weekly: time.beginning_of_week,
-        monthly: time.beginning_of_month
+        monthly: time.beginning_of_month,
+        fiscal_yearly: beginning_of_fiscal_year(time)
       }[interval]
     end
 
@@ -45,7 +50,8 @@ module Caseflow
         hourly: range_start + 1.hour,
         daily: range_start + 1.day,
         weekly: range_start + 1.week,
-        monthly: range_start.next_month
+        monthly: range_start.next_month,
+        fiscal_yearly: end_of_fiscal_year(time)
       }[interval]
     end
 
@@ -58,7 +64,11 @@ module Caseflow
     end
 
     def self.now
-      Time.find_zone!(TIMEZONE).now
+      timezone.now
+    end
+
+    def self.timezone
+      Time.find_zone!(TIMEZONE)
     end
     # rubocop:enable Rails/TimeZone
 
@@ -66,6 +76,7 @@ module Caseflow
       offset_time = time
 
       case interval
+      when :fiscal_yearly then offset_time -= offset.years
       when :monthly then offset_time -= offset.months
       when :weekly  then offset_time -= offset.weeks
       when :daily   then offset_time -= offset.days
@@ -81,7 +92,8 @@ module Caseflow
           hourly: 0...24,
           daily: 0...30,
           weekly: 0...26,
-          monthly: 0...24
+          monthly: 0...24,
+          fiscal_yearly: 0...3
         }[interval].each do |i|
           offset(interval: interval, time: Stats.now, offset: i)
             .calculate_and_save_values!(clear_cache: clear_cache)
@@ -99,6 +111,14 @@ module Caseflow
     end
 
     private
+
+    def beginning_of_fiscal_year(time)
+      self.class.timezone.local(time.year - (time.month >= 10 ? 0 : 1), 10, 1).beginning_of_day
+    end
+
+    def end_of_fiscal_year(time)
+      self.class.timezone.local(time.year + (time.month >= 10 ? 1 : 0), 9, 30).end_of_day
+    end
 
     def load_values
       Rails.cache.read(cache_id)
@@ -118,6 +138,7 @@ module Caseflow
       id = "#{self.class.name}-#{range_start.year}"
 
       case interval
+      when :fiscal_yearly then id + "-fy"
       when :monthly then id + "-#{range_start.month}"
       when :weekly  then id + "-w#{range_start.strftime('%U')}"
       when :daily   then id + "-#{range_start.month}-#{range_start.day}"
