@@ -113,11 +113,11 @@ module Caseflow
     private
 
     def beginning_of_fiscal_year(time)
-      self.class.timezone.local(time.year - (time.month >= 10 ? 0 : 1), 10, 1).beginning_of_day
+      self.class.timezone.local(time.year - ((time.month >= 10) ? 0 : 1), 10, 1).beginning_of_day
     end
 
     def end_of_fiscal_year(time)
-      self.class.timezone.local(time.year + (time.month >= 10 ? 1 : 0), 9, 30).end_of_day
+      self.class.timezone.local(time.year + ((time.month >= 10) ? 1 : 0), 9, 30).end_of_day
     end
 
     def load_values
