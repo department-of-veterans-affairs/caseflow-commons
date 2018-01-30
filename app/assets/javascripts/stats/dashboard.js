@@ -19,6 +19,7 @@ window.Dashboard = (function(d3, moment) {
       case 'daily': str += date.format('MMMM D'); break
       case 'weekly': str += 'the week of ' + date.format('MMMM D'); break
       case 'monthly': str += date.format(i < 12 ? 'MMMM' : 'MMMM YYYY'); break
+      case 'fiscal_yearly': str += 'FY ' + date.format('YYYY'); break
       default: str += date.format('X')
       }
 

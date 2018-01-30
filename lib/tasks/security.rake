@@ -12,7 +12,10 @@ task :security do
   )
 
   puts "running bundle-audit to check for insecure dependencies..."
-  exit!(1) unless ShellCommand.run("bundle-audit update")
+  unless ShellCommand.run("bundle-audit update")
+    puts Rainbow("Bundle Audit failed.").red
+    exit!(1)
+  end
 
   # TODO(lowell): Remove this ignore after we have upgraded rubocop.
   audit_result = ShellCommand.run("bundle-audit check --ignore CVE-2017-8418")

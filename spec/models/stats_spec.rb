@@ -10,7 +10,8 @@ describe Caseflow::Stats do
     Rails.cache.clear
   end
 
-  let(:time) { Timecop.freeze(Time.utc(2017, 1, 0o1, 20, 59, 0)) }
+  let(:time) { Timecop.freeze(Time.utc(2017, 1, 1, 20, 59, 0)) }
+  let(:timezone) { Caseflow::Stats.timezone }
   after(:all) { Timecop.return }
 
   context "#range" do
@@ -31,9 +32,17 @@ describe Caseflow::Stats do
       it { is_expected.to eq time.beginning_of_week..(time + 1.week).beginning_of_week }
     end
 
-    context "calculates yearly range" do
+    context "calculates monthly range" do
       let(:interval) { "monthly" }
       it { is_expected.to eq time.beginning_of_month..(time + 1.month).beginning_of_month }
+    end
+
+    context "calculates fiscal yearly range" do
+      let(:interval) { "fiscal_yearly" }
+      let(:expected_range_start) { timezone.local(2016, 10, 1).beginning_of_day }
+      let(:expected_range_end) { timezone.local(2017, 9, 30).end_of_day }
+
+      it { is_expected.to eq expected_range_start..expected_range_end }
     end
   end
 
