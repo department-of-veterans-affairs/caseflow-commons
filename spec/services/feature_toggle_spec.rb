@@ -327,5 +327,145 @@ describe FeatureToggle do
         expect(FeatureToggle.details_for(:users_and_offices)[:regional_offices]).to eql ["O.K.Corral", "Alamo", "Tombstone"]
       end
     end
+
+    context "validate config object" do
+      
+      it "fails when env hash has a key that doesn't belong"  do
+        features_config = '[
+           {
+              feature: "all_feature",
+              fake_key: true,
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Unknown key found in config object")
+      end
+
+      it "fails when env hash has no key 'feature'"  do
+        features_config = '[
+           {
+              enable_all: true
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Missing key in config object")
+      end
+
+      it "fails when ambiguous input"  do
+        features_config = '[
+           {
+              feature: "reader",
+              enable_all: true,
+              users: ["Good"]
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Ambiguous input")
+      end
+
+      it "fails when there are no values specified"  do
+        features_config = '[
+           {
+              feature: "reader",
+              enable_all: 
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Missing values in config object")
+      end
+
+      it "fails when feature is not a string"  do
+        features_config = '[
+           {
+              feature: true,
+              enable_all: true
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Feature is not String")
+      end
+
+
+      it "fails when feature is empty string"  do
+        features_config = '[
+           {
+              feature: "",
+              enable_all: true
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value in config object")
+      end
+
+      it "fails when enable_all has other than true value" do
+        features_config = '[
+           {
+              feature: "reader",
+              enable_all: false
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("enable_all has invalid value")
+      end
+
+
+      it "fails when users value is not an array"  do
+        features_config = '[
+           {
+              feature: "reader",
+              users: true
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("users value should be an array")
+      end
+
+      it "fails when regional_offices value is not an array"  do
+        features_config = '[
+           {
+              feature: "reader",
+              regional_offices: true
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("regional_offices value should be an array")
+      end
+
+      it "fails when users value is empty array"  do
+        features_config = '[
+           {
+              feature: "reader",
+              users: []
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value for users")
+      end
+
+      it "fails when regional_offices value is empty array"  do
+        features_config = '[
+           {
+              feature: "reader",
+              regional_offices: []
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value for regional_offices")
+      end
+
+      it "fails when values for users are not strings" do
+        features_config = '[
+           {
+              feature: "reader",
+              users: [true]
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("User has to be a string")
+      end
+
+      it "fails when values for regional offices are specified, but empty"  do
+        features_config = '[
+           {
+              feature: "reader",
+              regional_offices: [true]
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Regional office has to be a string")
+      end
+
+      it "fails when values for users are specified, but empty" do
+        features_config = '[
+           {
+              feature: "reader",
+              users: [""]
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty string for user")
+      end
+
+      it "fails when values for regional offices are specified, but empty"  do
+        features_config = '[
+           {
+              feature: "reader",
+              regional_offices: [""]
+            }]'
+        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty string for regional_office")
+      end
+    end
   end
 end
