@@ -208,7 +208,8 @@ class FeatureToggle
 
     def validate_all(feature_hash)
       fail "Unknown key found in config object" unless (feature_hash.keys - %w[feature enable_all users regional_offices]).empty?
-      fail "Ambiguous input" unless feature_hash.keys.include?("enable_all") ^ (feature_hash.keys.include?("users") || feature_hash.keys.include?("regional_offices"))
+      fail "Ambiguous input" unless feature_hash.keys.include?("enable_all") ^ 
+        (feature_hash.keys.include?("users") || feature_hash.keys.include?("regional_offices"))
       fail "Missing values in config object" if feature_hash.value?(nil)
     end
 
