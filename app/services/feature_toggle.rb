@@ -106,7 +106,7 @@ class FeatureToggle
   #   }
   # ]
   def self.sync!(config_file_string)
-    config_hash = YAML.safe_load(config_file_string)
+    config_hash = validate_config(config_file_string)
     existing_features = features
     client.multi do
       features_from_file = []
@@ -192,6 +192,42 @@ class FeatureToggle
 
     def set_data(feature, data)
       client.set(feature, data.to_json)
+    end
+
+    def validate_config(config)
+      config_hash = YAML.safe_load(config)
+      config_hash.each do |feature_hash|
+        validate_all(feature_hash)
+        validate_feature(feature_hash)
+        validate_enable_all(feature_hash["enable_all"]) if feature_hash.key?("enable_all")
+        validate_users_and_offices("users", feature_hash["users"]) if feature_hash.key?("users")
+        validate_users_and_offices("regional_offices", feature_hash["regional_offices"]) if feature_hash.key?("regional_offices")
+      end
+      config_hash
+    end
+
+    def validate_all(feature_hash)
+      fail "Unknown key found in config object" unless (feature_hash.keys - %w[feature enable_all users regional_offices]).empty?
+      fail "Ambiguous input" unless feature_hash.keys.include?("enable_all") ^
+                                    (feature_hash.keys.include?("users") || feature_hash.keys.include?("regional_offices"))
+      fail "Missing values in config object" if feature_hash.value?(nil)
+    end
+
+    def validate_feature(feature_hash)
+      fail "Missing feature key in config object" unless feature_hash.keys.include?("feature")
+      fail "Feature value should be a string" unless feature_hash["feature"].is_a? String
+      fail "Empty string in feature" if feature_hash["feature"].empty?
+    end
+
+    def validate_enable_all(value)
+      fail "enable_all value has to be true" unless value.is_a? TrueClass
+    end
+
+    def validate_users_and_offices(key, value)
+      fail "#{key} value should be an array" unless value.is_a? Array
+      fail "Empty array for #{key}" if value.empty?
+      fail "#{key} values have to be strings" if value.any? { |x| !x.is_a? String }
+      fail "Empty string in #{key}" if value.any?(&:empty?)
     end
   end
 end
