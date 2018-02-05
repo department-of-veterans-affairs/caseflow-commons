@@ -194,38 +194,39 @@ class FeatureToggle
       client.set(feature, data.to_json)
     end
 
-  # • when env hash has a key that doesn't belong to {feature, enable_all, users, regional_offices} set
-  # • when feature as key is not present in env hash
-  # • when (enable_all is not present AND (users AND regional_offices are not present)) OR (enable_all is present AND (users OR regional_offices are present))
-  # • when env hash has empty values
-  # • when value for key feature is not a String
-  # • when value for key feature is an empty string
-  # • when enable_all key exists and enable_all key is not TrueClass
-  # • when value for users key OR value for regional_offices key exists and it's not an Array
-  # • when value for users key OR value for regional_offices key exists and it's an empty array
-  # • when value for users key OR value for regional_offices key exists and members of its array are not strings
-  # • when value for users key OR value for regional_offices key exists and members of its array are empty string(s)
-
     def validate_config(config)
       config_hash = YAML.safe_load(config)
-      config_hash.each do|feature_hash|
-        raise "Unknown key found in config object" unless (feature_hash.keys - ["feature", "enable_all", "users", "regional_offices"]).empty? 
-        raise "Missing key in config object" unless feature_hash.keys.include?("feature")
-        raise "Ambiguous input" unless feature_hash.keys.include?("enable_all") ^ (feature_hash.keys.include?("users") || feature_hash.keys.include?("regional_offices"))
-        raise "Missing values in config object" if feature_hash.value?(nil)
-        raise "Feature is not String" unless feature_hash["feature"].is_a? String
-        raise "Empty value in config object" if feature_hash["feature"].empty?
-        raise "enable_all has invalid value" if feature_hash.key?("enable_all") && !feature_hash["enable_all"].is_a?(TrueClass)
-        raise "users value should be an array" if feature_hash.key?("users") && !feature_hash["users"].is_a?(Array)
-        raise "regional_offices value should be an array" if feature_hash.key?("regional_offices") && !feature_hash["regional_offices"].is_a?(Array)
-        raise "Empty value for users" if feature_hash.key?("users") && feature_hash["users"].empty?
-        raise "Empty value for regional_offices" if feature_hash.key?("regional_offices") && feature_hash["regional_offices"].empty?
-        raise "User has to be a string" if feature_hash.key?("users") && feature_hash["users"].any?{|x| !x.is_a? String}
-        raise "Regional office has to be a string" if feature_hash.key?("regional_offices") && feature_hash["regional_offices"].any?{|x| !x.is_a? String}
-        raise "Empty string for user" if feature_hash.key?("users") && feature_hash["users"].any?{|x| x.empty?}
-        raise "Empty string for regional_office" if feature_hash.key?("regional_offices") && feature_hash["regional_offices"].any?{|x| x.empty?}
+      config_hash.each do |feature_hash|
+        validate_all(feature_hash)
+        validate_feature(feature_hash)
+        validate_enable_all(feature_hash["enable_all"]) if feature_hash.key?("enable_all")
+        validate_users_and_offices("users", feature_hash["users"]) if feature_hash.key?("users")
+        validate_users_and_offices("regional_offices", feature_hash["regional_offices"]) if feature_hash.key?("regional_offices")
       end
       config_hash
+    end
+
+    def validate_all(feature_hash)
+      fail "Unknown key found in config object" unless (feature_hash.keys - %w[feature enable_all users regional_offices]).empty?
+      fail "Ambiguous input" unless feature_hash.keys.include?("enable_all") ^ (feature_hash.keys.include?("users") || feature_hash.keys.include?("regional_offices"))
+      fail "Missing values in config object" if feature_hash.value?(nil)
+    end
+
+    def validate_feature(feature_hash)
+      fail "Missing feature key in config object" unless feature_hash.keys.include?("feature")
+      fail "Feature value should be a string" unless feature_hash["feature"].is_a? String
+      fail "Empty string in feature" if feature_hash["feature"].empty?
+    end
+
+    def validate_enable_all(value)
+      fail "enable_all value has to be true" unless value.is_a? TrueClass
+    end
+
+    def validate_users_and_offices(key, value)
+      fail "#{key} value should be an array" unless value.is_a? Array
+      fail "Empty array for #{key}" if value.empty?
+      fail "#{key} values have to be strings" if value.any? { |x| !x.is_a? String }
+      fail "Empty string in #{key}" if value.any?(&:empty?)
     end
   end
 end

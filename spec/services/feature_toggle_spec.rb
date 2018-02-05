@@ -329,60 +329,58 @@ describe FeatureToggle do
     end
 
     context "validate config object" do
-      
-      it "fails when env hash has a key that doesn't belong"  do
+      it "fails when env hash has a key that doesn't belong" do
         features_config = '[
            {
               feature: "all_feature",
               fake_key: true,
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Unknown key found in config object")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Unknown key found in config object")
       end
 
-      it "fails when env hash has no key 'feature'"  do
+      it "fails when env hash has no key 'feature'" do
         features_config = '[
            {
               enable_all: true
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Missing key in config object")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Missing feature key in config object")
       end
 
-      it "fails when ambiguous input"  do
+      it "fails when ambiguous input" do
         features_config = '[
            {
               feature: "reader",
               enable_all: true,
               users: ["Good"]
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Ambiguous input")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Ambiguous input")
       end
 
-      it "fails when there are no values specified"  do
+      it "fails when there are no values specified" do
         features_config = '[
            {
               feature: "reader",
-              enable_all: 
+              enable_all:
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Missing values in config object")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Missing values in config object")
       end
 
-      it "fails when feature is not a string"  do
+      it "fails when feature is not a string" do
         features_config = '[
            {
               feature: true,
               enable_all: true
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Feature is not String")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Feature value should be a string")
       end
 
-
-      it "fails when feature is empty string"  do
+      it "fails when feature is empty string" do
         features_config = '[
            {
               feature: "",
               enable_all: true
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value in config object")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty string in feature")
       end
 
       it "fails when enable_all has other than true value" do
@@ -391,44 +389,43 @@ describe FeatureToggle do
               feature: "reader",
               enable_all: false
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("enable_all has invalid value")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("enable_all value has to be true")
       end
 
-
-      it "fails when users value is not an array"  do
+      it "fails when users value is not an array" do
         features_config = '[
            {
               feature: "reader",
               users: true
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("users value should be an array")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("users value should be an array")
       end
 
-      it "fails when regional_offices value is not an array"  do
+      it "fails when regional_offices value is not an array" do
         features_config = '[
            {
               feature: "reader",
               regional_offices: true
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("regional_offices value should be an array")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("regional_offices value should be an array")
       end
 
-      it "fails when users value is empty array"  do
+      it "fails when users value is empty array" do
         features_config = '[
            {
               feature: "reader",
               users: []
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value for users")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty array for users")
       end
 
-      it "fails when regional_offices value is empty array"  do
+      it "fails when regional_offices value is empty array" do
         features_config = '[
            {
               feature: "reader",
               regional_offices: []
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty value for regional_offices")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty array for regional_offices")
       end
 
       it "fails when values for users are not strings" do
@@ -437,16 +434,16 @@ describe FeatureToggle do
               feature: "reader",
               users: [true]
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("User has to be a string")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("users values have to be strings")
       end
 
-      it "fails when values for regional offices are specified, but empty"  do
+      it "fails when values for regional offices are specified, but empty" do
         features_config = '[
            {
               feature: "reader",
               regional_offices: [true]
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Regional office has to be a string")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("regional_offices values have to be strings")
       end
 
       it "fails when values for users are specified, but empty" do
@@ -455,16 +452,16 @@ describe FeatureToggle do
               feature: "reader",
               users: [""]
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty string for user")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty string in users")
       end
 
-      it "fails when values for regional offices are specified, but empty"  do
+      it "fails when values for regional offices are specified, but empty" do
         features_config = '[
            {
               feature: "reader",
               regional_offices: [""]
             }]'
-        expect {FeatureToggle.sync!(features_config)}.to raise_error("Empty string for regional_office")
+        expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty string in regional_offices")
       end
     end
   end
