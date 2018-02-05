@@ -356,6 +356,16 @@ describe FeatureToggle do
         expect { FeatureToggle.sync!(features_config) }.to raise_error("Ambiguous input")
       end
 
+      it "does not fail when both users and regional offices are specified" do
+        features_config = '[
+           {
+              feature: "reader",
+              users: ["Doc"]
+              regional_offices: ["Tombstone"]
+            }]'
+        expect { FeatureToggle.sync!(features_config) }.to_not raise_error("Empty string in regional_offices")
+      end
+
       it "fails when there are no values specified" do
         features_config = '[
            {
