@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "bourbon", "4.2.7"
   spec.add_runtime_dependency "neat"
 
-  spec.add_runtime_dependency "rails", "4.2.7.1"
+  spec.add_runtime_dependency "rails", ">=4.2.7.1"
   spec.add_runtime_dependency "jquery-rails"
   spec.add_runtime_dependency "d3-rails"
   spec.add_runtime_dependency "momentjs-rails"
