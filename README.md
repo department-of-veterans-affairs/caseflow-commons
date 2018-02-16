@@ -36,7 +36,27 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/depart
 
 ## Feature Toggle
 
-To enable and disable features using `rails c`. Example usage:
+To make changes to FeatureToggle, one will need to change features-config.yml located in ansible/var/ folder in appeals-deployment directory. Once changes are approved in a PR by another team member and merged, jenkins job triggered by this file change will set features automatically within a minute or two after the merge. 
+In case there are certain validation errors, there will be notification in appeals-app-alert channel. These errors will have to be corrected and the whole process repeated again. (the most common mistake being omitting comma after curly braces) If everything was successful, there will be a message in appeals-jenkins-jobs. 
+If there are no messages in either channel, it means that job hasn't been run and there is some kind of problem in jenkins build. To run it manually, job is located in jenkins/devops/set-features.  
+
+Examples
+```
+# To add a feature globally, find relevant app name and environment and add:
+{
+        feature: "intake",
+        enable_all: true
+}
+
+#To enable a feature for users or regional offices or both:
+{
+        feature: "reader",
+        users: ["Reader"],
+        regional_offices: ["RO97"]
+}
+```
+
+To enable and disable features using rails console should be used only as a workaround. Example usage:
 
 ```
 # users
