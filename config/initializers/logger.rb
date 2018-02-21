@@ -36,9 +36,8 @@ logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
 Rails.logger = logger unless Rails.env.development?
 
 # This should be removed once we switch to Rails5 since ActiveSupport::Dependencies.logger is deprecated
-if ActiveSupport::Dependencies.respond_to? :logger= then
-  ActiveSupport::Dependencies.logger = logger
-end
+ActiveSupport::Dependencies.logger = logger if ActiveSupport::Dependencies.respond_to? :logger=
+
 
 Rails.cache.logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(File.join(Rails.root, "log", "cache.log")))
 ActiveSupport.on_load(:active_record) do
