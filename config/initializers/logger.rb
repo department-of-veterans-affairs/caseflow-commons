@@ -34,7 +34,12 @@ logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
 # Rails has a lot of loggers
 # This line causes double logging in development
 Rails.logger = logger unless Rails.env.development?
-ActiveSupport::Dependencies.logger = logger
+
+# This should be removed once we switch to Rails5 since ActiveSupport::Dependencies.logger is deprecated
+if ActiveSupport::Dependencies.respond_to? :logger= then
+  ActiveSupport::Dependencies.logger = logger
+end
+
 Rails.cache.logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(File.join(Rails.root, "log", "cache.log")))
 ActiveSupport.on_load(:active_record) do
   ActiveRecord::Base.logger = logger
