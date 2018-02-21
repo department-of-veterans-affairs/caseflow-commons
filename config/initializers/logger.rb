@@ -35,7 +35,7 @@ logger = ActiveSupport::TaggedLogging.new(LoggerWithTimestamp.new(output))
 # This line causes double logging in development
 Rails.logger = logger unless Rails.env.development?
 
-# This should be removed once we switch to Rails5 since ActiveSupport::Dependencies.logger is deprecated
+# TODO Rails5Upgrade - Clean this up after upgrading
 ActiveSupport::Dependencies.logger = logger if ActiveSupport::Dependencies.respond_to? :logger=
 
 
