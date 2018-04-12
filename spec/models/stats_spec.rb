@@ -10,8 +10,8 @@ describe Caseflow::Stats do
     Rails.stub(:cache) { FakeCache.instance }
     Rails.cache.clear
   end
-
-  let(:time) { Timecop.freeze(Time.utc(2017, 1, 1, 20, 59, 0)) }
+  let(:time_to_freeze) { Time.utc(2017, 1, 1, 20, 59, 0) }
+  let!(:time) { Timecop.freeze(time_to_freeze) }
   let(:timezone) { Caseflow::Stats.timezone }
   after(:all) { Timecop.return }
 
@@ -38,10 +38,19 @@ describe Caseflow::Stats do
       it { is_expected.to eq time.beginning_of_month..(time + 1.month).beginning_of_month }
     end
 
-    context "calculates fiscal yearly range" do
+    context "calculates fiscal yearly range when day is before October 1" do
       let(:interval) { "fiscal_yearly" }
       let(:expected_range_start) { timezone.local(2016, 10, 1).beginning_of_day }
       let(:expected_range_end) { timezone.local(2017, 9, 30).end_of_day }
+
+      it { is_expected.to eq expected_range_start..expected_range_end }
+    end
+
+    context "calculates fiscal yearly range when day is after October 1" do
+      let(:time_to_freeze) { Time.utc(2017, 11, 1, 20, 59, 0) }
+      let(:interval) { "fiscal_yearly" }
+      let(:expected_range_start) { timezone.local(2017, 10, 1).beginning_of_day }
+      let(:expected_range_end) { timezone.local(2018, 9, 30).end_of_day }
 
       it { is_expected.to eq expected_range_start..expected_range_end }
     end
@@ -117,7 +126,7 @@ describe Caseflow::Stats do
       end
 
       it "calculates and caches values" do
-        # expect(subject[:wonderful_things_happened]).to eq(4)
+        expect(subject[:wonderful_things_happened]).to eq(4)
       end
     end
   end

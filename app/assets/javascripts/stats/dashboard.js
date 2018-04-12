@@ -19,7 +19,7 @@ window.Dashboard = (function(d3, moment) {
       case 'daily': str += date.format('MMMM D'); break
       case 'weekly': str += 'the week of ' + date.format('MMMM D'); break
       case 'monthly': str += date.format(i < 12 ? 'MMMM' : 'MMMM YYYY'); break
-      case 'fiscal_yearly': str += 'FY ' + date.format('YYYY'); break
+      case 'fiscal_yearly': str += getFiscalYearLabel(date); break
       default: str += date.format('X')
       }
 
@@ -170,6 +170,16 @@ window.Dashboard = (function(d3, moment) {
       seconds / 60 < 60 ? format(seconds / 60) + ' <span class="cf-stat-unit">min</span>' :
       seconds / 60 / 60 < 24 ? format(seconds / 60 / 60) + ' <span class="cf-stat-unit">hours</span>' :
         format(seconds / 60 / 60 / 24) + ' <span class="cf-stat-unit">days</span>'
+  }
+
+  function getFiscalYearLabel(date) {
+    var labelDate = date;
+
+    if (date.month() < 10) {
+      labelDate = date.clone().add(1, 'y').format('YYYY')
+    }
+
+    return 'FY ' + labelDate.format('YYYY')
   }
 
   // public
