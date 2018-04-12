@@ -176,7 +176,7 @@ window.Dashboard = (function(d3, moment) {
     var labelDate = date;
 
     if (date.month() < 10) {
-      labelDate = date.clone().add(1, 'y').format('YYYY')
+      labelDate = date.clone().add(1, 'y')
     }
 
     return 'FY ' + labelDate.format('YYYY')
