@@ -11,6 +11,5 @@ group :development, :test do
   gem "redis-namespace"
   gem "redis-rails"
   gem "rubocop", "~> 0.52.1", require: false
-  gem "scss_lint"
   gem "timecop"
 end
