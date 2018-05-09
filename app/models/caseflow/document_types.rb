@@ -504,6 +504,8 @@ module Caseflow
       97  => "Supplemental Statement of Case (SSOC)",
       98  => "Surgeon Generals Office (SGO) Extracts",
       99  => "VA 10-1000 Hospital Summary and/or the Compensation and Pension Exam Report",
+      950 => "RAMP Opt-In Notice",
+      951 => "RAMP Opt-in Election",
       999_981 => "C&P Exam XML"
     }.freeze
   end
