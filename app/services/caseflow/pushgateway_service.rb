@@ -16,11 +16,11 @@ module Caseflow
         res = Net::HTTP.get_response(@health_uri)
         healthy = res.is_a?(Net::HTTPSuccess)
         if not healthy
-          Rails.logger.error "pushgateway sidecar health check failed: #{res.body}"
+          logger.error "pushgateway sidecar health check failed: #{res.body}"
         end
         healthy
       rescue StandardError => e
-        Rails.logger.error "pushgateway sidecar health check failed: #{e.message}\n#{e.backtrace.join("\n")}"
+        logger.error "pushgateway sidecar health check failed: #{e.message}\n#{e.backtrace.join("\n")}"
         false
       end
     end
