@@ -13,3 +13,7 @@ group :development, :test do
   gem "rubocop", "~> 0.52.1", require: false
   gem "timecop"
 end
+
+group :test do
+  gem "fakeweb", "~> 1.3"
+end
