@@ -17,7 +17,7 @@ describe Caseflow::PushgatewayService do
       before {
         FakeWeb.register_uri(
           :get, "http://127.0.0.1:9091/-/healthy",
-          :body => "Error"
+          :body => "Error",
           :status => ["503", "Service Unavailable"])}
       after { FakeWeb.clean_registry }
       
