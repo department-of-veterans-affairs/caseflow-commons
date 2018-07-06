@@ -14,13 +14,8 @@ module Caseflow
       # see: https://github.com/prometheus/pushgateway/pull/135
       begin
         res = Net::HTTP.get_response(@health_uri)
-        healthy = res.is_a?(Net::HTTPSuccess)
-        if not healthy
-          logger.error "pushgateway sidecar health check failed: #{res.body}"
-        end
-        healthy
+        res.is_a?(Net::HTTPSuccess)
       rescue StandardError => e
-        logger.error "pushgateway sidecar health check failed: #{e.message}\n#{e.backtrace.join("\n")}"
         false
       end
     end
