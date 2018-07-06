@@ -9,7 +9,7 @@ describe Caseflow::PushgatewayService do
     context "service offline" do
       it "unhealthy when service is not running" do
         pushgateway = Caseflow::PushgatewayService.new
-        expect(pushgateway.is_healthy?).to eq(false)
+        expect(pushgateway.healthy?).to eq(false)
       end
     end
 
@@ -26,7 +26,7 @@ describe Caseflow::PushgatewayService do
 
       it "unhealthy when service generates non-2xx status" do
         pushgateway = Caseflow::PushgatewayService.new
-        expect(pushgateway.is_healthy?).to eq(false)
+        expect(pushgateway.healthy?).to eq(false)
       end
     end
 
@@ -42,7 +42,7 @@ describe Caseflow::PushgatewayService do
 
       it "healthy when service generates 2xx status" do
         pushgateway = Caseflow::PushgatewayService.new
-        expect(pushgateway.is_healthy?).to eq(true)
+        expect(pushgateway.healthy?).to eq(true)
       end
     end
   end
