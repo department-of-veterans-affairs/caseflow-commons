@@ -78,7 +78,7 @@ module Caseflow
     end
 
     def self.bucket_name
-      Rails.application.config.s3_bucket_name
+      [Rails.application.config.s3_bucket_name, RequestStore[:application]].join('/')
     end
 
     private_class_method
