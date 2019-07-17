@@ -3,9 +3,6 @@ require "pry"
 
 describe Caseflow::PushgatewayService do
   context "mock tests" do
-    before { WebMock.disable_net_connect! }
-    after { WebMock.allow_net_connect! }
-
     context "service offline" do
       before do
         WebMock.disable_net_connect!(allow_localhost: true)
@@ -19,7 +16,7 @@ describe Caseflow::PushgatewayService do
 
     context "service online and unhealthy" do
       before do
-        stub_request(:get, "http://127.0.0.1:9091/-/healthy").to_return(body: "Error", status: ["503", "Service Unavailable"] )
+        stub_request(:get, "http://127.0.0.1:9091/-/healthy").to_return(body: "Error", status: ["503", "Service Unavailable"])
       end
 
       it "unhealthy when service generates non-2xx status" do

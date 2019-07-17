@@ -1,7 +1,10 @@
 require "spec_helper"
 require "pry"
+require "dotenv/load"
 
 describe Caseflow::S3Service do
+  before { WebMock.allow_net_connect! } # these are live tests
+
   context "store_file" do
     let(:filename) { "somefilename.ext" }
 
