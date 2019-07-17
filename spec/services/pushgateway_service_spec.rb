@@ -1,12 +1,16 @@
 require "spec_helper"
-require "fakeweb"
+require "pry"
 
 describe Caseflow::PushgatewayService do
   context "mock tests" do
-    before { FakeWeb.allow_net_connect = false }
-    after { FakeWeb.allow_net_connect = true }
+    before { WebMock.disable_net_connect! }
+    after { WebMock.allow_net_connect! }
 
     context "service offline" do
+      before do
+        WebMock.disable_net_connect!(allow_localhost: true)
+      end
+
       it "unhealthy when service is not running" do
         pushgateway = Caseflow::PushgatewayService.new
         expect(pushgateway.healthy?).to eq(false)
@@ -15,14 +19,8 @@ describe Caseflow::PushgatewayService do
 
     context "service online and unhealthy" do
       before do
-        FakeWeb.register_uri(
-          :get, "http://127.0.0.1:9091/-/healthy",
-          body: "Error",
-          status: ["503", "Service Unavailable"]
-        )
+        stub_request(:get, "http://127.0.0.1:9091/-/healthy").to_return(body: "Error", status: ["503", "Service Unavailable"] )
       end
-
-      after { FakeWeb.clean_registry }
 
       it "unhealthy when service generates non-2xx status" do
         pushgateway = Caseflow::PushgatewayService.new
@@ -32,13 +30,8 @@ describe Caseflow::PushgatewayService do
 
     context "service online and healthy" do
       before do
-        FakeWeb.register_uri(
-          :get, "http://127.0.0.1:9091/-/healthy",
-          body: "OK"
-        )
+        stub_request(:get, "http://127.0.0.1:9091/-/healthy").to_return(body: "OK")
       end
-
-      after { FakeWeb.clean_registry }
 
       it "healthy when service generates 2xx status" do
         pushgateway = Caseflow::PushgatewayService.new

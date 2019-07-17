@@ -11,6 +11,7 @@ require "caseflow/pushgateway_service"
 require "stats"
 require "feature_toggle"
 require "functions"
+require "webmock/rspec"
 
 class FakeCache
   # make it a singleton so there is only one instance shared between the tests and application code
