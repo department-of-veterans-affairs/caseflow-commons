@@ -20,6 +20,9 @@ task :security do
 
   snoozed_cves = []
   security_yml = File.expand_path('../../.security.yml', __dir__)
+  if defined? Rails
+    security_yml = Rails.root.join('.security.yml')
+  end
 
   puts "Looking for #{security_yml}"
 
