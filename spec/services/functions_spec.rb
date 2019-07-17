@@ -5,7 +5,7 @@ describe Functions do
   let(:user2) { OpenStruct.new(css_id: "7") }
 
   before :each do
-    Rails.stub(:application) { FakeApplication.instance }
+    allow(Rails).to receive(:application) { FakeApplication.instance }
     Functions.delete_all_keys!
   end
 

@@ -7,7 +7,7 @@ require "spec_helper"
 
 describe Caseflow::Stats do
   before do
-    Rails.stub(:cache) { FakeCache.instance }
+    allow(Rails).to receive(:cache) { FakeCache.instance }
     Rails.cache.clear
   end
   let(:time_to_freeze) { Time.utc(2017, 1, 1, 20, 59, 0) }
