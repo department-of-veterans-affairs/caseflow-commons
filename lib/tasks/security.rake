@@ -19,9 +19,9 @@ task :security do
   end
 
   snoozed_cves = []
-  security_yml = File.expand_path('../../.security.yml', __dir__)
+  security_yml = File.expand_path("../../.security.yml", __dir__)
   if defined? Rails
-    security_yml = Rails.root.join('.security.yml')
+    security_yml = Rails.root.join(".security.yml")
   end
 
   puts "Looking for #{security_yml}"
@@ -31,12 +31,12 @@ task :security do
     security_config = YAML.load_file(security_yml)
     security_config["CVES"].each do |cve, ignore_until|
       puts "cve #{cve} ignore_until #{ignore_until}"
-      snoozed_cves << { cve_name: cve, until: ignore_until.to_time }
+      snoozed_cves << { cve_name: cve, until: ignore_until }
     end
   end
 
   alerting_cves = snoozed_cves
-    .select { |cve| cve[:until] >= Time.now.utc }
+    .select { |cve| cve[:until] >= Time.now.utc.to_date }
     .map { |cve| cve[:cve_name] }
 
   audit_cmd = "bundle-audit check --ignore=#{alerting_cves.join(' ')}"
