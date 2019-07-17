@@ -19,14 +19,16 @@ task :security do
   end
 
   snoozed_cves = []
-  security_yml = Rails.root.join('.security.yml')
+  security_yml = File.expand_path('../../.security.yml', __dir__)
+
+  puts "Looking for #{security_yml}"
 
   if File.exist?(security_yml)
-    puts "reading #{security_yml} config"
+    puts "Reading #{security_yml} config"
     security_config = YAML.load_file(security_yml)
     security_config["CVES"].each do |cve, ignore_until|
       puts "cve #{cve} ignore_until #{ignore_until}"
-      snoozed_cves << { cve_name: cve, until: ignore_until }
+      snoozed_cves << { cve_name: cve, until: ignore_until.to_time }
     end
   end
 
