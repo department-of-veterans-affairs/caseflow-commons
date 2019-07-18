@@ -125,8 +125,8 @@ describe Caseflow::Stats do
         4.times { WonderfulThing.new }
       end
 
-      it "calculates and caches values" do
-        # expect(subject[:wonderful_things_happened]).to eq(4)
+      xit "calculates and caches values" do
+        expect(subject[:wonderful_things_happened]).to eq(4)
       end
     end
   end
