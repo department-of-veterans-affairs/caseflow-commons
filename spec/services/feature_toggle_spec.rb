@@ -24,7 +24,7 @@ describe FeatureToggle do
     }]'
 
   before :each do
-    Rails.stub(:application) { FakeApplication.instance }
+    allow(Rails).to receive(:application) { FakeApplication.instance }
     FeatureToggle.redis.flushall
   end
 
