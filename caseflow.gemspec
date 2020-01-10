@@ -18,11 +18,15 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "bundler-audit"
+  spec.add_development_dependency "fakeweb"
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "dotenv"
   spec.add_development_dependency "danger"
   spec.add_development_dependency "rainbow"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "timecop"
 
   spec.add_runtime_dependency "bourbon", "4.2.7"
   spec.add_runtime_dependency "neat"
