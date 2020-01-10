@@ -13,6 +13,7 @@ task :lint do
   if rubocop_result
     puts Rainbow("Passed. Everything looks stylish!").green
   else
+    puts rubocop_result.inspect
     puts Rainbow("Failed. Linting issues were found.").red
     exit!(1)
   end
