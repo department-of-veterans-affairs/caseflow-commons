@@ -6,8 +6,8 @@ require "caseflow/version"
 Gem::Specification.new do |spec|
   spec.name          = "caseflow"
   spec.version       = Caseflow::VERSION
-  spec.authors       = ["Chris Given"]
-  spec.email         = ["christopher.given@va.gov"]
+  spec.authors       = ["Caseflow"]
+  spec.email         = ["caseflowops@va.gov"]
 
   spec.summary       = "Shared resources for VA Caseflow applications"
 
