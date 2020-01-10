@@ -2,7 +2,6 @@ sudo: false
 language: ruby
 rvm:
   - 2.5.3
-#before_install: gem install bundler -v 1.17
 cache: bundler --without development
 
 before_script:
