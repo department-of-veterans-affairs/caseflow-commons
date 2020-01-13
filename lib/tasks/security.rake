@@ -6,7 +6,7 @@ require "yaml"
 require_relative "support/shell_command"
 
 desc "shortcut to run all linting tools, at the same time."
-task :security do
+task security: :environment do
   puts "running Brakeman security scan..."
   brakeman_result = ShellCommand.run(
     "brakeman --exit-on-warn --run-all-checks --confidence-level=2"

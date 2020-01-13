@@ -4,7 +4,7 @@ require "open3"
 require "rainbow"
 
 desc "shortcut to run all linting tools, at the same time."
-task :lint do
+task lint: :environment do
   opts = ENV["CI"] ? "" : "--auto-correct"
   cmd = "bundle exec rubocop #{opts} --color"
   puts "running #{cmd}"
