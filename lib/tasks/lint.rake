@@ -6,14 +6,14 @@ require "rainbow"
 desc "shortcut to run all linting tools, at the same time."
 task :lint do
   opts = ENV["CI"] ? "" : "--auto-correct"
-  puts "running rubocop..."
-  rubocop_result = ShellCommand.run("bundle exec rubocop #{opts} --color")
-
+  cmd = "bundle exec rubocop #{opts} --color"
+  puts "running #{cmd}"
+  rubocop_result = ShellCommand.run(cmd)
+  puts rubocop_result.inspect
   puts "\n"
   if rubocop_result
     puts Rainbow("Passed. Everything looks stylish!").green
   else
-    puts rubocop_result.inspect
     puts Rainbow("Failed. Linting issues were found.").red
     exit!(1)
   end
