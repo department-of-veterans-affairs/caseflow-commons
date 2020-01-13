@@ -7,7 +7,7 @@ desc "shortcut to run all linting tools, at the same time."
 task :lint do
   opts = ENV["CI"] ? "" : "--auto-correct"
   puts "running rubocop..."
-  rubocop_result = ShellCommand.run("rubocop #{opts} --color")
+  rubocop_result = ShellCommand.run("bundle exec rubocop #{opts} --color")
 
   puts "\n"
   if rubocop_result
