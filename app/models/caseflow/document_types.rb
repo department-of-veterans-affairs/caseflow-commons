@@ -352,7 +352,7 @@ module Caseflow
       133 => "VA 21-530 Application for Burial Benefits",
       1330 => "VA 21P-10197 Legal Summary DIC",
       1331 => "VA 21P-10199 Legal Summary Survivors Pension, DIC and Accrued Benefits",
-      1332 => "VA 21P-10202 Legal Summary Parents DIC Benefits"
+      1332 => "VA 21P-10202 Legal Summary Parents DIC Benefits",
       134 => "VA 21-534 Application for Dependency and Indemnity Compensation or Death Pension by a Surviving Spouse or Child",
       135 => "VA 21-535 Application for Dependency and Indemnity Compensation for Parents",
       136 => "VA 21-592 Request for Appointment of Fiduciary Custodian or Guardian",
