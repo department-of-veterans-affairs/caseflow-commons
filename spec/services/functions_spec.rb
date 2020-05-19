@@ -1,5 +1,4 @@
 require "spec_helper"
-require "pry"
 
 describe Functions do
   let(:user1) { OpenStruct.new(css_id: "5") }
