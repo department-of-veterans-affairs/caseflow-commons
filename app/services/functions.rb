@@ -13,7 +13,12 @@ class Functions
     # redis method: sadd (add item to a set, ignore existing members)
     client.sadd FUNCTIONS_LIST_KEY, function
 
-    set_granted_users(function: function, value: users)
+    if users.is_a?(Array)
+      set_granted_users(function: function, value: users)
+    else
+      new_users = [users] + function_enabled_hash(function)[:granted]
+      set_granted_users(function: function, value: new_users.flatten.compact)
+    end
 
     # Remove the function completely if there are no granted or denied users
     remove_function(function) if empty?(function)
@@ -25,7 +30,12 @@ class Functions
   def self.deny!(function, users: [])
     client.sadd FUNCTIONS_LIST_KEY, function
 
-    set_denied_users(function: function, value: users)
+    if users.is_a?(Array)
+      set_denied_users(function: function, value: users)
+    else
+      new_users = [users] + function_enabled_hash(function)[:denied]
+      set_denied_users(function: function, value: new_users.flatten.compact)
+    end
 
     remove_function(function) if empty?(function)
 
