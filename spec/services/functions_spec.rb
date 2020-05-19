@@ -1,4 +1,5 @@
 require "spec_helper"
+require "pry"
 
 describe Functions do
   let(:user1) { OpenStruct.new(css_id: "5") }
@@ -31,6 +32,20 @@ describe Functions do
         expect(Functions.granted?("Reader", user2.css_id)).to eq false
       end
     end
+
+    context "for a single user" do
+      subject { Functions.grant!("Reader", users: user2.css_id) }
+
+      before do
+        Functions.grant!("Reader", users: [user1.css_id])
+      end
+
+      it "adds user to existing grant" do
+        subject
+        expect(Functions.granted?("Reader", user1.css_id)).to eq true
+        expect(Functions.granted?("Reader", user2.css_id)).to eq true
+      end
+    end
   end
 
   context ".deny!" do
@@ -57,6 +72,20 @@ describe Functions do
         subject
         expect(Functions.denied?("Reader", user1.css_id)).to eq false
         expect(Functions.denied?("Reader", user2.css_id)).to eq false
+      end
+    end
+
+    context "for a single user" do
+      subject { Functions.deny!("Reader", users: user2.css_id) }
+
+      before do
+        Functions.deny!("Reader", users: [user1.css_id])
+      end
+
+      it "adds user to existing denial" do
+        subject
+        expect(Functions.denied?("Reader", user1.css_id)).to eq true
+        expect(Functions.denied?("Reader", user2.css_id)).to eq true
       end
     end
   end
