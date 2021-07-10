@@ -234,7 +234,7 @@ class FeatureToggle
     # When feature toggles are enabled/disabled manually instead of through the config file
     # this prevents errors if the input array includes User instances (instead of CSS_IDs)
     def css_ids_for_users(users)
-      users&.map { |user| user.is_a?(String) ? user : user.try(&:css_id) }
+      users&.map { |input| input.try(:css_id) || input }
     end
   end
 end
