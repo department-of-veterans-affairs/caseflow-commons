@@ -78,6 +78,14 @@ describe FeatureToggle do
         FeatureToggle.enable!(:test, users: [user3.css_id.downcase])
         expect(FeatureToggle.enabled?(:test, user: user3)).to eq true
       end
+
+      it "can be enabled using a User instance instead of CSS_ID" do
+        subject
+        FeatureToggle.enable!(:test, users: [user3])
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq true
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq false
+        expect(FeatureToggle.enabled?(:test, user: user3)).to eq true
+      end
     end
 
     context "for an RO and individual users" do
@@ -185,6 +193,13 @@ describe FeatureToggle do
       it "maintains access for regional offices" do
         subject
         expect(FeatureToggle.enabled?(:test, user: user2)).to eq true
+      end
+
+      it "can be disabled using a User instance instead of CSS_ID" do
+        subject
+        FeatureToggle.disable!(:test, users: [user2]
+        expect(FeatureToggle.enabled?(:test, user: user1)).to eq false
+        expect(FeatureToggle.enabled?(:test, user: user2)).to eq false
       end
     end
   end
