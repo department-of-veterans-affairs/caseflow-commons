@@ -23,7 +23,7 @@ class FeatureToggle
     end
 
     enable(feature: feature, key: :users, value: css_ids_for_users(users)) if users.present?
-    
+
     true
   end
 
@@ -232,7 +232,7 @@ class FeatureToggle
     end
 
     # When feature toggles are enabled/disabled manually instead of through the config file
-    # This is to prevent errors if "users" is an array of Users instead of CSS_IDs
+    # this prevents errors if the input array includes User instances (instead of CSS_IDs)
     def css_ids_for_users(users)
       users&.map { |user| user.is_a?(String) ? user : user.try(&:css_id) }
     end
