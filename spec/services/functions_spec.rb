@@ -10,8 +10,12 @@ describe Functions do
   end
 
   context ".grant!" do
+    subject { Functions.grant!("Reader", users: users, user: user) }
+    let(:users) { nil }
+    let(:user) { nil }
+
     context "for a set of users" do
-      subject { Functions.grant!("Reader", users: [user1.css_id, user2.css_id]) }
+      let(:users) { [user1.css_id, user2.css_id] }
 
       it "grants function to users" do
         subject
@@ -23,7 +27,7 @@ describe Functions do
     end
 
     context "for an empty set of users" do
-      subject { Functions.grant!("Reader", users: []) }
+      let(:users) { [] }
 
       it "function has no granted users" do
         subject
@@ -32,14 +36,25 @@ describe Functions do
       end
     end
 
-    context "for a single user" do
-      subject { Functions.grant!("Reader", users: user2.css_id) }
+    context "for a CSS ID string" do
+      let(:users) { [user2.css_id] }
 
-      before do
-        Functions.grant!("Reader", users: [user1.css_id])
-      end
+      before { Functions.grant!("Reader", users: [user1.css_id]) }
 
       it "adds user to existing grant" do
+        subject
+        expect(Functions.granted?("Reader", user1.css_id)).to eq true
+        expect(Functions.granted?("Reader", user2.css_id)).to eq true
+      end
+    end
+
+    context "for a single user" do
+      let(:users) { nil }
+      let(:users) { user2 }
+
+      before { Functions.grant!("Reader", users: [user1.css_id]) }
+
+      it "accepts user object and adds user to existing grant" do
         subject
         expect(Functions.granted?("Reader", user1.css_id)).to eq true
         expect(Functions.granted?("Reader", user2.css_id)).to eq true
