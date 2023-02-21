@@ -1081,7 +1081,8 @@ module Caseflow
       1329 => "VA 21P-10198 Legal Summary Survivors Pension",
       1330 => "VA 21P-10197 Legal Summary DIC",
       1331 => "VA 21P-10199 Legal Summary Survivors Pension, DIC and Accrued Benefits",
-      1332 => "VA 21P-10202 Legal Summary Parents DIC Benefits"
+      1332 => "VA 21P-10202 Legal Summary Parents DIC Benefits",
+      1333 => "BVA Case Notifications"
     }.freeze
   end
 end
