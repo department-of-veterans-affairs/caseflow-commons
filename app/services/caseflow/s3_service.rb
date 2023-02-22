@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "aws-sdk-s3"
+require "aws-sdk-sqs"
 
 # Thin interface to all things Amazon S3
 module Caseflow
