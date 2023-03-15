@@ -30,10 +30,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "timecop"
   spec.add_development_dependency "webmock"
 
-  spec.add_runtime_dependency "bourbon", "4.2.7"
+  spec.add_runtime_dependency "bourbon", "~> 7.0"
   spec.add_runtime_dependency "neat"
 
-  spec.add_runtime_dependency "rails", ">=4.2.7.1"
+  # spec.add_runtime_dependency "rails", ">=4.2.7.1"
   spec.add_runtime_dependency "jquery-rails"
   spec.add_runtime_dependency "redis-namespace"
   spec.add_runtime_dependency "redis-rails"
