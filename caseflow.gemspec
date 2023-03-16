@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "d3-rails"
   spec.add_runtime_dependency "momentjs-rails"
 
-  spec.add_runtime_dependency "aws-sdk-s3", "~> 1"
+  spec.add_runtime_dependency "aws-sdk-s3"
   spec.add_runtime_dependency "aws-sdk-sqs", "~> 1"
   # Known issue: Must be loaded by Bundler, so include in each app's Gemfile
   # spec.add_runtime_dependency "moment_timezone-rails"
