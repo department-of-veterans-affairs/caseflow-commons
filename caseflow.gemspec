@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "neat"
 
   # spec.add_runtime_dependency "rails", ">=4.2.7.1"
-  spec.add_runtime_dependency "redis", "= 4.0.1"
+  # spec.add_runtime_dependency "redis", "= 4.0.1"
   spec.add_runtime_dependency "redis-namespace"
   spec.add_runtime_dependency "redis-rails"
   # TODO drop d3-rails as Caseflow does not use it?
