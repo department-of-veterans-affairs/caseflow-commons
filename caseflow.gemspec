@@ -37,13 +37,13 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jquery-rails"
 
   #Redis
-  spec.add_runtime_dependency "redis", "~> 4.0.1"
-  spec.add_runtime_dependency "redis-namespace", "~> 1.6.0"
-  spec.add_runtime_dependency "redis-rails", "~> 5.0.2"
-  spec.add_runtime_dependency "redis-actionpack", "~> 5.0.2"
-  spec.add_runtime_dependency "redis-activesupport", "~> 5.0.4"
-  spec.add_runtime_dependency "redis-rack", "~> 2.0.4"
-  spec.add_runtime_dependency "redis-store", "~> 1.4.1  "
+  #spec.add_runtime_dependency "redis"#, "~> 4.0.1"
+  spec.add_runtime_dependency "redis-namespace"#, "~> 1.6.0"
+  spec.add_runtime_dependency "redis-rails"#, "~> 5.0.2"
+  #spec.add_runtime_dependency "redis-actionpack", "~> 5.0.2"
+  #spec.add_runtime_dependency "redis-activesupport", "~> 5.0.4"
+  #spec.add_runtime_dependency "redis-rack", "~> 2.0.4"
+  #spec.add_runtime_dependency "redis-store", "~> 1.4.1  "
 
 
   # TODO drop d3-rails as Caseflow does not use it?
