@@ -35,14 +35,25 @@ Gem::Specification.new do |spec|
   # TODO caseflow also lists these, caseflow can drop them?
   spec.add_runtime_dependency "rails", ">=4.2.7.1"
   spec.add_runtime_dependency "jquery-rails"
-  spec.add_runtime_dependency "redis-namespace"
-  spec.add_runtime_dependency "redis-rails"
+
+  #Redis
+  spec.add_runtime_dependency "redis", "~> 4.0.1"
+  spec.add_runtime_dependency "redis-namespace", "~> 1.6.0"
+  spec.add_runtime_dependency "redis-rails", "~> 5.0.2"
+  spec.add_runtime_dependency "redis-actionpack", "~> 5.0.2"
+  spec.add_runtime_dependency "redis-activesupport", "~> 5.0.4"
+  spec.add_runtime_dependency "redis-rack", "~> 2.0.4"
+  spec.add_runtime_dependency "redis-store", "~> 1.4.1  "
+
+
   # TODO drop d3-rails as Caseflow does not use it?
   spec.add_runtime_dependency "d3-rails"
   spec.add_runtime_dependency "momentjs-rails"
-
+  
+  #AWS
   spec.add_runtime_dependency "aws-sdk-s3"
   spec.add_runtime_dependency "aws-sdk-sqs", "~> 1"
+
   # Known issue: Must be loaded by Bundler, so include in each app's Gemfile
   # spec.add_runtime_dependency "moment_timezone-rails"
 end
