@@ -42,7 +42,7 @@ module Caseflow
 
       tempfile = Tempfile.new("s3service")
       begin
-        @bucket.object(filename).download_file(tempfile.path)
+        @bucket.object(filename).download_file(tempfile.path, {mode: "get_range", chunk_size: 60000})
         IO.binread(tempfile.path)
       ensure
         tempfile.close!
