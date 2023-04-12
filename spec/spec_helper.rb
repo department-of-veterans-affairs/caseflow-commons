@@ -10,6 +10,7 @@ require "caseflow/s3_service"
 require "caseflow/pushgateway_service"
 require "stats"
 require "feature_toggle"
+require "document_types"
 require "functions"
 require "webmock/rspec"
 
