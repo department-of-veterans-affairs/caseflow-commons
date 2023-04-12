@@ -1548,7 +1548,6 @@ module Caseflow
       1821 => "VA Form FL 26-626 - Request for Identifying Information RE: Veteran's Loan Records",
       1822 => "VA Form FL 26-636 - Notice to Lender Re: Disapproval of Loan Application Due to Veteran",
       1823 => "VA Form FL 26-648 - Resale Price Letter - Specified Amount"
-
     }.freeze
   end
 end
