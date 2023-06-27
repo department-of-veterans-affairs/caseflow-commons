@@ -69,7 +69,7 @@ class FeatureToggle
   end
 
   def self.enabled_metric?(feature, user: nil)
-    enabled?(feature, user) || enabled?(:metrics_monitoring, user)
+    enabled?(feature, user: user) || enabled?(:metrics_monitoring, user: user)
   end
 
   # Returns a hash result for a given feature
