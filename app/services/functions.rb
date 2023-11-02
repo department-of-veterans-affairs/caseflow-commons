@@ -7,17 +7,26 @@ class Functions
     client.smembers(FUNCTIONS_LIST_KEY)
   end
 
+  # Set or replace list of granted users:
   # Functions.grant!("Reader", users: ["CSS_ID_1", "CSS_ID_2"])
   # Caution: Functions.grant!("Reader", users: []) will remove all users who were granted the function.
-  def self.grant!(function, users:)
+
+  # Add user (singular):
+  # Functions.grant!("Reader", user: "CSS_ID_1")
+  def self.grant!(function, users:, user:)
     # redis method: sadd (add item to a set, ignore existing members)
     client.sadd FUNCTIONS_LIST_KEY, function
 
+    # Resets entire user list, uses config files
     if users.is_a?(Array)
       set_granted_users(function: function, value: users)
+
+    # Adds single user
     else
-      new_users = [users] + function_enabled_hash(function)[:granted]
-      set_granted_users(function: function, value: new_users.flatten.compact)
+      existing_css_ids = function_enabled_hash(function)[:granted]
+      new_css_id = user.try(:css_id) || user || users
+      css_id_list = [existing_css_ids, new_css_id].flatten.compact
+      set_granted_users(function: function, value: css_id_list)
     end
 
     # Remove the function completely if there are no granted or denied users
