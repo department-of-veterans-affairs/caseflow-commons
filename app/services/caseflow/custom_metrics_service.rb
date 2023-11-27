@@ -60,23 +60,3 @@ class CustomMetricsService
   ] + extra_tags
   end
 end
-
-#these function exist in eFolder express, reconciliation neccesary. 
-
- private_class_method def self.get_stat_name(metric_group, metric_name) 
- "dsva-appeals.#{metric_group}.#{metric_name}"
-end
-
-private_class_method def self.get_tags(app_name, attrs) 
- extra_tags = attrs.reduce([]) do |tags, (key, val)|
-   tags + ["#{key}:#{val}"]
- end
- [
-   "app:#{app_name}",
-   "env:#{Rails.current_env}",
-   # I am not sure that dogstatsd lets us set the hostname.
-   # https://github.com/DataDog/dogstatsd-ruby/issues/66
-   "hostname:#{@host}"
- ] + extra_tags
-end
-end
