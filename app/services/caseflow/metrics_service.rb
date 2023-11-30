@@ -110,7 +110,7 @@ module Caseflow
     def self.store_record_metric(uuid, params, caller)
       return nil unless FeatureToggle.enabled?(:metrics_monitoring, user: RequestStore[:current_user])
       #TODO: App name check requires validation. APP_NAME is used differently throughout the application.
-      return nil unless params[:product] == Caseflow::MetricAttributes::PRODUCT_TYPES[caseflow:]
+      return nil if params[:app_name] = "efolder"
       name = "caseflow.server.metric.#{params[:name]&.downcase&.gsub(/::/, '.')}"
       params = {
         uuid: uuid,
