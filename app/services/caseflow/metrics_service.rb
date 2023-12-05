@@ -9,14 +9,13 @@ module Caseflow
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     # :reek:LongParameterList
     @statsd = Datadog::Statsd.new
-    #@DynatraceService ||= ExternalApi::DynatraceService.new
   
     def self.increment_counter(metric_group:, metric_name:, app_name:, attrs: {}, by: 1)
       tags = get_tags(app_name, attrs)
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.increment(stat_name, tags: tags, by: by)
-      DynatraceService.increment(stat_name, tags: tags, by: by)
+      # DynatraceService.increment(stat_name, tags: tags, by: by)
     end
   
     def self.record_runtime(metric_group:, app_name:, start_time: Time.zone.now)
@@ -36,7 +35,7 @@ module Caseflow
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.gauge(stat_name, metric_value, tags: tags)
-      DynatraceService.gauge(stat_name, metric_value, tags: tags)
+      # DynatraceService.gauge(stat_name, metric_value, tags: tags)
     end
   
     # :nocov:
@@ -45,7 +44,7 @@ module Caseflow
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.histogram(stat_name, metric_value, tags: tags)
-      DynatraceService.histogram(stat_name, metric_value, tags: tags)
+      # DynatraceService.histogram(stat_name, metric_value, tags: tags)
     end
     # :nocov:
   
