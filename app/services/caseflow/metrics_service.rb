@@ -1,12 +1,71 @@
 # frozen_string_literal: true
 
 require "benchmark"
+require "datadog/statsd"
 
 # see https://dropwizard.github.io/metrics/3.1.0/getting-started/ for abstractions on metric types
 module Caseflow
   class MetricsService
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     # :reek:LongParameterList
+    @statsd = Datadog::Statsd.new
+    #@DynatraceService ||= ExternalApi::DynatraceService.new
+  
+    def self.increment_counter(metric_group:, metric_name:, app_name:, attrs: {}, by: 1)
+      tags = get_tags(app_name, attrs)
+      stat_name = get_stat_name(metric_group, metric_name)
+  
+      @statsd.increment(stat_name, tags: tags, by: by)
+      DynatraceService.increment(stat_name, tags: tags, by: by)
+    end
+  
+    def self.record_runtime(metric_group:, app_name:, start_time: Time.zone.now)
+      metric_name = "runtime"
+      job_duration_seconds = Time.zone.now - start_time
+  
+      emit_gauge(
+        app_name: app_name,
+        metric_group: metric_group,
+        metric_name: metric_name,
+        metric_value: job_duration_seconds
+      )
+    end
+  
+    def self.emit_gauge(metric_group:, metric_name:, metric_value:, app_name:, attrs: {})
+      tags = get_tags(app_name, attrs)
+      stat_name = get_stat_name(metric_group, metric_name)
+  
+      @statsd.gauge(stat_name, metric_value, tags: tags)
+      DynatraceService.gauge(stat_name, metric_value, tags: tags)
+    end
+  
+    # :nocov:
+    def self.histogram(metric_group:, metric_name:, metric_value:, app_name:, attrs: {})
+      tags = get_tags(app_name, attrs)
+      stat_name = get_stat_name(metric_group, metric_name)
+  
+      @statsd.histogram(stat_name, metric_value, tags: tags)
+      DynatraceService.histogram(stat_name, metric_value, tags: tags)
+    end
+    # :nocov:
+  
+    #these function exist in Caseflow
+  
+    private_class_method def self.get_stat_name(metric_group, metric_name)
+      "dsva-appeals.#{metric_group}.#{metric_name}"
+    end
+  
+    private_class_method def self.get_tags(app_name, attrs)
+      extra_tags = attrs.reduce([]) do |tags, (key, val)|
+        tags + ["#{key}:#{val}"]
+      end
+    [
+      "app:#{app_name}",
+      "env:#{Rails.current_env}"
+    ] + extra_tags
+    end
+
+    # metric service class methods
     def self.record(description, service: nil, name: "unknown", caller: nil)
       return_value = nil
       app = RequestStore[:application] || "other"
@@ -36,7 +95,7 @@ module Caseflow
             uuid: uuid
           }
         }
-        CustomMetricsService.emit_gauge(sent_to_info)
+        MetricsService.emit_gauge(sent_to_info)
 
         sent_to << Caseflow::MetricAttributes::LOG_SYSTEMS[:datadog]
         sent_to << Caseflow::MetricAttributes::LOG_SYSTEMS[:dynatrace]
@@ -96,7 +155,7 @@ module Caseflow
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     private_class_method def self.increment_custom_metrics_counter(metric_name, service, endpoint_name, app_name)
-      CustomMetricsService.increment_counter(
+      MetricsService.increment_counter(
         metric_group: "service",
         metric_name: metric_name,
         app_name: app_name,

@@ -10,7 +10,7 @@ module Caseflow
           efolder: "efolder",
           reader: "reader",
           caseflow: "caseflow", # Default product
-          # Added below because MetricService has usages of this as a service
+          # Added below because MetricsService has usages of this as a service
           vacols: "vacols",
           bgs: "bgs",
           gov_delivery: "gov_delivery",
