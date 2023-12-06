@@ -2,8 +2,8 @@
 
 class ExternalApi::DynatraceService
 
-    BASE_URL = ENV["TBD"]
-    SSL_CERT_FILE = ENV["SSL_CERT_FILE"]
+        BASE_URL = ENV["DYNATRACE_URL"]
+        API_TOKEN = ENV["DYNATRACE_TOKEN"]
   
     class << self
   
