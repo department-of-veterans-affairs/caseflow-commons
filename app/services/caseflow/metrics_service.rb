@@ -125,7 +125,7 @@ module Caseflow
       Rails.logger.error("#{error.message}\n#{error.backtrace.join("\n")}")
       Raven.capture_exception(error, extra: { type: "request_error", service: service, name: name, app: app })
 
-      increment_custom_metrics_counter("request_error", service, name, app) if service
+      increment_metrics_counter("request_error", service, name, app) if service
 
       metric_params = {
         name: "error",
@@ -149,11 +149,11 @@ module Caseflow
       # This is just to capture the metric.
       raise
     ensure
-      increment_custom_metrics_counter("request_attempt", service, name, app) if service
+      increment_metrics_counter("request_attempt", service, name, app) if service
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    private_class_method def self.increment_custom_metrics_counter(metric_name, service, endpoint_name, app_name)
+    private_class_method def self.increment_metrics_counter(metric_name, service, endpoint_name, app_name)
       MetricsService.increment_counter(
         metric_group: "service",
         metric_name: metric_name,
