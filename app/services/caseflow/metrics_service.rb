@@ -166,9 +166,8 @@ module Caseflow
     end
     # :reek:ControlParameter
     def self.store_record_metric(uuid, params, caller)
-      return nil unless FeatureToggle.enabled?(:metrics_monitoring, user: RequestStore[:current_user])
-      #TODO: App name check requires validation. APP_NAME is used differently throughout the application.
-      return nil if params[:app_name] == "efolder"
+      # Metrics are only stored for certain users within the Caseflow application.
+      return nil if !(FeatureToggle.enabled?(:metrics_monitoring, user: RequestStore[:current_user])) or params[:app_name] == "efolder"
       name = "caseflow.server.metric.#{params[:name]&.downcase&.gsub(/::/, '.')}"
       params = {
         uuid: uuid,
