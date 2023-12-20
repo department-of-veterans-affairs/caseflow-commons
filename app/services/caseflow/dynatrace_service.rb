@@ -7,7 +7,7 @@ class ExternalApi::DynatraceService
   
   class << self
   
-    def  increment(stat_name, tags: tags, by: by)
+    def  increment()
       #stuff
       # build request
       # request = HTTPI::Request.new(BASE_URL)
@@ -26,26 +26,7 @@ class ExternalApi::DynatraceService
       # HTTPI.post(request)
     end
 
-    def gauge(stat_name, metric_value, tags: tags)
-      #stuff
-      # build request
-      # request = HTTPI::Request.new(BASE_URL)
-      # request.open_timeout = 300
-      # request.read_timeout = 300
-      # request.auth.ssl.ca_cert_file = ENV["SSL_CERT_FILE"]
-
-      # # build body
-      # request.body = render json: {
-      #   displayName: stat_name,
-      #   description: "",
-      #   unit: "Unspecified",
-      #   tags: tags,
-      #   }
-
-      # HTTPI.post(request)
-    end
-
-    def histogram(stat_name, metric_value, tags: tags)
+    def gauge()
       #stuff
       # build request
       # request = HTTPI::Request.new(BASE_URL)
