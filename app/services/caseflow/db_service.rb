@@ -9,7 +9,7 @@ module Caseflow
       if FeatureToggle.enabled?(:release_db_connections)
         if class_name.connection_pool.active_connection?
           Rails.logger.info("Releasing VACOLS DB Connection")
-          class_name.connection_pool.release_connection if VACOLS::Record.connection.open_transactions == 0
+          class_name.connection_pool.release_connection if class_name.connection.open_transactions == 0
         end
         if ActiveRecord::Base.connection_pool.active_connection?
           Rails.logger.info("Releasing PG DB Connection")
