@@ -253,6 +253,10 @@ module Caseflow
       contention
     end
 
+    def self.call_and_log_service(service:, vbms_id:)
+      []
+    end
+
     # Used in test to clean fake VBMS state.
     def self.clean!
       self.document_records = nil
