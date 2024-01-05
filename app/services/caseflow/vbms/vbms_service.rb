@@ -36,11 +36,13 @@ module Caseflow
     end
 
     def self.fetch_documents_for(appeal, _user = nil)
-      ExternalApi::VbmsDocumentsForAppeal.new(file_number: appeal.veteran_file_number).fetch
+      caseflow_vbms_class = "ExternalApi::VbmsDocumentsForAppeal".constantize
+      caseflow_vbms_class.new(file_number: appeal.veteran_file_number).fetch
     end
 
     def self.fetch_document_series_for(appeal)
-      ExternalApi::VbmsDocumentSeriesForAppeal.new(file_number: appeal.veteran_file_number).fetch
+      caseflow_vbms_class = "ExternalApi::VbmsDocumentSeriesForAppeal".constantize
+      caseflow_vbms_class.new(file_number: appeal.veteran_file_number).fetch
     end
 
     def self.update_document_in_vbms(appeal, uploadable_document)
