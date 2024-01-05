@@ -1,7 +1,5 @@
 source "https://rubygems.org"
 
-source "https://github.com/department-of-veterans-affairs/connect_vbms.git" do
-  gem "connect_vbms"
-end
+gem "connect_vbms", git: "https://github.com/department-of-veterans-affairs/connect_vbms.git", ref: "master"
 # Specify your gem's dependencies in caseflow.gemspec
 gemspec
