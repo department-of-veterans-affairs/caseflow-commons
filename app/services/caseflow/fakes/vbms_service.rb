@@ -42,7 +42,8 @@ module Caseflow
       CSV.foreach(file_path, headers: true) do |row|
         row_hash = row.to_h
         vbms_id = row_hash["vbms_id"].gsub(/[^0-9]/, "")
-        @document_records[vbms_id] = Fakes::Data::AppealData.document_mapping[row_hash["documents"]]
+        caseflow_fakes_appealdata = "Fakes::Data::AppealData".constantize
+        @document_records[vbms_id] = caseflow_fakes_appealdata.document_mapping[row_hash["documents"]]
         (@document_records[vbms_id] || []).each { |document| document.write_attribute(:file_number, vbms_id) }
       end
     end
@@ -94,7 +95,8 @@ module Caseflow
     end
 
     def self.fetch_document_series_for(appeal)
-      Document.where(file_number: appeal.veteran_file_number).flat_map do |document|
+      caseflow_document_class = "Document".constantize
+      caseflow_document_class.where(file_number: appeal.veteran_file_number).flat_map do |document|
         (0..document.id % 3).map do |index|
           OpenStruct.new(
             document_id: "#{document.vbms_document_id}#{(index > 0) ? index : ''}",
@@ -166,21 +168,22 @@ module Caseflow
       Rails.logger.info("User:\n #{user.inspect}")
 
       self.end_product_claim_ids_by_file_number ||= {}
-
+      caseflow_random_generator = "Generators::Random".constantize
       # The id will either be:
       # A claim id set specifically for claims created on a specific file_number
       # A default claim id used for all created claims
       # A randomly generated id
       claim_id = end_product_claim_ids_by_file_number[veteran_hash[:file_number]] ||
                 @end_product_claim_id ||
-                Generators::Random.external_id
+                caseflow_random_generator.external_id
 
       # return fake end product
       generate_end_product_for_claim(veteran_hash: veteran_hash, claim_hash: claim_hash, claim_id: claim_id)
     end
 
     def self.generate_end_product_for_claim(veteran_hash:, claim_hash:, claim_id:)
-      Generators::EndProduct.build(
+      caseflow_endproduct_generator = "Generators::EndProduct".constantize
+      caseflow_endproduct_generator.build(
         veteran_file_number: veteran_hash[:file_number],
         bgs_attrs: {
           benefit_claim_id: claim_id,
@@ -214,7 +217,8 @@ module Caseflow
 
       # generate new contentions and return list of all contentions on the claim.
       contentions.each do |contention|
-        Generators::Contention.build(text: contention[:description],
+        caseflow_contention_generator = "Generators::Contention".constantize
+        caseflow_contention_generator.build(text: contention[:description],
                                     claim_id: claim_id, type_code: contention[:contention_type])
       end
       caseflow_bgsservice_fake = "Fakes::BGSService".constantize
