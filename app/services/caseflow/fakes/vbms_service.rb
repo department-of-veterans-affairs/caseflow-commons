@@ -253,8 +253,10 @@ module Caseflow
       contention
     end
 
-    def self.call_and_log_service(service:, vbms_id:)
-      [1, 2, 3]
+    def self.call_and_log_service(*)
+      {
+        documents: [1, 2, 3]
+      }
     end
 
     # Used in test to clean fake VBMS state.
