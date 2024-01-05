@@ -42,6 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "momentjs-rails"
 
   spec.add_runtime_dependency "aws-sdk", "~> 2.10"
+
+  spec.add_runtime_dependency "connect_vbms"
   # Known issue: Must be loaded by Bundler, so include in each app's Gemfile
   # spec.add_runtime_dependency "moment_timezone-rails"
 end
