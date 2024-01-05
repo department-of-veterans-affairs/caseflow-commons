@@ -192,11 +192,13 @@ module Caseflow
     end
 
     def self.get_dispositions!(claim_id:)
-      Fakes::BGSService.end_product_store.inflated_dispositions_for(claim_id) || []
+      caseflow_bgsservice_fake = "Fakes::BGSService".constantize
+      caseflow_bgsservice_fake.end_product_store.inflated_dispositions_for(claim_id) || []
     end
 
     def self.fetch_contentions(claim_id:)
-      Fakes::BGSService.end_product_store.inflated_contentions_for(claim_id) || []
+      caseflow_bgsservice_fake = "Fakes::BGSService".constantize
+      caseflow_bgsservice_fake.end_product_store.inflated_contentions_for(claim_id) || []
     end
 
     def self.create_contentions!(veteran_file_number:, claim_id:, contentions:, claim_date:, user:)
@@ -215,7 +217,8 @@ module Caseflow
         Generators::Contention.build(text: contention[:description],
                                     claim_id: claim_id, type_code: contention[:contention_type])
       end
-      Fakes::BGSService.end_product_store.inflated_contentions_for(claim_id)
+      caseflow_bgsservice_fake = "Fakes::BGSService".constantize
+      caseflow_bgsservice_fake.end_product_store.inflated_contentions_for(claim_id)
     end
 
     def self.associate_rating_request_issues!(claim_id:, rating_issue_contention_map:)
@@ -230,7 +233,8 @@ module Caseflow
       Rails.logger.info("Submitting remove contention request to VBMS...")
       Rails.logger.info("Contention: #{contention.inspect}")
 
-      Fakes::BGSService.end_product_store.remove_contention(contention)
+      caseflow_bgsservice_fake = "Fakes::BGSService".constantize
+      caseflow_bgsservice_fake.end_product_store.remove_contention(contention)
 
       true
     end
@@ -239,7 +243,8 @@ module Caseflow
       Rails.logger.info("Submitting updated contention request to VBMS...")
       Rails.logger.info("Contention: #{contention.inspect}")
 
-      Fakes::BGSService.end_product_store.update_contention(contention)
+      caseflow_bgsservice_fake = "Fakes::BGSService".constantize
+      caseflow_bgsservice_fake.end_product_store.update_contention(contention)
 
       contention
     end
