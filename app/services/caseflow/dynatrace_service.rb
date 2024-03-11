@@ -2,8 +2,8 @@
 
 class ExternalApi::DynatraceService
 
-  #      BASE_URL = ENV["DYNATRACE_URL"]
-  #      API_TOKEN = ENV["DYNATRACE_TOKEN"]
+  #@dynatrace = StatsD::Client.new
+
   
   class << self
   
