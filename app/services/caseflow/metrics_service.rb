@@ -14,10 +14,11 @@ module Caseflow
   
     def self.increment_counter(metric_group:, metric_name:, app_name:, attrs: {}, by: 1)
       tags = get_tags(app_name, attrs)
+      dimensions = get_dimensions(app_name, attrs)
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.increment(stat_name, tags: tags, by: by)
-      StatsD.increment(stat_name)
+      StatsD.increment(stat_name, tags: tags, by: by)
     end
   
     def self.record_runtime(metric_group:, app_name:, start_time: Time.zone.now)
@@ -34,10 +35,11 @@ module Caseflow
   
     def self.emit_gauge(metric_group:, metric_name:, metric_value:, app_name:, attrs: {})
       tags = get_tags(app_name, attrs)
+      dimensions = get_dimensions(app_name, attrs)
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.gauge(stat_name, metric_value, tags: tags)
-      StatsD.gauge(stat_name, metric_value)
+      StatsD.gauge(stat_name, metric_value, tags: tags)
     end
 
     # :nocov:
@@ -46,6 +48,17 @@ module Caseflow
     end
   
     private_class_method def self.get_tags(app_name, attrs)
+      extra_tags = attrs.reduce([]) do |tags, (key, val)|
+        tags + ["#{key}:#{val}"]
+      end
+    [
+      "app:#{app_name}",
+      "env:#{Rails.current_env}"
+    ] + extra_tags
+    end
+
+    # <metric name>:<value>|g|#<Dimension1>:<value>,<Dimension2>:<value>
+    private_class_method def self.get_dimensions(app_name, attrs)
       extra_tags = attrs.reduce([]) do |tags, (key, val)|
         tags + ["#{key}:#{val}"]
       end
