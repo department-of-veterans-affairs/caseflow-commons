@@ -18,7 +18,7 @@ module Caseflow
       stat_name = get_stat_name(metric_group, metric_name)
   
       @statsd.increment(stat_name, tags: tags, by: by)
-      StatsD.increment(stat_name, tags: tags, by: by)
+      StatsD.increment(stat_name, tags: tags)
     end
   
     def self.record_runtime(metric_group:, app_name:, start_time: Time.zone.now)
