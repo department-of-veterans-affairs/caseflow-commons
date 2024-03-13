@@ -2,6 +2,7 @@
 
 require "benchmark"
 require "datadog/statsd"
+require "statsd-instrument"
 
 # see https://dropwizard.github.io/metrics/3.1.0/getting-started/ for abstractions on metric types
 module Caseflow
@@ -9,14 +10,17 @@ module Caseflow
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     # :reek:LongParameterList
     
+    # Datadog statD implementation
     @statsd = Datadog::Statsd.new
-    # @dynatrace = StatsD::Client.new
   
     def self.increment_counter(metric_group:, metric_name:, app_name:, attrs: {}, by: 1)
       tags = get_tags(app_name, attrs)
       stat_name = get_stat_name(metric_group, metric_name)
-  
+
+      # Datadog statD implementation
       @statsd.increment(stat_name, tags: tags, by: by)
+      
+      # Dynatrace statD implementation
       StatsD.increment(stat_name, tags: tags)
     end
   
@@ -36,7 +40,10 @@ module Caseflow
       tags = get_tags(app_name, attrs)
       stat_name = get_stat_name(metric_group, metric_name)
   
+      # Datadog statD implementation
       @statsd.gauge(stat_name, metric_value, tags: tags)
+
+      # Dynatrace statD implementation
       StatsD.gauge(stat_name, metric_value, tags: tags)
     end
 
