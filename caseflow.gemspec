@@ -34,8 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jquery-rails"
   spec.add_runtime_dependency "redis-namespace"
   spec.add_runtime_dependency "redis-rails"
-  # TODO drop d3-rails as Caseflow does not use it?
-  spec.add_runtime_dependency "d3-rails"
   spec.add_runtime_dependency "momentjs-rails"
 
   spec.add_runtime_dependency "aws-sdk-s3"
