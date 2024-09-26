@@ -22,7 +22,7 @@ class FeatureToggle
              value: regional_offices)
     end
 
-    enable(feature: feature, key: :users, value: users) if users.present?
+    enable(feature: feature, key: :users, value: css_ids_for_users(users)) if users.present?
 
     true
   end
@@ -44,7 +44,7 @@ class FeatureToggle
 
     disable(feature: feature,
             key: :users,
-            value: users)
+            value: css_ids_for_users(users))
 
     # disable the feature completely if users and regional_offices become empty
     # to avoid accidentally enabling the feature globally
@@ -53,6 +53,7 @@ class FeatureToggle
   end
 
   # Method to check if a given feature is enabled for a user
+  # Note: this expects a User instance, not a CSS_ID
   def self.enabled?(feature, user: nil)
     return false unless features.include?(feature)
 
@@ -228,6 +229,12 @@ class FeatureToggle
       fail "Empty array for #{key}" if value.empty?
       fail "#{key} values have to be strings" if value.any? { |x| !x.is_a? String }
       fail "Empty string in #{key}" if value.any?(&:empty?)
+    end
+
+    # When feature toggles are enabled/disabled manually instead of through the config file
+    # this prevents errors if the input array includes User instances (instead of CSS_IDs)
+    def css_ids_for_users(users)
+      users&.map { |input| input.try(:css_id) || input }
     end
   end
 end
