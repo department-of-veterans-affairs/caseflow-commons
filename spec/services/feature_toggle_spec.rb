@@ -393,13 +393,14 @@ describe FeatureToggle do
         expect { FeatureToggle.sync!(features_config) }.to raise_error("Empty string in feature")
       end
 
-      it "fails when enable_all has other than true value" do
+      it "skips when enable_all has other than true value and prints to error log" do
         features_config = '[
            {
               feature: "reader",
               enable_all: false
             }]'
-        expect { FeatureToggle.sync!(features_config) }.to raise_error("enable_all value has to be true")
+        expect(Rails.logger).to receive(:error).with("enable_all value must be true. Skipping feature: reader")
+        FeatureToggle.sync!(features_config)
       end
 
       it "fails when users value is not an array" do
