@@ -111,6 +111,8 @@ class FeatureToggle
     client.multi do
       features_from_file = []
       config_hash.each do |feature_hash|
+        next if feature_hash.key?("enable_all") && !feature_hash["enable_all"]
+
         feature = feature_hash["feature"]
         features_from_file.push(feature)
         client.sadd FEATURE_LIST_KEY, feature
@@ -199,7 +201,7 @@ class FeatureToggle
       config_hash.each do |feature_hash|
         validate_all(feature_hash)
         validate_feature(feature_hash)
-        validate_enable_all(feature_hash["enable_all"]) if feature_hash.key?("enable_all")
+        validate_enable_all(feature_hash) if feature_hash.key?("enable_all")
         validate_users_and_offices("users", feature_hash["users"]) if feature_hash.key?("users")
         validate_users_and_offices("regional_offices", feature_hash["regional_offices"]) if feature_hash.key?("regional_offices")
       end
@@ -219,8 +221,10 @@ class FeatureToggle
       fail "Empty string in feature" if feature_hash["feature"].empty?
     end
 
-    def validate_enable_all(value)
-      fail "enable_all value has to be true" unless value.is_a? TrueClass
+    # prefer skipping config over failing if set to false in error
+    def validate_enable_all(feature_hash)
+      value = feature_hash["enable_all"]
+      Rails.logger.error "enable_all value must be true. Skipping feature: #{feature_hash['feature']}" unless value.is_a? TrueClass
     end
 
     def validate_users_and_offices(key, value)
