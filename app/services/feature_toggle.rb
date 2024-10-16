@@ -68,6 +68,20 @@ class FeatureToggle
     enabled
   end
 
+  # Public method to check if a given feature is enabled globally
+  def self.enabled_for_all?(feature, user: nil)
+    return false unless features.include?(feature)
+
+    data = feature_enabled_hash(feature)
+    regional_offices = data[:regional_offices]
+    users = data[:users]
+
+    enabled = false
+    enabled = true if enabled_globally?(users: users, regional_offices: regional_offices)
+
+    enabled
+  end
+
   # Returns a hash result for a given feature
   def self.details_for(feature)
     feature_enabled_hash(feature) if features.include?(feature)
